@@ -89,27 +89,43 @@ def main():
 #                     local_rank * NCORES_PER_GPU + (NCORES_PER_GPU * NGPUS_PER_SOCKET * NSOCKETS),
 #                     (local_rank + 1) * NCORES_PER_GPU + (NCORES_PER_GPU * NGPUS_PER_SOCKET * NSOCKETS) - 1]
 # form numactrl binding command
-        if local_rank < 4:
-            cpu_ranges = [local_rank * 10 + 0,
-                         local_rank * 10 + 2,
-                         local_rank * 10 + 4,
-                         local_rank * 10 + 6,
-                         local_rank * 10 + 8]
+#        if local_rank < 4:
+#            cpu_ranges = [local_rank * 10 + 0,
+#                         local_rank * 10 + 2,
+#                         local_rank * 10 + 4,
+#                         local_rank * 10 + 6,
+#                         local_rank * 10 + 8]
+#        else:
+#            cpu_ranges = [(local_rank - 4 ) * 10 + 1,
+#                         (local_rank - 4 ) * 10 + 3,
+#                         (local_rank - 4 ) * 10 + 5,
+#                         (local_rank - 4 ) * 10 + 7,
+#                         (local_rank - 4 ) * 10 + 9]
+        if local_rank < 1:
+            cpu_ranges = [ 0 ]
         else:
-            cpu_ranges = [(local_rank - 4 ) * 10 + 1,
-                         (local_rank - 4 ) * 10 + 3,
-                         (local_rank - 4 ) * 10 + 5,
-                         (local_rank - 4 ) * 10 + 7,
-                         (local_rank - 4 ) * 10 + 9]
+            cpu_ranges = [ 1 ]
+
         numactlargs = []
+        #numactlargs = ''
         if args.no_hyperthreads:
-            numactlargs += [ "--physcpubind={}-{}".format(*cpu_ranges[0:2]) ]
+            #numactlargs += [ "--physcpubind={}-{}".format(*cpu_ranges[0:2]) ]
+            #numactlargs += [ "--physcpubind={},{},{},{},{}".format(*cpu_ranges) ]
+            numactlargs += [ "--cpubind={}".format(*cpu_ranges) ]
+            #numactlargs += [ "-a" ]
+            #numactlargs += cpu_ranges 
+            #numactlargs.append( cpu_ranges )
         else:
-            numactlargs += [ "--physcpubind={}-{},{}-{}".format(*cpu_ranges) ]
+            #numactlargs += [ "--physcpubind={}-{},{}-{}".format(*cpu_ranges) ]
+            #numactlargs += [ "--physcpubind={},{},{},{},{}".format(*cpu_ranges) ]
+            #numactlargs += cpu_ranges
+            #numactlargs.append( cpu_ranges )
+            numactlargs += [ "--cpubind={}".format(*cpu_ranges) ]
+            #numactlargs += [ "-a" ]
 
         if not args.no_membind:
             memnode = local_rank // NGPUS_PER_SOCKET
-            numactlargs += [ "--membind={}".format(memnode) ]
+            #numactlargs += [ "--membind={}".format(memnode) ]
 
         # spawn the processes
         cmd = [ "/usr/bin/numactl" ] \

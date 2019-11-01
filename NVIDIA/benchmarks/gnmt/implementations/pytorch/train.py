@@ -180,7 +180,8 @@ def parse_args():
                            help='starting iteration for learning rate decay')
     scheduler.add_argument('--decay-interval', type=str, default='None',
                            help='interval between learning rate decay steps')
-    scheduler.add_argument('--decay-steps', type=int, default=4,
+    #scheduler.add_argument('--decay-steps', type=int, default=4,
+    scheduler.add_argument('--decay-steps', type=int, default=8,
                            help='max number of learning rate decay steps')
     scheduler.add_argument('--decay-factor', type=float, default=0.5,
                            help='learning rate decay factor')
