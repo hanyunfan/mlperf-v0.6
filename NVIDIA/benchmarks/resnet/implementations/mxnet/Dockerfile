@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG FROM_IMAGE_NAME=nvcr.io/nvidia/mxnet:19.06-py3
+ARG FROM_IMAGE_NAME=nvcr.io/nvidia/mxnet:19.05-py3
 FROM ${FROM_IMAGE_NAME}
 
 RUN wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb && dpkg -i nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
@@ -35,6 +35,21 @@ RUN pip install --no-cache-dir https://github.com/mlperf/training/archive/628999
 
 RUN pip install --extra-index-url https://developer.download.nvidia.com/compute/redist/cuda/10.0 nvidia-dali==0.14.0
 
+RUN pip install pyyaml==3.12
+
+WORKDIR /opt/mxnet
+
+# Rebuild MXNet
+RUN make -j$(nproc) && \
+    mv lib/libmxnet.so /usr/local/lib && \
+    ldconfig && \
+    make clean && \
+    cd python && \
+    pip install --no-cache-dir -e .
+
+# Reset default working directory
+WORKDIR /workspace
+
 # Copy ResNet-50 code
 COPY . .
 
@@ -48,12 +63,12 @@ ENV MXNET_UPDATE_ON_KVSTORE=0      \
     MXNET_OPTIMIZER_AGGREGATION_SIZE=54 \
     NCCL_SOCKET_IFNAME=^docker0,bond0,lo \
     NCCL_BUFFSIZE=4194304	 \
-    NCCL_NET_GDR_READ=0            \
+    NCCL_NET_GDR_READ=1            \
     HOROVOD_CYCLE_TIME=0.2         \
     HOROVOD_BATCH_D2D_MEMCOPIES=1  \
     HOROVOD_GROUPED_ALLREDUCES=1  \
     HOROVOD_NUM_STREAMS=1  \
     MXNET_HOROVOD_NUM_GROUPS=1 \
-    NCCL_MAX_NRINGS=8 \
+    NCCL_MAX_NRINGS=4 \
     OMP_NUM_THREADS=1 \
     OPENCV_FOR_THREADS_NUM=1
