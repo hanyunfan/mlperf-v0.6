@@ -25,6 +25,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	libnccl2 libnccl-dev libcudnn7 libcudnn7-dev && \
     rm -rf /var/lib/apt/lists/* #&& rm nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
 
+
+# Rebuild PyTorch
+WORKDIR /opt/pytorch
+RUN cd pytorch && \
+TORCH_CUDA_ARCH_LIST="5.2 6.0 6.1 7.0 7.5+PTX" \
+CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" \
+NCCL_INCLUDE_DIR="/usr/include/" \
+NCCL_LIB_DIR="/usr/lib/" \
+python setup.py install && python setup.py clean
+
+# Reset default working directory
+WORKDIR /workspace
+
+
 # Install Python dependencies
 WORKDIR /workspace/rnn_translator
 

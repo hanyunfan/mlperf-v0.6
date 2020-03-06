@@ -18,10 +18,11 @@ BENCHMARK=${BENCHMARK:-"object_detection"}
 BENCHMARK_NAME="MASKRCNN"
 CONT=${CONT:-"mlperf-nvidia:$BENCHMARK"}
 #DATADIR=${DATADIR:-"/raid/data/coco-2017"}
-DATADIR=${DATADIR:-"/mnt/nvme/database/"}
+DATADIR=${DATADIR:-"/mnt/data/database/"}
 #LOGDIR=${LOGDIR:-"/raid/results/$BENCHMARK"}
-LOGDIR=${LOGDIR:-"/mnt/nvme/mlperf/training_results_v0.6/results/$BENCHMARK"}
-NEXP=${NEXP:-1} # Default number of times to run the benchmark
+#LOGDIR=${LOGDIR:-"/mnt/data/mlperf/training_results_v0.6/results/$BENCHMARK"}
+LOGDIR=${LOGDIR:-"/home/frank/mlperf-v0.6/results/$BENCHMARK`hostname`"}
+NEXP=${NEXP:-5} # Default number of times to run the benchmark
 SYSLOGGING=1
 SYS_LOG_GET="'import mlperf_compliance; from maskrcnn_benchmark.utils.mlperf_logger import mlperf_submission_log; mlperf_submission_log(mlperf_compliance.constants.$BENCHMARK_NAME)'"
 
@@ -57,7 +58,8 @@ mkdir -p $(dirname "${LOGFILE_BASE}")
 
 ## Docker params
 CONTVOLS="-v $DATADIR:/data -v $LOGDIR:/results -v /cm/local/apps/cuda/libs/current:/usr/local/nvidia"
-DOCKEREXEC="docker run --gpus=all --rm --net=host --uts=host --ipc=host --ulimit stack=67108864 --ulimit memlock=-1 --name=cont_${SLURM_JOB_ID} --security-opt seccomp=unconfined $IBDEVICES"
+#DOCKEREXEC="docker run --gpus=all --rm --net=host --uts=host --ipc=host --ulimit stack=67108864 --ulimit memlock=-1 --name=cont_${SLURM_JOB_ID} --security-opt seccomp=unconfined $IBDEVICES"
+DOCKEREXEC="docker run --rm --net=host --uts=host --ipc=host --ulimit stack=67108864 --ulimit memlock=-1 --name=cont_${SLURM_JOB_ID} --security-opt seccomp=unconfined $IBDEVICES"
 
 export MLPERF_HOST_OS="$(cat /etc/issue | head -1 | cut -f1-3 -d" ") / $(cat /etc/dgx-release | grep -E "DGX_PRETTY_NAME|DGX_OTA_VERSION" |cut -f2 -d= |cut -f2 -d '"' |paste -sd' ')"
 echo "${MLPERF_HOST_OS}"

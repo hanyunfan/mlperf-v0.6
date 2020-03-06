@@ -92,7 +92,7 @@ batch_utils_v0p6 = CppExtension(
 
 setup(
     name='fairseq',
-    version='0.5.0',
+    version='0.9.0',
     description='Facebook AI Research Sequence-to-Sequence Toolkit',
     long_description=readme,
     license=license,

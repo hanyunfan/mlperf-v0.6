@@ -19,10 +19,11 @@ BENCHMARK_NAME="RESNET"
 CONT=${CONT:-"mlperf-nvidia:$BENCHMARK"}
 #DATADIR=${DATADIR:-"/raid/data/imagenet/train-val-recordio-passthrough"} 
 #DATADIR=${DATADIR:-"/mnt/nvme/database/ilsvrc12_passthrough"} 
-DATADIR=${DATADIR:-"/mnt/isilon/DeepLearning/database/mlperf/ilsvrc12_passthrough"} 
+#DATADIR=${DATADIR:-"/mnt/isilon/DeepLearning/database/mlperf/ilsvrc12_passthrough"} 
+DATADIR=${DATADIR:-"/mnt/data/database/ilsvrc12_passthrough"} 
 #LOGDIR=${LOGDIR:-"/raid/results/$BENCHMARK"}
 #LOGDIR=${LOGDIR:-"/mnt/nvme/mlperf/training_results_v0.6/results/$BENCHMARK"}
-LOGDIR=${LOGDIR:-"/home/frank/mlperf-v0.6/results/$BENCHMARK"}
+LOGDIR=${LOGDIR:-"/home/frank/mlperf-v0.6/results/$BENCHMARK/`hostname`"}
 SEED=${SEED:-$(od -A n -t d -N 3 /dev/urandom)} # Allows passing SEED in, which is helpful if NEXP=1 ; for NEXP>1 we need to pick different seeds for subsequent runs
 #CODEDIR=${CODEDIR:-$(readlink -f $(dirname ${BASH_SOURCE[0]}))} # SLURM normally copies these files to someplace in /var by default, so best to set this explicitly
 #SRCDIR=${SRCDIR:-${CODEDIR}/${BENCHMARK}/mxnet}
@@ -169,7 +170,8 @@ DOCKERRUN_ARGS=(
 echo
 echo "Creating containers:"
 $SRUNl bash -c "echo -n 'Launching on node ' && hostname"
-$SRUNl docker run --gpus=all --init -d "${DOCKERRUN_ARGS[@]}" --name $CONTNAME $VOLS "${VARS[@]}" $CONT bash -c 'rm -f /etc/shinit && sleep infinity' ; rv=$?
+#$SRUNl docker run --gpus=all --init -d "${DOCKERRUN_ARGS[@]}" --name $CONTNAME $VOLS "${VARS[@]}" $CONT bash -c 'rm -f /etc/shinit && sleep infinity' ; rv=$?
+$SRUNl docker run --init -d "${DOCKERRUN_ARGS[@]}" --name $CONTNAME $VOLS "${VARS[@]}" $CONT bash -c 'rm -f /etc/shinit && sleep infinity' ; rv=$?
 
 [[ $rv -ne 0 ]] && echo "ERR: Container launch failed." && exit $rv
 
@@ -214,7 +216,7 @@ for nrun in `seq 1 $NEXP`; do
           || echo "ERR: Cache clearing failed."
       else
         echo "Clearing cache on $(hostname)"
-        docker run --gpus=all --init --rm --privileged --entrypoint bash "${VARS[@]}" $CONT -c "sync && echo 3 > /proc/sys/vm/drop_caches && python -c ${LOG_CLEAR_CACHES} || exit 1" \
+        docker run --init --rm --privileged --entrypoint bash "${VARS[@]}" $CONT -c "sync && echo 3 > /proc/sys/vm/drop_caches && python -c ${LOG_CLEAR_CACHES} || exit 1" \
           || echo "ERR: Cache clearing failed."
       fi
     fi

@@ -16,10 +16,23 @@ ARG FROM_IMAGE_NAME=nvcr.io/nvidia/pytorch:19.05-py3
 FROM ${FROM_IMAGE_NAME}
 
 # Install dependencies for system configuration logger
+ RUN wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64/nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb && dpkg -i nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
+
+# Install dependencies for system configuration logger
 RUN apt-get update && apt-get install -y --no-install-recommends \
         infiniband-diags \
-        pciutils && \
+        pciutils \
+        libnccl2 libnccl-dev libcudnn7 libcudnn7-dev && \
     rm -rf /var/lib/apt/lists/*
+
+# Rebuild PyTorch
+WORKDIR /opt/pytorch
+RUN cd pytorch && \
+TORCH_CUDA_ARCH_LIST="5.2 6.0 6.1 7.0 7.5+PTX" \
+CMAKE_PREFIX_PATH="$(dirname $(which conda))/../" \
+NCCL_INCLUDE_DIR="/usr/include/" \
+NCCL_LIB_DIR="/usr/lib/" \
+python setup.py install && python setup.py clean
 
 # Install Python dependencies
 WORKDIR /workspace/object_detection

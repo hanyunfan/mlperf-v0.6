@@ -49,6 +49,7 @@ export TORCH_MODEL_ZOO="/data/torchvision"
 # run training
 python -m bind_launch --nsockets_per_node ${DGXNSOCKET} \
                       --ncores_per_socket ${DGXSOCKETCORES} \
+                      --no_hyperthreads \
                       --nproc_per_node $SLURM_NTASKS_PER_NODE $MULTI_NODE \
  train.py \
   --use-fp16 \
