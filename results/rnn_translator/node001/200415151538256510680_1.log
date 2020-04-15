@@ -1,0 +1,296 @@
+Beginning trial 1 of 3
+Gathering sys log on node001
+:::MLL 1586981804.936 submission_benchmark: {"value": "gnmt", "metadata": {"file": "mlperf_log_utils.py", "lineno": 176}}
+:::MLL 1586981804.937 submission_org: {"value": "NVIDIA", "metadata": {"file": "mlperf_log_utils.py", "lineno": 181}}
+WARNING: Log validation: Key "submission_division" is not in known gnmt keys.
+:::MLL 1586981804.938 submission_division: {"value": "closed", "metadata": {"file": "mlperf_log_utils.py", "lineno": 185}}
+:::MLL 1586981804.939 submission_status: {"value": "onprem", "metadata": {"file": "mlperf_log_utils.py", "lineno": 189}}
+:::MLL 1586981804.940 submission_platform: {"value": "1xPowerEdge R7525", "metadata": {"file": "mlperf_log_utils.py", "lineno": 193}}
+:::MLL 1586981804.941 submission_entry: {"value": "{'hardware': 'PowerEdge R7525', 'framework': 'PyTorch NVIDIA Release 19.05', 'power': 'N/A', 'notes': 'N/A', 'interconnect': ' ', 'os': '\\\\S / ', 'libraries': \"{'container_base': 'Ubuntu-16.04', 'openmpi_version': '3.1.3', 'mofed_version': '4.0-0', 'cuda_version': '10.1.163', 'cuda_driver_version': '418.67', 'nccl_version': '2.4.6', 'cudnn_version': '7.6.0.64', 'cublas_version': '10.2.0.163', 'trt_version': '5.1.5.0', 'dali_version': '0.9.1'}\", 'compilers': 'gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609', 'nodes': \"{'num_nodes': '1', 'cpu': '2x AMD EPYC 7502 32-Core Processor', 'num_cores': '64', 'num_vcpus': '64', 'accelerator': 'Tesla V100S-PCIE-32GB', 'num_accelerators': '3', 'sys_mem_size': '251 GB', 'sys_storage_type': 'NVMe SSD', 'sys_storage_size': '1x 931.5G', 'cpu_accel_interconnect': 'QPI', 'network_card': '', 'num_network_cards': '0', 'notes': ''}\"}", "metadata": {"file": "mlperf_log_utils.py", "lineno": 197}}
+:::MLL 1586981804.942 submission_poc_name: {"value": "Paulius Micikevicius", "metadata": {"file": "mlperf_log_utils.py", "lineno": 201}}
+:::MLL 1586981804.942 submission_poc_email: {"value": "pauliusm@nvidia.com", "metadata": {"file": "mlperf_log_utils.py", "lineno": 205}}
+Clearing caches
+:::MLL 1586981806.067 cache_clear: {"value": true, "metadata": {"file": "<string>", "lineno": 1}}
+Launching on node node001
++ pids+=($!)
++ set +x
+++ eval echo
++++ echo
++ docker exec -e DGXSYSTEM=DGX1 -e 'MULTI_NODE= --master_port=4362' -e LR=2.0e-3 -e TRAIN_BATCH_SIZE=768 -e TEST_BATCH_SIZE=128 -e WARMUP_STEPS=200 -e REMAIN_STEPS=5270 -e DECAY_INTERVAL=720 -e TARGET=24.0 -e NUMEPOCHS=5 -e MAX_SEQ_LEN=75 -e 'EXTRA_OPTS=   --fused-attention    --fused-xentropy    --no-log-all-ranks    ' -e SLURM_JOB_ID=200415151538256510680 -e SLURM_NTASKS_PER_NODE= -e SLURM_NNODES=1 cont_200415151538256510680 ./run_and_time.sh
+Run vars: id 200415151538256510680 gpus 3 mparams  --master_port=4362
+NCCL_SOCKET_NTHREADS=2
+NCCL_NSOCKS_PERTHREAD=8
++ DATASET_DIR=/data
++ PREPROC_DATADIR=/preproc_data
++ RESULTS_DIR=gnmt_wmt16
++ LR=2.0e-3
+STARTING TIMING RUN AT 2020-04-15 08:16:46 PM
++ TRAIN_BATCH_SIZE=768
++ TEST_BATCH_SIZE=128
++ WARMUP_STEPS=200
++ REMAIN_STEPS=5270
++ DECAY_INTERVAL=720
++ TARGET=24.0
++ MAX_SEQ_LEN=75
++ NUMEPOCHS=5
++ EXTRA_OPTS='   --fused-attention    --fused-xentropy    --no-log-all-ranks    '
++ BIND_LAUNCH=0
++ MATH=amp_fp16
++ [[ 0 -eq 1 ]]
++ LAUNCH_OPT='torch.distributed.launch --nproc_per_node 3  --master_port=4362'
+running benchmark
++ echo 'running benchmark'
++ python -m torch.distributed.launch --nproc_per_node 3 --master_port=4362 train.py --save gnmt_wmt16 --dataset-dir /data --preproc-data-dir /preproc_data --target-bleu 24.0 --epochs 5 --math amp_fp16 --max-length-train 75 --print-freq 10 --train-batch-size 768 --test-batch-size 128 --optimizer FusedAdam --lr 2.0e-3 --warmup-steps 200 --remain-steps 5270 --decay-interval 720 --fused-attention --fused-xentropy --no-log-all-ranks
+:::MLL 1586981809.333 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 288}}
+:::MLL 1586981809.364 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 288}}
+:::MLL 1586981809.375 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 288}}
+0: Saving results to: results/gnmt_wmt16
+0: Run arguments: Namespace(apex_message_size=10000000.0, apex_num_allreduce_streams=1, batching='bucketing', beam_size=5, cov_penalty_factor=0.1, cuda=True, cudnn=True, dataset_dir='/data', decay_factor=0.5, decay_interval=720, decay_steps=8, dropout=0.2, enable_apex_allreduce_overlap=False, env=False, epochs=5, eval=True, fused_attention=True, fused_xentropy=True, grad_clip=5.0, hidden_size=1024, init_scale=1024, intra_epoch_eval=0, keep_checkpoints=0, len_norm_const=5.0, len_norm_factor=0.6, local_rank=0, log_all_ranks=False, lr=0.002, math='amp_fp16', max_length_test=150, max_length_train=75, max_size=None, min_length_test=0, min_length_train=0, num_buckets=5, num_layers=4, optimizer='FusedAdam', optimizer_extra='{}', prealloc_mode='always', preproc_data_dir='/preproc_data', print_freq=10, rank=0, remain_steps=5270, results_dir='results', resume=None, save='gnmt_wmt16', save_all=False, save_freq=5000, save_path='results/gnmt_wmt16', seed=None, shard_size=80, share_embedding=True, smoothing=0.1, start_epoch=0, target_bleu=24.0, test_batch_size=128, test_loader_workers=0, train_batch_size=768, train_global_batch_size=None, train_iter_size=1, train_loader_workers=1, upscale_interval=128, use_preproc_data=True, warmup_steps=200)
+0: L2 promotion: 128B
+0: Using random master seed: 2781824243
+node001:588:588 [0] NCCL INFO Bootstrap : Using [0]eth0:10.141.0.1<0>
+node001:588:588 [0] NCCL INFO NET/Plugin : No plugin found (libnccl-net.so), using internal implementation
+node001:588:588 [0] NCCL INFO NET/IB : No device found.
+node001:588:588 [0] NCCL INFO NET/Socket : Using [0]eth0:10.141.0.1<0>
+node001:588:588 [0] NCCL INFO Using network Socket
+NCCL version 2.6.4+cuda10.2
+node001:589:589 [1] NCCL INFO Bootstrap : Using [0]eth0:10.141.0.1<0>
+node001:589:589 [1] NCCL INFO NET/Plugin : No plugin found (libnccl-net.so), using internal implementation
+node001:590:590 [2] NCCL INFO Bootstrap : Using [0]eth0:10.141.0.1<0>
+node001:590:590 [2] NCCL INFO NET/Plugin : No plugin found (libnccl-net.so), using internal implementation
+node001:589:589 [1] NCCL INFO NET/IB : No device found.
+node001:589:589 [1] NCCL INFO NET/Socket : Using [0]eth0:10.141.0.1<0>
+node001:589:589 [1] NCCL INFO Using network Socket
+node001:590:590 [2] NCCL INFO NET/IB : No device found.
+node001:590:590 [2] NCCL INFO NET/Socket : Using [0]eth0:10.141.0.1<0>
+node001:590:590 [2] NCCL INFO Using network Socket
+node001:588:798 [0] NCCL INFO Channel 00/02 :    0   1   2
+node001:590:799 [2] NCCL INFO threadThresholds 8/8/64 | 24/8/64 | 8/8/64
+node001:588:798 [0] NCCL INFO Channel 01/02 :    0   1   2
+node001:590:799 [2] NCCL INFO Trees [0] -1/-1/-1->2->1|1->2->-1/-1/-1 [1] -1/-1/-1->2->1|1->2->-1/-1/-1
+node001:589:797 [1] NCCL INFO threadThresholds 8/8/64 | 24/8/64 | 8/8/64
+node001:590:799 [2] NCCL INFO Setting affinity for GPU 2 to ffffffff,00000000
+node001:589:797 [1] NCCL INFO Trees [0] 2/-1/-1->1->0|0->1->2/-1/-1 [1] 2/-1/-1->1->0|0->1->2/-1/-1
+node001:589:797 [1] NCCL INFO Setting affinity for GPU 1 to ffffffff,00000000
+node001:588:798 [0] NCCL INFO threadThresholds 8/8/64 | 24/8/64 | 8/8/64
+node001:588:798 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1|-1->0->1/-1/-1 [1] 1/-1/-1->0->-1|-1->0->1/-1/-1
+node001:588:798 [0] NCCL INFO Setting affinity for GPU 0 to ffffffff
+node001:590:799 [2] NCCL INFO Ring 00 : 2[e2000] -> 0[21000] via direct shared memory
+node001:589:797 [1] NCCL INFO Ring 00 : 1[81000] -> 2[e2000] via P2P/IPC
+node001:588:798 [0] NCCL INFO Ring 00 : 0[21000] -> 1[81000] via direct shared memory
+node001:590:799 [2] NCCL INFO Ring 00 : 2[e2000] -> 1[81000] via P2P/IPC
+node001:589:797 [1] NCCL INFO Ring 00 : 1[81000] -> 0[21000] via direct shared memory
+node001:590:799 [2] NCCL INFO Ring 01 : 2[e2000] -> 0[21000] via direct shared memory
+node001:588:798 [0] NCCL INFO Ring 01 : 0[21000] -> 1[81000] via direct shared memory
+node001:589:797 [1] NCCL INFO Ring 01 : 1[81000] -> 2[e2000] via P2P/IPC
+node001:590:799 [2] NCCL INFO Ring 01 : 2[e2000] -> 1[81000] via P2P/IPC
+node001:589:797 [1] NCCL INFO Ring 01 : 1[81000] -> 0[21000] via direct shared memory
+node001:590:799 [2] NCCL INFO comm 0x7ffef0006620 rank 2 nranks 3 cudaDev 2 busId e2000 - Init COMPLETE
+node001:588:798 [0] NCCL INFO comm 0x7fff00006620 rank 0 nranks 3 cudaDev 0 busId 21000 - Init COMPLETE
+node001:588:588 [0] NCCL INFO Launch mode Parallel
+node001:589:797 [1] NCCL INFO comm 0x7fff18006620 rank 1 nranks 3 cudaDev 1 busId 81000 - Init COMPLETE
+0: Worker 0 is using worker seed: 3434255655
+0: Building vocabulary from /data/vocab.bpe.32000
+0: Size of vocabulary: 32320
+0: Fused attention flag set to True
+0: GNMT(
+  (encoder): ResidualRecurrentEncoder(
+    (rnn_layers): ModuleList(
+      (0): EmuBidirLSTM(
+        (bidir): LSTM(1024, 1024, bidirectional=True)
+        (layer1): LSTM(1024, 1024)
+        (layer2): LSTM(1024, 1024)
+      )
+      (1): LSTM(2048, 1024)
+      (2): LSTM(1024, 1024)
+      (3): LSTM(1024, 1024)
+    )
+    (dropout): Dropout(p=0.2)
+    (embedder): Embedding(32320, 1024, padding_idx=0)
+  )
+  (decoder): ResidualRecurrentDecoder(
+    (att_rnn): RecurrentAttention(
+      (rnn): LSTM(1024, 1024)
+      (attn): BahdanauAttention(
+        (linear_q): Linear(in_features=1024, out_features=1024, bias=False)
+        (linear_k): Linear(in_features=1024, out_features=1024, bias=False)
+      )
+      (dropout): Dropout(p=0.2)
+    )
+    (rnn_layers): ModuleList(
+      (0): LSTM(2048, 1024)
+      (1): LSTM(2048, 1024)
+      (2): LSTM(2048, 1024)
+    )
+    (embedder): Embedding(32320, 1024, padding_idx=0)
+    (classifier): Classifier(
+      (classifier): Linear(in_features=1024, out_features=32320, bias=True)
+    )
+    (dropout): Dropout(p=0.2)
+  )
+)
+0: Building LabelSmoothingLoss (smoothing: 0.1)
+0: Fused xentropy flag set to True
+0: Training optimizer config: {'optimizer': 'FusedAdam', 'lr': 0.002}
+0: Number of parameters: 160671297
+0: Saving state of the tokenizer
+Selected optimization level O2:  FP16 training with FP32 batchnorm and FP32 master weights.
+
+Defaults for this optimization level are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+Processing user overrides (additional kwargs that are not None)...
+After processing overrides, optimization options are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : False
+master_weights         : True
+loss_scale             : dynamic
+0: Initializing amp optimizer
+0: Using optimizer: FusedAdam (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    bias_correction: True
+    eps: 1e-08
+    lr: 0.002
+    max_grad_norm: 5.0
+    weight_decay: 0.0
+)
+:::MLL 1586981817.672 opt_base_learning_rate: {"value": 0.002, "metadata": {"file": "seq2seq/train/trainer.py", "lineno": 169}}
+0: Executing preallocation
+/opt/conda/lib/python3.6/site-packages/torch/nn/modules/rnn.py:522: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.num_layers, self.dropout, self.training, self.bidirectional)
+/opt/conda/lib/python3.6/site-packages/torch/nn/modules/rnn.py:522: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.num_layers, self.dropout, self.training, self.bidirectional)
+/opt/conda/lib/python3.6/site-packages/torch/nn/modules/rnn.py:522: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.num_layers, self.dropout, self.training, self.bidirectional)
+:::MLL 1586981819.771 init_stop: {"value": null, "metadata": {"file": "train.py", "lineno": 407}}
+:::MLL 1586981819.772 run_start: {"value": null, "metadata": {"file": "train.py", "lineno": 409}}
+:::MLL 1586981819.772 max_sequence_length: {"value": 75, "metadata": {"method": "discard", "file": "train.py", "lineno": 414}}
+0: Reading preprocessed data file from /preproc_data/training.bin
+0: Preprocessed data: length: 3975116 min length: 0 max length: 75 
+0: Opening preprocessed data /preproc_data/training.bin for reading
+0: Processing data from /data/newstest2014.tok.bpe.32000.en
+0: Filtering data, min len: 0, max len: 150
+0: Pairs before: 3003, after: 3003
+:::MLL 1586981820.588 global_batch_size: {"value": 2304, "metadata": {"file": "train.py", "lineno": 459}}
+0: Training LR schedule config: {'warmup_steps': 200, 'remain_steps': 5270, 'decay_interval': 720, 'decay_steps': 8, 'decay_factor': 0.5}
+0: Scheduler warmup steps: 200
+0: Scheduler remain steps: 5270
+0: Scheduler decay interval: 720
+0: Scheduler decay factor: 0.5
+0: Scheduler max decay steps: 8
+:::MLL 1586981820.590 opt_learning_rate_alt_decay_func: {"value": true, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 78}}
+:::MLL 1586981820.590 opt_learning_rate_alt_warmup_func: {"value": true, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 80}}
+:::MLL 1586981820.590 opt_learning_rate_decay_interval: {"value": 720, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 83}}
+:::MLL 1586981820.591 opt_learning_rate_decay_factor: {"value": 0.5, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 85}}
+:::MLL 1586981820.591 opt_learning_rate_decay_steps: {"value": 8, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 87}}
+:::MLL 1586981820.592 opt_learning_rate_remain_steps: {"value": 5270, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 89}}
+:::MLL 1586981820.592 opt_learning_rate_warmup_steps: {"value": 200, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 91}}
+:::MLL 1586981820.627 block_start: {"value": null, "metadata": {"first_epoch_num": 1, "epoch_count": 1, "file": "train.py", "lineno": 512}}
+:::MLL 1586981820.628 epoch_start: {"value": null, "metadata": {"epoch_num": 1, "file": "train.py", "lineno": 515}}
+0: Starting epoch 0
+0: Executing preallocation
+0: Sampler for epoch 0 uses seed 459634350
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+0: TRAIN [0][0/1723]	Time 1.450 (1.450)	Data 8.10e-01 (8.10e-01)	Tok/s 10921 (10921)	Loss/tok 10.4491 (10.4491)	LR 2.000e-05
+0: TRAIN [0][10/1723]	Time 0.622 (0.975)	Data 5.28e-04 (7.41e-02)	Tok/s 25479 (40660)	Loss/tok 9.6472 (10.2609)	LR 2.518e-05
+0: TRAIN [0][20/1723]	Time 0.784 (0.907)	Data 3.59e-04 (3.90e-02)	Tok/s 39292 (40999)	Loss/tok 9.2850 (9.9238)	LR 3.170e-05
+0: TRAIN [0][30/1723]	Time 0.994 (0.928)	Data 3.58e-04 (2.65e-02)	Tok/s 51199 (43466)	Loss/tok 9.0402 (9.6504)	LR 3.991e-05
+0: TRAIN [0][40/1723]	Time 0.993 (0.945)	Data 3.60e-04 (2.01e-02)	Tok/s 50625 (44932)	Loss/tok 8.8414 (9.4508)	LR 5.024e-05
+0: TRAIN [0][50/1723]	Time 1.000 (0.939)	Data 5.04e-04 (1.63e-02)	Tok/s 50985 (45117)	Loss/tok 8.6152 (9.3007)	LR 6.325e-05
+0: TRAIN [0][60/1723]	Time 0.994 (0.946)	Data 3.62e-04 (1.37e-02)	Tok/s 50798 (45560)	Loss/tok 8.4853 (9.1641)	LR 7.962e-05
+0: TRAIN [0][70/1723]	Time 1.196 (0.945)	Data 3.81e-04 (1.18e-02)	Tok/s 58376 (45584)	Loss/tok 8.2661 (9.0378)	LR 1.002e-04
+0: TRAIN [0][80/1723]	Time 0.804 (0.948)	Data 3.78e-04 (1.04e-02)	Tok/s 38568 (45657)	Loss/tok 7.9419 (8.9224)	LR 1.262e-04
+0: TRAIN [0][90/1723]	Time 1.209 (0.947)	Data 5.35e-04 (9.30e-03)	Tok/s 57792 (45726)	Loss/tok 8.1225 (8.8244)	LR 1.589e-04
+0: TRAIN [0][100/1723]	Time 1.000 (0.943)	Data 3.82e-04 (8.42e-03)	Tok/s 50727 (45425)	Loss/tok 8.0678 (8.7578)	LR 2.000e-04
+0: TRAIN [0][110/1723]	Time 1.207 (0.938)	Data 3.69e-04 (7.69e-03)	Tok/s 57482 (45189)	Loss/tok 8.1489 (8.7049)	LR 2.518e-04
+0: TRAIN [0][120/1723]	Time 1.221 (0.933)	Data 3.65e-04 (7.09e-03)	Tok/s 57573 (44960)	Loss/tok 8.0809 (8.6453)	LR 3.170e-04
+0: TRAIN [0][130/1723]	Time 0.801 (0.933)	Data 4.17e-04 (6.58e-03)	Tok/s 38764 (44875)	Loss/tok 7.6969 (8.5883)	LR 3.991e-04
+0: TRAIN [0][140/1723]	Time 0.807 (0.938)	Data 3.85e-04 (6.14e-03)	Tok/s 38088 (45152)	Loss/tok 7.6669 (8.5308)	LR 5.024e-04
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+0: TRAIN [0][150/1723]	Time 0.790 (0.939)	Data 3.91e-04 (5.76e-03)	Tok/s 39285 (45189)	Loss/tok 7.5738 (8.4817)	LR 6.181e-04
+0: TRAIN [0][160/1723]	Time 0.808 (0.930)	Data 3.60e-04 (5.43e-03)	Tok/s 38322 (44764)	Loss/tok 7.4601 (8.4404)	LR 7.781e-04
+0: TRAIN [0][170/1723]	Time 0.808 (0.933)	Data 3.51e-04 (5.14e-03)	Tok/s 38223 (44822)	Loss/tok 7.3694 (8.3906)	LR 9.796e-04
+0: TRAIN [0][180/1723]	Time 0.809 (0.932)	Data 5.14e-04 (4.88e-03)	Tok/s 38224 (44729)	Loss/tok 7.1531 (8.3408)	LR 1.233e-03
+0: TRAIN [0][190/1723]	Time 0.811 (0.932)	Data 5.21e-04 (4.64e-03)	Tok/s 38322 (44653)	Loss/tok 7.0599 (8.2866)	LR 1.552e-03
+0: TRAIN [0][200/1723]	Time 0.806 (0.930)	Data 5.20e-04 (4.43e-03)	Tok/s 38256 (44557)	Loss/tok 6.8924 (8.2329)	LR 1.954e-03
+0: TRAIN [0][210/1723]	Time 0.811 (0.936)	Data 5.72e-04 (4.25e-03)	Tok/s 38698 (44872)	Loss/tok 6.7288 (8.1603)	LR 2.000e-03
+0: TRAIN [0][220/1723]	Time 0.803 (0.940)	Data 3.65e-04 (4.07e-03)	Tok/s 38582 (44997)	Loss/tok 6.5961 (8.0949)	LR 2.000e-03
+0: TRAIN [0][230/1723]	Time 0.625 (0.937)	Data 3.72e-04 (3.91e-03)	Tok/s 25266 (44829)	Loss/tok 5.6235 (8.0403)	LR 2.000e-03
+0: TRAIN [0][240/1723]	Time 0.809 (0.937)	Data 3.68e-04 (3.77e-03)	Tok/s 38199 (44897)	Loss/tok 6.2930 (7.9789)	LR 2.000e-03
+0: TRAIN [0][250/1723]	Time 1.213 (0.935)	Data 3.81e-04 (3.63e-03)	Tok/s 57634 (44766)	Loss/tok 6.6764 (7.9225)	LR 2.000e-03
+0: TRAIN [0][260/1723]	Time 0.808 (0.937)	Data 3.87e-04 (3.51e-03)	Tok/s 38466 (44911)	Loss/tok 6.0062 (7.8566)	LR 2.000e-03
+0: TRAIN [0][270/1723]	Time 0.798 (0.935)	Data 3.72e-04 (3.40e-03)	Tok/s 38855 (44838)	Loss/tok 5.8845 (7.7999)	LR 2.000e-03
+0: TRAIN [0][280/1723]	Time 0.809 (0.934)	Data 3.65e-04 (3.29e-03)	Tok/s 38639 (44848)	Loss/tok 5.7604 (7.7390)	LR 2.000e-03
+0: TRAIN [0][290/1723]	Time 1.214 (0.935)	Data 3.62e-04 (3.19e-03)	Tok/s 57556 (44892)	Loss/tok 6.1358 (7.6755)	LR 2.000e-03
+0: TRAIN [0][300/1723]	Time 1.459 (0.938)	Data 4.02e-04 (3.10e-03)	Tok/s 61158 (44968)	Loss/tok 6.2137 (7.6106)	LR 2.000e-03
+0: TRAIN [0][310/1723]	Time 0.805 (0.937)	Data 3.85e-04 (3.01e-03)	Tok/s 38546 (44927)	Loss/tok 5.5629 (7.5549)	LR 2.000e-03
+0: TRAIN [0][320/1723]	Time 0.995 (0.935)	Data 4.99e-04 (2.93e-03)	Tok/s 50493 (44821)	Loss/tok 5.6714 (7.5021)	LR 2.000e-03
+0: TRAIN [0][330/1723]	Time 0.797 (0.937)	Data 5.29e-04 (2.86e-03)	Tok/s 38811 (44952)	Loss/tok 5.3300 (7.4371)	LR 2.000e-03
+0: TRAIN [0][340/1723]	Time 1.440 (0.938)	Data 3.72e-04 (2.78e-03)	Tok/s 61484 (45015)	Loss/tok 5.9079 (7.3762)	LR 2.000e-03
+0: TRAIN [0][350/1723]	Time 0.809 (0.937)	Data 5.32e-04 (2.72e-03)	Tok/s 38211 (44940)	Loss/tok 5.1110 (7.3273)	LR 2.000e-03
+0: TRAIN [0][360/1723]	Time 0.803 (0.935)	Data 5.28e-04 (2.65e-03)	Tok/s 38397 (44884)	Loss/tok 5.0220 (7.2764)	LR 2.000e-03
+0: TRAIN [0][370/1723]	Time 1.440 (0.937)	Data 3.81e-04 (2.59e-03)	Tok/s 62517 (44950)	Loss/tok 5.6495 (7.2181)	LR 2.000e-03
+0: TRAIN [0][380/1723]	Time 0.786 (0.940)	Data 4.16e-04 (2.54e-03)	Tok/s 39230 (45079)	Loss/tok 4.7924 (7.1556)	LR 2.000e-03
+0: TRAIN [0][390/1723]	Time 0.620 (0.938)	Data 5.38e-04 (2.48e-03)	Tok/s 25387 (44988)	Loss/tok 3.9658 (7.1075)	LR 2.000e-03
+0: TRAIN [0][400/1723]	Time 1.213 (0.942)	Data 3.76e-04 (2.43e-03)	Tok/s 57628 (45137)	Loss/tok 5.1442 (7.0462)	LR 2.000e-03
+0: TRAIN [0][410/1723]	Time 0.615 (0.940)	Data 3.78e-04 (2.38e-03)	Tok/s 26021 (45071)	Loss/tok 3.9319 (6.9990)	LR 2.000e-03
+0: TRAIN [0][420/1723]	Time 0.618 (0.942)	Data 3.72e-04 (2.33e-03)	Tok/s 25330 (45126)	Loss/tok 3.6901 (6.9439)	LR 2.000e-03
+0: TRAIN [0][430/1723]	Time 1.452 (0.944)	Data 5.25e-04 (2.29e-03)	Tok/s 61460 (45194)	Loss/tok 5.2644 (6.8909)	LR 2.000e-03
+0: TRAIN [0][440/1723]	Time 0.803 (0.943)	Data 3.78e-04 (2.25e-03)	Tok/s 38505 (45146)	Loss/tok 4.3549 (6.8450)	LR 2.000e-03
+0: TRAIN [0][450/1723]	Time 0.798 (0.941)	Data 3.61e-04 (2.20e-03)	Tok/s 38437 (45063)	Loss/tok 4.4374 (6.8030)	LR 2.000e-03
+0: TRAIN [0][460/1723]	Time 1.454 (0.941)	Data 3.48e-04 (2.17e-03)	Tok/s 61612 (45063)	Loss/tok 5.1070 (6.7561)	LR 2.000e-03
+0: TRAIN [0][470/1723]	Time 1.455 (0.944)	Data 5.15e-04 (2.13e-03)	Tok/s 61422 (45193)	Loss/tok 4.9595 (6.7018)	LR 2.000e-03
+0: TRAIN [0][480/1723]	Time 1.460 (0.944)	Data 3.79e-04 (2.09e-03)	Tok/s 61291 (45191)	Loss/tok 5.0969 (6.6571)	LR 2.000e-03
+0: TRAIN [0][490/1723]	Time 0.800 (0.944)	Data 3.17e-04 (2.06e-03)	Tok/s 38858 (45151)	Loss/tok 4.3282 (6.6167)	LR 2.000e-03
+0: TRAIN [0][500/1723]	Time 0.804 (0.944)	Data 3.69e-04 (2.03e-03)	Tok/s 38844 (45190)	Loss/tok 4.2139 (6.5736)	LR 2.000e-03
+0: TRAIN [0][510/1723]	Time 0.802 (0.941)	Data 3.75e-04 (1.99e-03)	Tok/s 38863 (45032)	Loss/tok 4.1850 (6.5424)	LR 2.000e-03
+0: TRAIN [0][520/1723]	Time 0.807 (0.941)	Data 3.70e-04 (1.96e-03)	Tok/s 38169 (45027)	Loss/tok 4.0368 (6.5019)	LR 2.000e-03
+0: TRAIN [0][530/1723]	Time 0.804 (0.939)	Data 3.82e-04 (1.93e-03)	Tok/s 38482 (44972)	Loss/tok 4.0631 (6.4659)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 1024.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 1024.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 1024.0
+0: TRAIN [0][540/1723]	Time 0.788 (0.938)	Data 3.83e-04 (1.91e-03)	Tok/s 39386 (44907)	Loss/tok 4.0301 (6.4310)	LR 2.000e-03
+0: TRAIN [0][550/1723]	Time 0.806 (0.937)	Data 3.74e-04 (1.88e-03)	Tok/s 37723 (44902)	Loss/tok 4.0120 (6.3940)	LR 2.000e-03
+0: TRAIN [0][560/1723]	Time 0.799 (0.934)	Data 5.14e-04 (1.85e-03)	Tok/s 38539 (44765)	Loss/tok 4.0373 (6.3653)	LR 2.000e-03
+0: TRAIN [0][570/1723]	Time 0.996 (0.935)	Data 5.10e-04 (1.83e-03)	Tok/s 50519 (44796)	Loss/tok 4.2989 (6.3274)	LR 2.000e-03
+0: TRAIN [0][580/1723]	Time 0.804 (0.935)	Data 3.75e-04 (1.80e-03)	Tok/s 38615 (44816)	Loss/tok 3.9450 (6.2912)	LR 2.000e-03
+0: TRAIN [0][590/1723]	Time 0.810 (0.936)	Data 3.53e-04 (1.78e-03)	Tok/s 38147 (44891)	Loss/tok 3.9701 (6.2522)	LR 2.000e-03
+0: TRAIN [0][600/1723]	Time 0.802 (0.936)	Data 3.62e-04 (1.76e-03)	Tok/s 38709 (44885)	Loss/tok 4.0087 (6.2191)	LR 2.000e-03
+0: TRAIN [0][610/1723]	Time 0.794 (0.935)	Data 3.73e-04 (1.73e-03)	Tok/s 38625 (44829)	Loss/tok 3.8812 (6.1898)	LR 2.000e-03
+0: TRAIN [0][620/1723]	Time 1.456 (0.934)	Data 3.86e-04 (1.71e-03)	Tok/s 61718 (44763)	Loss/tok 4.6217 (6.1609)	LR 2.000e-03
+0: TRAIN [0][630/1723]	Time 0.993 (0.932)	Data 3.70e-04 (1.69e-03)	Tok/s 50812 (44680)	Loss/tok 4.2375 (6.1348)	LR 2.000e-03
+0: TRAIN [0][640/1723]	Time 1.002 (0.933)	Data 5.18e-04 (1.67e-03)	Tok/s 50565 (44734)	Loss/tok 4.0862 (6.1006)	LR 2.000e-03
+0: TRAIN [0][650/1723]	Time 0.996 (0.933)	Data 3.74e-04 (1.65e-03)	Tok/s 50656 (44727)	Loss/tok 4.1667 (6.0710)	LR 2.000e-03
+0: TRAIN [0][660/1723]	Time 1.203 (0.933)	Data 3.50e-04 (1.63e-03)	Tok/s 58249 (44718)	Loss/tok 4.3853 (6.0417)	LR 2.000e-03
+0: TRAIN [0][670/1723]	Time 1.003 (0.931)	Data 3.66e-04 (1.62e-03)	Tok/s 49874 (44623)	Loss/tok 4.1037 (6.0182)	LR 2.000e-03
+0: TRAIN [0][680/1723]	Time 0.624 (0.930)	Data 3.78e-04 (1.60e-03)	Tok/s 25753 (44617)	Loss/tok 3.2215 (5.9898)	LR 2.000e-03
+0: TRAIN [0][690/1723]	Time 1.463 (0.930)	Data 5.09e-04 (1.58e-03)	Tok/s 60914 (44613)	Loss/tok 4.5994 (5.9622)	LR 2.000e-03
+0: TRAIN [0][700/1723]	Time 0.995 (0.932)	Data 3.86e-04 (1.56e-03)	Tok/s 50780 (44692)	Loss/tok 4.0342 (5.9307)	LR 2.000e-03
+0: TRAIN [0][710/1723]	Time 1.202 (0.933)	Data 3.64e-04 (1.55e-03)	Tok/s 58101 (44708)	Loss/tok 4.3200 (5.9027)	LR 2.000e-03
+0: TRAIN [0][720/1723]	Time 1.004 (0.933)	Data 3.77e-04 (1.53e-03)	Tok/s 49942 (44719)	Loss/tok 4.0876 (5.8762)	LR 2.000e-03
+0: TRAIN [0][730/1723]	Time 0.998 (0.933)	Data 3.73e-04 (1.52e-03)	Tok/s 50077 (44696)	Loss/tok 4.0214 (5.8516)	LR 2.000e-03
+0: TRAIN [0][740/1723]	Time 1.200 (0.933)	Data 3.61e-04 (1.50e-03)	Tok/s 58107 (44680)	Loss/tok 4.2397 (5.8279)	LR 2.000e-03
+0: TRAIN [0][750/1723]	Time 1.218 (0.933)	Data 3.66e-04 (1.49e-03)	Tok/s 57264 (44685)	Loss/tok 4.2219 (5.8028)	LR 2.000e-03
+0: TRAIN [0][760/1723]	Time 0.617 (0.933)	Data 3.65e-04 (1.47e-03)	Tok/s 25199 (44676)	Loss/tok 3.1413 (5.7798)	LR 2.000e-03
+0: TRAIN [0][770/1723]	Time 0.995 (0.934)	Data 3.68e-04 (1.46e-03)	Tok/s 50496 (44741)	Loss/tok 3.9738 (5.7535)	LR 2.000e-03
+0: TRAIN [0][780/1723]	Time 0.806 (0.933)	Data 3.67e-04 (1.45e-03)	Tok/s 38290 (44720)	Loss/tok 3.6919 (5.7316)	LR 2.000e-03
+0: TRAIN [0][790/1723]	Time 0.999 (0.934)	Data 5.34e-04 (1.43e-03)	Tok/s 50298 (44740)	Loss/tok 3.9285 (5.7083)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 2048.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 2048.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 2048.0
+0: TRAIN [0][800/1723]	Time 0.996 (0.935)	Data 5.01e-04 (1.42e-03)	Tok/s 50614 (44766)	Loss/tok 3.9338 (5.6844)	LR 2.000e-03
+0: TRAIN [0][810/1723]	Time 1.211 (0.936)	Data 3.69e-04 (1.41e-03)	Tok/s 57894 (44851)	Loss/tok 4.1684 (5.6584)	LR 2.000e-03
+0: TRAIN [0][820/1723]	Time 1.212 (0.937)	Data 3.41e-04 (1.40e-03)	Tok/s 57776 (44861)	Loss/tok 4.2371 (5.6369)	LR 2.000e-03

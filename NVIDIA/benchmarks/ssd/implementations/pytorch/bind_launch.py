@@ -65,7 +65,8 @@ def main():
     # variables for numactrl binding
     NSOCKETS = args.nsockets_per_node
     NGPUS_PER_SOCKET = args.nproc_per_node // args.nsockets_per_node
-    NCORES_PER_GPU = args.ncores_per_socket // NGPUS_PER_SOCKET
+#    NCORES_PER_GPU = args.ncores_per_socket // NGPUS_PER_SOCKET
+    NCORES_PER_GPU = 16 // NGPUS_PER_SOCKET
 
     # world size in terms of number of processes
     dist_world_size = args.nproc_per_node * args.nnodes
@@ -78,20 +79,32 @@ def main():
 
     processes = []
 
-    for local_rank in range(0, args.nproc_per_node):
+    for local_rank in range(0, 3):
         # each process's rank
         dist_rank = args.nproc_per_node * args.node_rank + local_rank
         current_env["RANK"] = str(dist_rank)
 
         # form numactrl binding command
-        cpu_ranges = [local_rank * NCORES_PER_GPU,
-                     (local_rank + 1) * NCORES_PER_GPU - 1,
-                     local_rank * NCORES_PER_GPU + (NCORES_PER_GPU * NGPUS_PER_SOCKET * NSOCKETS),
-                     (local_rank + 1) * NCORES_PER_GPU + (NCORES_PER_GPU * NGPUS_PER_SOCKET * NSOCKETS) - 1]
+#0        cpu_ranges = [local_rank * NCORES_PER_GPU,
+#4                     (local_rank + 1) * NCORES_PER_GPU - 1,
+#40                     local_rank * NCORES_PER_GPU + (NCORES_PER_GPU * NGPUS_PER_SOCKET * NSOCKETS),
+#44                     (local_rank + 1) * NCORES_PER_GPU + (NCORES_PER_GPU * NGPUS_PER_SOCKET * NSOCKETS) - 1]
+#R7525 3GPU
+#        cpu_ranges = [local_rank * NCORES_PER_GPU,
+#                     local_rank * NCORES_PER_GPU + (NCORES_PER_GPU * NSOCKETS),
+#                     (local_rank + 1) * NCORES_PER_GPU + (NCORES_PER_GPU * NSOCKETS) - 1]
+        if local_rank == 0:
+            cpu="0"
+        if local_rank == 1:
+            cpu="1"
+        if local_rank == 2:
+            cpu="1"
+
 
         numactlargs = []
         if args.no_hyperthreads:
-            numactlargs += [ "--physcpubind={}-{}".format(*cpu_ranges[0:2]) ]
+#            numactlargs += [ "--physcpubind={}-{}".format(*cpu_ranges[0:2]) ]
+            numactlargs += [ "--cpunodebind=" + cpu ]
         else:
             numactlargs += [ "--physcpubind={}-{},{}-{}".format(*cpu_ranges) ]
 
@@ -109,7 +122,6 @@ def main():
               ] \
             + args.training_script_args
 
-        print("Binding:", cmd)
         process = subprocess.Popen(cmd, env=current_env)
         processes.append(process)
 

@@ -38,6 +38,7 @@ python -m bind_launch \
   --nsockets_per_node ${DGXNSOCKET} \
   --ncores_per_socket ${DGXSOCKETCORES} \
   --no_hyperthreads \
+  --no_membind \
   --nproc_per_node $SLURM_NTASKS_PER_NODE $MULTI_NODE tools/train_mlperf.py \
   ${EXTRA_PARAMS} \
   --config-file 'configs/e2e_mask_rcnn_R_50_FPN_1x.yaml' \

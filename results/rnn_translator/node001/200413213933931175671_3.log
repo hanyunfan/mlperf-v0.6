@@ -1,0 +1,1069 @@
+Beginning trial 3 of 7
+Gathering sys log on node001
+:::MLL 1586845245.587 submission_benchmark: {"value": "gnmt", "metadata": {"file": "mlperf_log_utils.py", "lineno": 176}}
+:::MLL 1586845245.588 submission_org: {"value": "NVIDIA", "metadata": {"file": "mlperf_log_utils.py", "lineno": 181}}
+WARNING: Log validation: Key "submission_division" is not in known gnmt keys.
+:::MLL 1586845245.588 submission_division: {"value": "closed", "metadata": {"file": "mlperf_log_utils.py", "lineno": 185}}
+:::MLL 1586845245.589 submission_status: {"value": "onprem", "metadata": {"file": "mlperf_log_utils.py", "lineno": 189}}
+:::MLL 1586845245.590 submission_platform: {"value": "1xPowerEdge R7525", "metadata": {"file": "mlperf_log_utils.py", "lineno": 193}}
+:::MLL 1586845245.591 submission_entry: {"value": "{'hardware': 'PowerEdge R7525', 'framework': 'PyTorch NVIDIA Release 19.05', 'power': 'N/A', 'notes': 'N/A', 'interconnect': ' ', 'os': '\\\\S / ', 'libraries': \"{'container_base': 'Ubuntu-16.04', 'openmpi_version': '3.1.3', 'mofed_version': '4.0-0', 'cuda_version': '10.1.163', 'cuda_driver_version': '418.67', 'nccl_version': '2.4.6', 'cudnn_version': '7.6.0.64', 'cublas_version': '10.2.0.163', 'trt_version': '5.1.5.0', 'dali_version': '0.9.1'}\", 'compilers': 'gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609', 'nodes': \"{'num_nodes': '1', 'cpu': '2x AMD EPYC 7502 32-Core Processor', 'num_cores': '64', 'num_vcpus': '64', 'accelerator': 'Tesla V100-PCIE-32GB', 'num_accelerators': '3', 'sys_mem_size': '251 GB', 'sys_storage_type': 'NVMe SSD', 'sys_storage_size': '1x 931.5G', 'cpu_accel_interconnect': 'QPI', 'network_card': '', 'num_network_cards': '0', 'notes': ''}\"}", "metadata": {"file": "mlperf_log_utils.py", "lineno": 197}}
+:::MLL 1586845245.591 submission_poc_name: {"value": "Paulius Micikevicius", "metadata": {"file": "mlperf_log_utils.py", "lineno": 201}}
+:::MLL 1586845245.592 submission_poc_email: {"value": "pauliusm@nvidia.com", "metadata": {"file": "mlperf_log_utils.py", "lineno": 205}}
+Clearing caches
+:::MLL 1586845246.598 cache_clear: {"value": true, "metadata": {"file": "<string>", "lineno": 1}}
+Launching on node node001
++ pids+=($!)
++ set +x
+++ eval echo
++++ echo
++ docker exec -e DGXSYSTEM=DGX1 -e 'MULTI_NODE= --master_port=4897' -e LR=2.0e-3 -e TRAIN_BATCH_SIZE=768 -e TEST_BATCH_SIZE=128 -e WARMUP_STEPS=200 -e REMAIN_STEPS=5270 -e DECAY_INTERVAL=720 -e TARGET=24.0 -e NUMEPOCHS=5 -e MAX_SEQ_LEN=75 -e 'EXTRA_OPTS=   --fused-attention    --fused-xentropy    --no-log-all-ranks    ' -e SLURM_JOB_ID=200413213933931175671 -e SLURM_NTASKS_PER_NODE= -e SLURM_NNODES=1 cont_200413213933931175671 ./run_and_time.sh
+Run vars: id 200413213933931175671 gpus 3 mparams  --master_port=4897
+NCCL_SOCKET_NTHREADS=2
+NCCL_NSOCKS_PERTHREAD=8
+STARTING TIMING RUN AT 2020-04-14 06:20:47 AM
++ DATASET_DIR=/data
++ PREPROC_DATADIR=/preproc_data
++ RESULTS_DIR=gnmt_wmt16
++ LR=2.0e-3
++ TRAIN_BATCH_SIZE=768
++ TEST_BATCH_SIZE=128
++ WARMUP_STEPS=200
++ REMAIN_STEPS=5270
++ DECAY_INTERVAL=720
++ TARGET=24.0
++ MAX_SEQ_LEN=75
++ NUMEPOCHS=5
++ EXTRA_OPTS='   --fused-attention    --fused-xentropy    --no-log-all-ranks    '
++ BIND_LAUNCH=0
++ MATH=amp_fp16
++ [[ 0 -eq 1 ]]
++ LAUNCH_OPT='torch.distributed.launch --nproc_per_node 3  --master_port=4897'
+running benchmark
++ echo 'running benchmark'
++ python -m torch.distributed.launch --nproc_per_node 3 --master_port=4897 train.py --save gnmt_wmt16 --dataset-dir /data --preproc-data-dir /preproc_data --target-bleu 24.0 --epochs 5 --math amp_fp16 --max-length-train 75 --print-freq 10 --train-batch-size 768 --test-batch-size 128 --optimizer FusedAdam --lr 2.0e-3 --warmup-steps 200 --remain-steps 5270 --decay-interval 720 --fused-attention --fused-xentropy --no-log-all-ranks
+:::MLL 1586845249.955 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 288}}
+:::MLL 1586845249.982 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 288}}
+:::MLL 1586845250.014 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 288}}
+0: Saving results to: results/gnmt_wmt16
+0: Run arguments: Namespace(apex_message_size=10000000.0, apex_num_allreduce_streams=1, batching='bucketing', beam_size=5, cov_penalty_factor=0.1, cuda=True, cudnn=True, dataset_dir='/data', decay_factor=0.5, decay_interval=720, decay_steps=8, dropout=0.2, enable_apex_allreduce_overlap=False, env=False, epochs=5, eval=True, fused_attention=True, fused_xentropy=True, grad_clip=5.0, hidden_size=1024, init_scale=1024, intra_epoch_eval=0, keep_checkpoints=0, len_norm_const=5.0, len_norm_factor=0.6, local_rank=0, log_all_ranks=False, lr=0.002, math='amp_fp16', max_length_test=150, max_length_train=75, max_size=None, min_length_test=0, min_length_train=0, num_buckets=5, num_layers=4, optimizer='FusedAdam', optimizer_extra='{}', prealloc_mode='always', preproc_data_dir='/preproc_data', print_freq=10, rank=0, remain_steps=5270, results_dir='results', resume=None, save='gnmt_wmt16', save_all=False, save_freq=5000, save_path='results/gnmt_wmt16', seed=None, shard_size=80, share_embedding=True, smoothing=0.1, start_epoch=0, target_bleu=24.0, test_batch_size=128, test_loader_workers=0, train_batch_size=768, train_global_batch_size=None, train_iter_size=1, train_loader_workers=1, upscale_interval=128, use_preproc_data=True, warmup_steps=200)
+0: L2 promotion: 128B
+0: Using random master seed: 1796176780
+node001:1896:1896 [0] NCCL INFO Bootstrap : Using [0]eth0:10.141.0.1<0>
+node001:1896:1896 [0] NCCL INFO NET/Plugin : No plugin found (libnccl-net.so), using internal implementation
+node001:1896:1896 [0] NCCL INFO NET/IB : No device found.
+node001:1896:1896 [0] NCCL INFO NET/Socket : Using [0]eth0:10.141.0.1<0>
+node001:1896:1896 [0] NCCL INFO Using network Socket
+NCCL version 2.6.4+cuda10.2
+node001:1898:1898 [2] NCCL INFO Bootstrap : Using [0]eth0:10.141.0.1<0>
+node001:1897:1897 [1] NCCL INFO Bootstrap : Using [0]eth0:10.141.0.1<0>
+node001:1898:1898 [2] NCCL INFO NET/Plugin : No plugin found (libnccl-net.so), using internal implementation
+node001:1897:1897 [1] NCCL INFO NET/Plugin : No plugin found (libnccl-net.so), using internal implementation
+node001:1898:1898 [2] NCCL INFO NET/IB : No device found.
+node001:1897:1897 [1] NCCL INFO NET/IB : No device found.
+node001:1898:1898 [2] NCCL INFO NET/Socket : Using [0]eth0:10.141.0.1<0>
+node001:1898:1898 [2] NCCL INFO Using network Socket
+node001:1897:1897 [1] NCCL INFO NET/Socket : Using [0]eth0:10.141.0.1<0>
+node001:1897:1897 [1] NCCL INFO Using network Socket
+node001:1896:2107 [0] NCCL INFO Channel 00/02 :    0   1   2
+node001:1898:2105 [2] NCCL INFO threadThresholds 8/8/64 | 24/8/64 | 8/8/64
+node001:1897:2106 [1] NCCL INFO threadThresholds 8/8/64 | 24/8/64 | 8/8/64
+node001:1896:2107 [0] NCCL INFO Channel 01/02 :    0   1   2
+node001:1898:2105 [2] NCCL INFO Trees [0] -1/-1/-1->2->1|1->2->-1/-1/-1 [1] -1/-1/-1->2->1|1->2->-1/-1/-1
+node001:1897:2106 [1] NCCL INFO Trees [0] 2/-1/-1->1->0|0->1->2/-1/-1 [1] 2/-1/-1->1->0|0->1->2/-1/-1
+node001:1897:2106 [1] NCCL INFO Setting affinity for GPU 1 to ffffffff,00000000
+node001:1898:2105 [2] NCCL INFO Setting affinity for GPU 2 to ffffffff,00000000
+node001:1896:2107 [0] NCCL INFO threadThresholds 8/8/64 | 24/8/64 | 8/8/64
+node001:1896:2107 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1|-1->0->1/-1/-1 [1] 1/-1/-1->0->-1|-1->0->1/-1/-1
+node001:1896:2107 [0] NCCL INFO Setting affinity for GPU 0 to ffffffff
+node001:1898:2105 [2] NCCL INFO Ring 00 : 2[e2000] -> 0[21000] via direct shared memory
+node001:1897:2106 [1] NCCL INFO Ring 00 : 1[81000] -> 2[e2000] via P2P/IPC
+node001:1896:2107 [0] NCCL INFO Ring 00 : 0[21000] -> 1[81000] via direct shared memory
+node001:1898:2105 [2] NCCL INFO Ring 00 : 2[e2000] -> 1[81000] via P2P/IPC
+node001:1897:2106 [1] NCCL INFO Ring 00 : 1[81000] -> 0[21000] via direct shared memory
+node001:1898:2105 [2] NCCL INFO Ring 01 : 2[e2000] -> 0[21000] via direct shared memory
+node001:1896:2107 [0] NCCL INFO Ring 01 : 0[21000] -> 1[81000] via direct shared memory
+node001:1897:2106 [1] NCCL INFO Ring 01 : 1[81000] -> 2[e2000] via P2P/IPC
+node001:1898:2105 [2] NCCL INFO Ring 01 : 2[e2000] -> 1[81000] via P2P/IPC
+node001:1897:2106 [1] NCCL INFO Ring 01 : 1[81000] -> 0[21000] via direct shared memory
+node001:1898:2105 [2] NCCL INFO comm 0x7fff70006620 rank 2 nranks 3 cudaDev 2 busId e2000 - Init COMPLETE
+node001:1896:2107 [0] NCCL INFO comm 0x7ffe74006620 rank 0 nranks 3 cudaDev 0 busId 21000 - Init COMPLETE
+node001:1896:1896 [0] NCCL INFO Launch mode Parallel
+node001:1897:2106 [1] NCCL INFO comm 0x7ffe48006620 rank 1 nranks 3 cudaDev 1 busId 81000 - Init COMPLETE
+0: Worker 0 is using worker seed: 2651015289
+0: Building vocabulary from /data/vocab.bpe.32000
+0: Size of vocabulary: 32320
+0: Fused attention flag set to True
+0: GNMT(
+  (encoder): ResidualRecurrentEncoder(
+    (rnn_layers): ModuleList(
+      (0): EmuBidirLSTM(
+        (bidir): LSTM(1024, 1024, bidirectional=True)
+        (layer1): LSTM(1024, 1024)
+        (layer2): LSTM(1024, 1024)
+      )
+      (1): LSTM(2048, 1024)
+      (2): LSTM(1024, 1024)
+      (3): LSTM(1024, 1024)
+    )
+    (dropout): Dropout(p=0.2)
+    (embedder): Embedding(32320, 1024, padding_idx=0)
+  )
+  (decoder): ResidualRecurrentDecoder(
+    (att_rnn): RecurrentAttention(
+      (rnn): LSTM(1024, 1024)
+      (attn): BahdanauAttention(
+        (linear_q): Linear(in_features=1024, out_features=1024, bias=False)
+        (linear_k): Linear(in_features=1024, out_features=1024, bias=False)
+      )
+      (dropout): Dropout(p=0.2)
+    )
+    (rnn_layers): ModuleList(
+      (0): LSTM(2048, 1024)
+      (1): LSTM(2048, 1024)
+      (2): LSTM(2048, 1024)
+    )
+    (embedder): Embedding(32320, 1024, padding_idx=0)
+    (classifier): Classifier(
+      (classifier): Linear(in_features=1024, out_features=32320, bias=True)
+    )
+    (dropout): Dropout(p=0.2)
+  )
+)
+0: Building LabelSmoothingLoss (smoothing: 0.1)
+0: Fused xentropy flag set to True
+0: Training optimizer config: {'optimizer': 'FusedAdam', 'lr': 0.002}
+0: Number of parameters: 160671297
+0: Saving state of the tokenizer
+Selected optimization level O2:  FP16 training with FP32 batchnorm and FP32 master weights.
+
+Defaults for this optimization level are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : True
+master_weights         : True
+loss_scale             : dynamic
+Processing user overrides (additional kwargs that are not None)...
+After processing overrides, optimization options are:
+enabled                : True
+opt_level              : O2
+cast_model_type        : torch.float16
+patch_torch_functions  : False
+keep_batchnorm_fp32    : False
+master_weights         : True
+loss_scale             : dynamic
+0: Initializing amp optimizer
+0: Using optimizer: FusedAdam (
+Parameter Group 0
+    betas: (0.9, 0.999)
+    bias_correction: True
+    eps: 1e-08
+    lr: 0.002
+    max_grad_norm: 5.0
+    weight_decay: 0.0
+)
+:::MLL 1586845259.228 opt_base_learning_rate: {"value": 0.002, "metadata": {"file": "seq2seq/train/trainer.py", "lineno": 169}}
+0: Executing preallocation
+/opt/conda/lib/python3.6/site-packages/torch/nn/modules/rnn.py:522: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.num_layers, self.dropout, self.training, self.bidirectional)
+/opt/conda/lib/python3.6/site-packages/torch/nn/modules/rnn.py:522: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.num_layers, self.dropout, self.training, self.bidirectional)
+/opt/conda/lib/python3.6/site-packages/torch/nn/modules/rnn.py:522: RuntimeWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters().
+  self.num_layers, self.dropout, self.training, self.bidirectional)
+:::MLL 1586845262.284 init_stop: {"value": null, "metadata": {"file": "train.py", "lineno": 407}}
+:::MLL 1586845262.284 run_start: {"value": null, "metadata": {"file": "train.py", "lineno": 409}}
+:::MLL 1586845262.285 max_sequence_length: {"value": 75, "metadata": {"method": "discard", "file": "train.py", "lineno": 414}}
+0: Reading preprocessed data file from /preproc_data/training.bin
+0: Preprocessed data: length: 3975116 min length: 0 max length: 75 
+0: Opening preprocessed data /preproc_data/training.bin for reading
+0: Processing data from /data/newstest2014.tok.bpe.32000.en
+0: Filtering data, min len: 0, max len: 150
+0: Pairs before: 3003, after: 3003
+:::MLL 1586845263.114 global_batch_size: {"value": 2304, "metadata": {"file": "train.py", "lineno": 459}}
+0: Training LR schedule config: {'warmup_steps': 200, 'remain_steps': 5270, 'decay_interval': 720, 'decay_steps': 8, 'decay_factor': 0.5}
+0: Scheduler warmup steps: 200
+0: Scheduler remain steps: 5270
+0: Scheduler decay interval: 720
+0: Scheduler decay factor: 0.5
+0: Scheduler max decay steps: 8
+:::MLL 1586845263.124 opt_learning_rate_alt_decay_func: {"value": true, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 78}}
+:::MLL 1586845263.125 opt_learning_rate_alt_warmup_func: {"value": true, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 80}}
+:::MLL 1586845263.125 opt_learning_rate_decay_interval: {"value": 720, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 83}}
+:::MLL 1586845263.125 opt_learning_rate_decay_factor: {"value": 0.5, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 85}}
+:::MLL 1586845263.126 opt_learning_rate_decay_steps: {"value": 8, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 87}}
+:::MLL 1586845263.126 opt_learning_rate_remain_steps: {"value": 5270, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 89}}
+:::MLL 1586845263.127 opt_learning_rate_warmup_steps: {"value": 200, "metadata": {"file": "seq2seq/train/lr_scheduler.py", "lineno": 91}}
+:::MLL 1586845263.128 block_start: {"value": null, "metadata": {"first_epoch_num": 1, "epoch_count": 1, "file": "train.py", "lineno": 512}}
+:::MLL 1586845263.128 epoch_start: {"value": null, "metadata": {"epoch_num": 1, "file": "train.py", "lineno": 515}}
+0: Starting epoch 0
+0: Executing preallocation
+0: Sampler for epoch 0 uses seed 3495226311
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+0: TRAIN [0][0/1723]	Time 1.835 (1.835)	Data 7.97e-01 (7.97e-01)	Tok/s 27558 (27558)	Loss/tok 10.6765 (10.6765)	LR 2.000e-05
+0: TRAIN [0][10/1723]	Time 1.532 (1.052)	Data 3.64e-04 (7.29e-02)	Tok/s 58370 (42538)	Loss/tok 9.8350 (10.1583)	LR 2.518e-05
+0: TRAIN [0][20/1723]	Time 1.024 (1.022)	Data 3.58e-04 (3.84e-02)	Tok/s 49534 (43972)	Loss/tok 9.3305 (9.8243)	LR 3.170e-05
+0: TRAIN [0][30/1723]	Time 0.998 (1.008)	Data 5.18e-04 (2.61e-02)	Tok/s 50638 (44888)	Loss/tok 9.0355 (9.6067)	LR 3.991e-05
+0: TRAIN [0][40/1723]	Time 1.017 (0.997)	Data 5.14e-04 (1.98e-02)	Tok/s 49188 (44962)	Loss/tok 8.8134 (9.4418)	LR 5.024e-05
+0: TRAIN [0][50/1723]	Time 1.016 (1.019)	Data 5.08e-04 (1.60e-02)	Tok/s 49873 (45618)	Loss/tok 8.6245 (9.2808)	LR 6.325e-05
+0: TRAIN [0][60/1723]	Time 0.823 (1.005)	Data 3.64e-04 (1.35e-02)	Tok/s 37584 (44919)	Loss/tok 8.3110 (9.1643)	LR 7.962e-05
+0: TRAIN [0][70/1723]	Time 0.637 (0.994)	Data 3.40e-04 (1.16e-02)	Tok/s 25114 (44647)	Loss/tok 7.7135 (9.0492)	LR 1.002e-04
+0: TRAIN [0][80/1723]	Time 1.503 (1.006)	Data 3.81e-04 (1.02e-02)	Tok/s 59295 (45361)	Loss/tok 8.2378 (8.9524)	LR 1.262e-04
+0: TRAIN [0][90/1723]	Time 1.012 (0.997)	Data 5.28e-04 (9.16e-03)	Tok/s 49852 (45093)	Loss/tok 8.1004 (8.8662)	LR 1.589e-04
+0: TRAIN [0][100/1723]	Time 1.018 (1.003)	Data 3.44e-04 (8.30e-03)	Tok/s 49730 (45349)	Loss/tok 7.9941 (8.7754)	LR 2.000e-04
+0: TRAIN [0][110/1723]	Time 0.633 (1.000)	Data 3.49e-04 (7.59e-03)	Tok/s 24987 (45289)	Loss/tok 7.2506 (8.7031)	LR 2.518e-04
+0: TRAIN [0][120/1723]	Time 1.024 (0.998)	Data 5.05e-04 (7.00e-03)	Tok/s 49245 (45236)	Loss/tok 7.9514 (8.6440)	LR 3.170e-04
+0: TRAIN [0][130/1723]	Time 1.507 (0.996)	Data 4.69e-04 (6.49e-03)	Tok/s 59000 (45079)	Loss/tok 8.2628 (8.5915)	LR 3.991e-04
+0: TRAIN [0][140/1723]	Time 1.021 (0.995)	Data 3.65e-04 (6.06e-03)	Tok/s 49690 (44922)	Loss/tok 7.8496 (8.5399)	LR 5.024e-04
+0: TRAIN [0][150/1723]	Time 1.019 (0.995)	Data 5.50e-04 (5.69e-03)	Tok/s 49212 (44965)	Loss/tok 7.7686 (8.4887)	LR 6.325e-04
+0: TRAIN [0][160/1723]	Time 0.824 (0.994)	Data 3.74e-04 (5.37e-03)	Tok/s 37872 (44826)	Loss/tok 7.5289 (8.4427)	LR 7.962e-04
+0: TRAIN [0][170/1723]	Time 1.026 (0.995)	Data 3.59e-04 (5.08e-03)	Tok/s 48992 (44942)	Loss/tok 7.5833 (8.3939)	LR 1.002e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 256.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 128.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 128.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 128.0
+0: TRAIN [0][180/1723]	Time 0.824 (0.992)	Data 3.80e-04 (4.82e-03)	Tok/s 37550 (44763)	Loss/tok 7.3341 (8.3575)	LR 1.205e-03
+0: TRAIN [0][190/1723]	Time 1.238 (0.988)	Data 5.28e-04 (4.58e-03)	Tok/s 57042 (44675)	Loss/tok 7.4413 (8.3093)	LR 1.517e-03
+0: TRAIN [0][200/1723]	Time 1.024 (0.988)	Data 5.63e-04 (4.38e-03)	Tok/s 49424 (44739)	Loss/tok 7.1327 (8.2536)	LR 1.910e-03
+0: TRAIN [0][210/1723]	Time 0.820 (0.980)	Data 5.19e-04 (4.19e-03)	Tok/s 38029 (44393)	Loss/tok 6.8284 (8.2085)	LR 2.000e-03
+0: TRAIN [0][220/1723]	Time 0.824 (0.979)	Data 5.05e-04 (4.02e-03)	Tok/s 37857 (44341)	Loss/tok 6.6585 (8.1522)	LR 2.000e-03
+0: TRAIN [0][230/1723]	Time 0.636 (0.974)	Data 5.71e-04 (3.87e-03)	Tok/s 24761 (44124)	Loss/tok 5.6572 (8.1007)	LR 2.000e-03
+0: TRAIN [0][240/1723]	Time 0.820 (0.973)	Data 5.20e-04 (3.72e-03)	Tok/s 37550 (44072)	Loss/tok 6.3745 (8.0443)	LR 2.000e-03
+0: TRAIN [0][250/1723]	Time 1.022 (0.972)	Data 5.26e-04 (3.59e-03)	Tok/s 49128 (44075)	Loss/tok 6.4913 (7.9843)	LR 2.000e-03
+0: TRAIN [0][260/1723]	Time 0.822 (0.970)	Data 3.46e-04 (3.47e-03)	Tok/s 37631 (43953)	Loss/tok 6.1169 (7.9308)	LR 2.000e-03
+0: TRAIN [0][270/1723]	Time 0.822 (0.969)	Data 3.91e-04 (3.36e-03)	Tok/s 38067 (43938)	Loss/tok 6.0384 (7.8719)	LR 2.000e-03
+0: TRAIN [0][280/1723]	Time 0.823 (0.971)	Data 3.92e-04 (3.25e-03)	Tok/s 37732 (44008)	Loss/tok 5.8597 (7.8076)	LR 2.000e-03
+0: TRAIN [0][290/1723]	Time 0.822 (0.968)	Data 5.19e-04 (3.16e-03)	Tok/s 37753 (43910)	Loss/tok 5.8195 (7.7539)	LR 2.000e-03
+0: TRAIN [0][300/1723]	Time 0.823 (0.965)	Data 3.57e-04 (3.07e-03)	Tok/s 37795 (43802)	Loss/tok 5.7318 (7.7014)	LR 2.000e-03
+0: TRAIN [0][310/1723]	Time 0.831 (0.963)	Data 4.17e-04 (2.98e-03)	Tok/s 37110 (43652)	Loss/tok 5.6410 (7.6498)	LR 2.000e-03
+0: TRAIN [0][320/1723]	Time 0.805 (0.963)	Data 5.66e-04 (2.90e-03)	Tok/s 38126 (43658)	Loss/tok 5.5682 (7.5913)	LR 2.000e-03
+0: TRAIN [0][330/1723]	Time 1.020 (0.961)	Data 3.50e-04 (2.83e-03)	Tok/s 49593 (43587)	Loss/tok 5.7492 (7.5403)	LR 2.000e-03
+0: TRAIN [0][340/1723]	Time 1.019 (0.961)	Data 3.71e-04 (2.76e-03)	Tok/s 49335 (43621)	Loss/tok 5.5090 (7.4825)	LR 2.000e-03
+0: TRAIN [0][350/1723]	Time 0.822 (0.959)	Data 5.35e-04 (2.69e-03)	Tok/s 37518 (43546)	Loss/tok 5.1822 (7.4309)	LR 2.000e-03
+0: TRAIN [0][360/1723]	Time 0.819 (0.959)	Data 5.54e-04 (2.63e-03)	Tok/s 38031 (43518)	Loss/tok 5.0945 (7.3770)	LR 2.000e-03
+0: TRAIN [0][370/1723]	Time 1.020 (0.961)	Data 5.63e-04 (2.57e-03)	Tok/s 49697 (43588)	Loss/tok 5.2747 (7.3159)	LR 2.000e-03
+0: TRAIN [0][380/1723]	Time 0.828 (0.960)	Data 5.24e-04 (2.52e-03)	Tok/s 37180 (43576)	Loss/tok 4.9231 (7.2634)	LR 2.000e-03
+0: TRAIN [0][390/1723]	Time 1.023 (0.963)	Data 3.81e-04 (2.46e-03)	Tok/s 49160 (43688)	Loss/tok 5.1795 (7.2031)	LR 2.000e-03
+0: TRAIN [0][400/1723]	Time 0.824 (0.960)	Data 3.46e-04 (2.41e-03)	Tok/s 37479 (43530)	Loss/tok 4.7372 (7.1607)	LR 2.000e-03
+0: TRAIN [0][410/1723]	Time 1.499 (0.959)	Data 3.40e-04 (2.36e-03)	Tok/s 59621 (43528)	Loss/tok 5.5406 (7.1094)	LR 2.000e-03
+0: TRAIN [0][420/1723]	Time 0.827 (0.961)	Data 3.43e-04 (2.32e-03)	Tok/s 38059 (43593)	Loss/tok 4.6227 (7.0542)	LR 2.000e-03
+0: TRAIN [0][430/1723]	Time 0.822 (0.965)	Data 5.23e-04 (2.27e-03)	Tok/s 37724 (43760)	Loss/tok 4.5622 (6.9917)	LR 2.000e-03
+0: TRAIN [0][440/1723]	Time 0.826 (0.968)	Data 3.65e-04 (2.23e-03)	Tok/s 37508 (43857)	Loss/tok 4.4952 (6.9359)	LR 2.000e-03
+0: TRAIN [0][450/1723]	Time 0.822 (0.968)	Data 3.63e-04 (2.19e-03)	Tok/s 38145 (43858)	Loss/tok 4.4455 (6.8876)	LR 2.000e-03
+0: TRAIN [0][460/1723]	Time 0.637 (0.967)	Data 3.51e-04 (2.15e-03)	Tok/s 24847 (43833)	Loss/tok 3.6961 (6.8425)	LR 2.000e-03
+0: TRAIN [0][470/1723]	Time 0.824 (0.966)	Data 4.82e-04 (2.11e-03)	Tok/s 37568 (43778)	Loss/tok 4.2613 (6.7998)	LR 2.000e-03
+0: TRAIN [0][480/1723]	Time 0.820 (0.967)	Data 3.65e-04 (2.08e-03)	Tok/s 37740 (43792)	Loss/tok 4.3120 (6.7529)	LR 2.000e-03
+0: TRAIN [0][490/1723]	Time 1.021 (0.966)	Data 3.48e-04 (2.04e-03)	Tok/s 48455 (43775)	Loss/tok 4.5863 (6.7101)	LR 2.000e-03
+0: TRAIN [0][500/1723]	Time 1.243 (0.966)	Data 3.82e-04 (2.01e-03)	Tok/s 56241 (43779)	Loss/tok 4.7512 (6.6657)	LR 2.000e-03
+0: TRAIN [0][510/1723]	Time 0.826 (0.965)	Data 3.44e-04 (1.98e-03)	Tok/s 37505 (43742)	Loss/tok 4.1792 (6.6251)	LR 2.000e-03
+0: TRAIN [0][520/1723]	Time 0.635 (0.964)	Data 3.76e-04 (1.95e-03)	Tok/s 24909 (43694)	Loss/tok 3.4284 (6.5873)	LR 2.000e-03
+0: TRAIN [0][530/1723]	Time 0.824 (0.965)	Data 5.87e-04 (1.92e-03)	Tok/s 37565 (43704)	Loss/tok 4.1110 (6.5450)	LR 2.000e-03
+0: TRAIN [0][540/1723]	Time 0.823 (0.966)	Data 3.65e-04 (1.89e-03)	Tok/s 37741 (43763)	Loss/tok 4.0496 (6.5015)	LR 2.000e-03
+0: TRAIN [0][550/1723]	Time 1.034 (0.968)	Data 3.63e-04 (1.87e-03)	Tok/s 49177 (43840)	Loss/tok 4.3289 (6.4566)	LR 2.000e-03
+0: TRAIN [0][560/1723]	Time 0.821 (0.968)	Data 3.63e-04 (1.84e-03)	Tok/s 37598 (43837)	Loss/tok 4.0656 (6.4190)	LR 2.000e-03
+0: TRAIN [0][570/1723]	Time 1.019 (0.966)	Data 3.64e-04 (1.82e-03)	Tok/s 49545 (43801)	Loss/tok 4.2645 (6.3845)	LR 2.000e-03
+0: TRAIN [0][580/1723]	Time 0.825 (0.967)	Data 3.58e-04 (1.79e-03)	Tok/s 37519 (43846)	Loss/tok 4.0740 (6.3463)	LR 2.000e-03
+0: TRAIN [0][590/1723]	Time 0.825 (0.968)	Data 3.55e-04 (1.77e-03)	Tok/s 38052 (43888)	Loss/tok 3.9691 (6.3085)	LR 2.000e-03
+0: TRAIN [0][600/1723]	Time 1.030 (0.967)	Data 3.59e-04 (1.75e-03)	Tok/s 48717 (43855)	Loss/tok 4.2183 (6.2759)	LR 2.000e-03
+0: TRAIN [0][610/1723]	Time 1.018 (0.968)	Data 5.49e-04 (1.73e-03)	Tok/s 49723 (43893)	Loss/tok 4.1989 (6.2398)	LR 2.000e-03
+0: TRAIN [0][620/1723]	Time 0.639 (0.968)	Data 5.13e-04 (1.70e-03)	Tok/s 24563 (43890)	Loss/tok 3.2802 (6.2063)	LR 2.000e-03
+0: TRAIN [0][630/1723]	Time 0.641 (0.967)	Data 3.77e-04 (1.68e-03)	Tok/s 24813 (43845)	Loss/tok 3.2737 (6.1766)	LR 2.000e-03
+0: TRAIN [0][640/1723]	Time 1.028 (0.968)	Data 3.50e-04 (1.66e-03)	Tok/s 48659 (43882)	Loss/tok 4.1535 (6.1425)	LR 2.000e-03
+0: TRAIN [0][650/1723]	Time 1.025 (0.967)	Data 3.60e-04 (1.64e-03)	Tok/s 49185 (43859)	Loss/tok 4.2047 (6.1139)	LR 2.000e-03
+0: TRAIN [0][660/1723]	Time 0.830 (0.967)	Data 5.20e-04 (1.63e-03)	Tok/s 37130 (43857)	Loss/tok 3.7948 (6.0846)	LR 2.000e-03
+0: TRAIN [0][670/1723]	Time 1.021 (0.967)	Data 3.67e-04 (1.61e-03)	Tok/s 49080 (43875)	Loss/tok 4.1774 (6.0542)	LR 2.000e-03
+0: TRAIN [0][680/1723]	Time 1.026 (0.968)	Data 5.39e-04 (1.59e-03)	Tok/s 49330 (43917)	Loss/tok 4.0741 (6.0224)	LR 2.000e-03
+0: TRAIN [0][690/1723]	Time 0.641 (0.966)	Data 3.73e-04 (1.57e-03)	Tok/s 24838 (43830)	Loss/tok 3.2714 (5.9991)	LR 2.000e-03
+0: TRAIN [0][700/1723]	Time 1.021 (0.967)	Data 3.76e-04 (1.56e-03)	Tok/s 49797 (43917)	Loss/tok 4.0148 (5.9664)	LR 2.000e-03
+0: TRAIN [0][710/1723]	Time 1.237 (0.968)	Data 3.54e-04 (1.54e-03)	Tok/s 56519 (43957)	Loss/tok 4.2981 (5.9374)	LR 2.000e-03
+0: TRAIN [0][720/1723]	Time 0.635 (0.967)	Data 3.66e-04 (1.52e-03)	Tok/s 24895 (43908)	Loss/tok 3.1299 (5.9138)	LR 2.000e-03
+0: TRAIN [0][730/1723]	Time 1.019 (0.967)	Data 4.90e-04 (1.51e-03)	Tok/s 49698 (43906)	Loss/tok 4.0395 (5.8879)	LR 2.000e-03
+0: TRAIN [0][740/1723]	Time 0.826 (0.968)	Data 3.51e-04 (1.49e-03)	Tok/s 37513 (43910)	Loss/tok 3.7691 (5.8616)	LR 2.000e-03
+0: TRAIN [0][750/1723]	Time 1.247 (0.968)	Data 3.59e-04 (1.48e-03)	Tok/s 56430 (43909)	Loss/tok 4.2195 (5.8368)	LR 2.000e-03
+0: TRAIN [0][760/1723]	Time 0.822 (0.967)	Data 3.64e-04 (1.47e-03)	Tok/s 37931 (43898)	Loss/tok 3.7379 (5.8137)	LR 2.000e-03
+0: TRAIN [0][770/1723]	Time 1.239 (0.967)	Data 3.66e-04 (1.45e-03)	Tok/s 56528 (43893)	Loss/tok 4.2340 (5.7904)	LR 2.000e-03
+0: TRAIN [0][780/1723]	Time 1.020 (0.966)	Data 3.56e-04 (1.44e-03)	Tok/s 49695 (43838)	Loss/tok 4.0148 (5.7699)	LR 2.000e-03
+0: TRAIN [0][790/1723]	Time 1.023 (0.965)	Data 3.86e-04 (1.42e-03)	Tok/s 49211 (43805)	Loss/tok 3.9314 (5.7491)	LR 2.000e-03
+0: TRAIN [0][800/1723]	Time 1.027 (0.966)	Data 5.38e-04 (1.41e-03)	Tok/s 49159 (43873)	Loss/tok 3.9248 (5.7229)	LR 2.000e-03
+0: TRAIN [0][810/1723]	Time 0.634 (0.966)	Data 3.54e-04 (1.40e-03)	Tok/s 24711 (43848)	Loss/tok 3.1235 (5.7022)	LR 2.000e-03
+0: TRAIN [0][820/1723]	Time 0.822 (0.965)	Data 3.37e-04 (1.39e-03)	Tok/s 37978 (43803)	Loss/tok 3.6584 (5.6829)	LR 2.000e-03
+0: TRAIN [0][830/1723]	Time 1.020 (0.966)	Data 3.90e-04 (1.38e-03)	Tok/s 49694 (43857)	Loss/tok 3.9036 (5.6592)	LR 2.000e-03
+0: TRAIN [0][840/1723]	Time 1.019 (0.965)	Data 4.78e-04 (1.37e-03)	Tok/s 49456 (43818)	Loss/tok 3.9202 (5.6403)	LR 2.000e-03
+0: TRAIN [0][850/1723]	Time 0.816 (0.965)	Data 3.69e-04 (1.35e-03)	Tok/s 37684 (43831)	Loss/tok 3.6103 (5.6197)	LR 2.000e-03
+0: TRAIN [0][860/1723]	Time 0.824 (0.964)	Data 3.72e-04 (1.34e-03)	Tok/s 37072 (43758)	Loss/tok 3.5607 (5.6035)	LR 2.000e-03
+0: TRAIN [0][870/1723]	Time 1.240 (0.965)	Data 3.63e-04 (1.33e-03)	Tok/s 56624 (43820)	Loss/tok 4.1266 (5.5809)	LR 2.000e-03
+0: TRAIN [0][880/1723]	Time 0.827 (0.965)	Data 5.21e-04 (1.32e-03)	Tok/s 36720 (43821)	Loss/tok 3.6196 (5.5619)	LR 2.000e-03
+0: TRAIN [0][890/1723]	Time 0.822 (0.964)	Data 3.63e-04 (1.31e-03)	Tok/s 37417 (43772)	Loss/tok 3.6116 (5.5454)	LR 2.000e-03
+0: TRAIN [0][900/1723]	Time 0.824 (0.963)	Data 3.86e-04 (1.30e-03)	Tok/s 37445 (43763)	Loss/tok 3.6349 (5.5272)	LR 2.000e-03
+0: TRAIN [0][910/1723]	Time 0.821 (0.963)	Data 5.16e-04 (1.29e-03)	Tok/s 38160 (43763)	Loss/tok 3.6150 (5.5087)	LR 2.000e-03
+0: TRAIN [0][920/1723]	Time 1.021 (0.963)	Data 5.36e-04 (1.28e-03)	Tok/s 49238 (43744)	Loss/tok 3.8291 (5.4917)	LR 2.000e-03
+0: TRAIN [0][930/1723]	Time 0.823 (0.962)	Data 3.70e-04 (1.27e-03)	Tok/s 37686 (43724)	Loss/tok 3.5685 (5.4750)	LR 2.000e-03
+0: TRAIN [0][940/1723]	Time 0.830 (0.962)	Data 3.81e-04 (1.26e-03)	Tok/s 37256 (43734)	Loss/tok 3.5729 (5.4574)	LR 2.000e-03
+0: TRAIN [0][950/1723]	Time 0.637 (0.962)	Data 5.63e-04 (1.26e-03)	Tok/s 24803 (43731)	Loss/tok 3.0082 (5.4405)	LR 2.000e-03
+0: TRAIN [0][960/1723]	Time 1.025 (0.962)	Data 3.62e-04 (1.25e-03)	Tok/s 49188 (43731)	Loss/tok 3.8419 (5.4236)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+0: TRAIN [0][970/1723]	Time 1.240 (0.962)	Data 3.55e-04 (1.24e-03)	Tok/s 56311 (43698)	Loss/tok 3.9862 (5.4084)	LR 2.000e-03
+0: TRAIN [0][980/1723]	Time 1.025 (0.961)	Data 3.67e-04 (1.23e-03)	Tok/s 48716 (43677)	Loss/tok 3.7802 (5.3930)	LR 2.000e-03
+0: TRAIN [0][990/1723]	Time 0.825 (0.961)	Data 3.75e-04 (1.22e-03)	Tok/s 37913 (43698)	Loss/tok 3.5092 (5.3761)	LR 2.000e-03
+0: TRAIN [0][1000/1723]	Time 0.826 (0.961)	Data 3.43e-04 (1.21e-03)	Tok/s 37629 (43697)	Loss/tok 3.5573 (5.3604)	LR 2.000e-03
+0: TRAIN [0][1010/1723]	Time 1.024 (0.962)	Data 3.85e-04 (1.21e-03)	Tok/s 49525 (43726)	Loss/tok 3.7957 (5.3438)	LR 2.000e-03
+0: TRAIN [0][1020/1723]	Time 1.240 (0.962)	Data 3.42e-04 (1.20e-03)	Tok/s 56655 (43716)	Loss/tok 3.9729 (5.3289)	LR 2.000e-03
+0: TRAIN [0][1030/1723]	Time 1.020 (0.961)	Data 3.65e-04 (1.19e-03)	Tok/s 49433 (43678)	Loss/tok 3.8317 (5.3156)	LR 2.000e-03
+0: TRAIN [0][1040/1723]	Time 0.822 (0.961)	Data 3.71e-04 (1.18e-03)	Tok/s 37832 (43675)	Loss/tok 3.4288 (5.3010)	LR 2.000e-03
+0: TRAIN [0][1050/1723]	Time 1.235 (0.961)	Data 5.64e-04 (1.18e-03)	Tok/s 56697 (43675)	Loss/tok 4.0621 (5.2867)	LR 2.000e-03
+0: TRAIN [0][1060/1723]	Time 0.817 (0.961)	Data 3.69e-04 (1.17e-03)	Tok/s 37422 (43695)	Loss/tok 3.4903 (5.2716)	LR 2.000e-03
+0: TRAIN [0][1070/1723]	Time 1.022 (0.961)	Data 5.59e-04 (1.16e-03)	Tok/s 49219 (43667)	Loss/tok 3.7667 (5.2591)	LR 2.000e-03
+0: TRAIN [0][1080/1723]	Time 1.029 (0.961)	Data 3.65e-04 (1.15e-03)	Tok/s 48980 (43691)	Loss/tok 3.7932 (5.2444)	LR 2.000e-03
+0: TRAIN [0][1090/1723]	Time 0.828 (0.961)	Data 5.25e-04 (1.15e-03)	Tok/s 37304 (43722)	Loss/tok 3.5763 (5.2293)	LR 2.000e-03
+0: TRAIN [0][1100/1723]	Time 0.822 (0.961)	Data 3.87e-04 (1.14e-03)	Tok/s 37814 (43695)	Loss/tok 3.4742 (5.2170)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+0: TRAIN [0][1110/1723]	Time 0.830 (0.961)	Data 3.80e-04 (1.13e-03)	Tok/s 37339 (43714)	Loss/tok 3.5352 (5.2028)	LR 2.000e-03
+0: TRAIN [0][1120/1723]	Time 1.021 (0.962)	Data 3.73e-04 (1.13e-03)	Tok/s 49341 (43736)	Loss/tok 3.8025 (5.1892)	LR 2.000e-03
+0: TRAIN [0][1130/1723]	Time 0.823 (0.961)	Data 3.71e-04 (1.12e-03)	Tok/s 38087 (43719)	Loss/tok 3.4562 (5.1770)	LR 2.000e-03
+0: TRAIN [0][1140/1723]	Time 0.817 (0.961)	Data 3.62e-04 (1.12e-03)	Tok/s 37691 (43733)	Loss/tok 3.5299 (5.1635)	LR 2.000e-03
+0: TRAIN [0][1150/1723]	Time 0.821 (0.962)	Data 3.86e-04 (1.11e-03)	Tok/s 37419 (43731)	Loss/tok 3.4410 (5.1513)	LR 2.000e-03
+0: TRAIN [0][1160/1723]	Time 1.235 (0.961)	Data 3.90e-04 (1.10e-03)	Tok/s 56708 (43722)	Loss/tok 3.9375 (5.1393)	LR 2.000e-03
+0: TRAIN [0][1170/1723]	Time 1.028 (0.961)	Data 5.01e-04 (1.10e-03)	Tok/s 48879 (43706)	Loss/tok 3.7532 (5.1278)	LR 2.000e-03
+0: TRAIN [0][1180/1723]	Time 1.024 (0.963)	Data 5.53e-04 (1.09e-03)	Tok/s 49531 (43776)	Loss/tok 3.6264 (5.1129)	LR 2.000e-03
+0: TRAIN [0][1190/1723]	Time 1.025 (0.962)	Data 3.51e-04 (1.09e-03)	Tok/s 49123 (43752)	Loss/tok 3.6868 (5.1020)	LR 2.000e-03
+0: TRAIN [0][1200/1723]	Time 0.828 (0.961)	Data 5.17e-04 (1.08e-03)	Tok/s 37309 (43714)	Loss/tok 3.4795 (5.0917)	LR 2.000e-03
+0: TRAIN [0][1210/1723]	Time 0.820 (0.961)	Data 3.71e-04 (1.07e-03)	Tok/s 37920 (43711)	Loss/tok 3.3850 (5.0803)	LR 2.000e-03
+0: TRAIN [0][1220/1723]	Time 1.021 (0.962)	Data 3.64e-04 (1.07e-03)	Tok/s 49601 (43754)	Loss/tok 3.6560 (5.0674)	LR 2.000e-03
+0: TRAIN [0][1230/1723]	Time 0.825 (0.961)	Data 5.14e-04 (1.06e-03)	Tok/s 37232 (43731)	Loss/tok 3.4298 (5.0570)	LR 2.000e-03
+0: TRAIN [0][1240/1723]	Time 1.023 (0.961)	Data 3.77e-04 (1.06e-03)	Tok/s 49483 (43720)	Loss/tok 3.6868 (5.0464)	LR 2.000e-03
+0: TRAIN [0][1250/1723]	Time 1.030 (0.962)	Data 3.91e-04 (1.05e-03)	Tok/s 49268 (43737)	Loss/tok 3.6602 (5.0348)	LR 2.000e-03
+0: TRAIN [0][1260/1723]	Time 0.828 (0.961)	Data 3.82e-04 (1.05e-03)	Tok/s 37353 (43718)	Loss/tok 3.4332 (5.0249)	LR 2.000e-03
+0: TRAIN [0][1270/1723]	Time 1.028 (0.961)	Data 3.75e-04 (1.04e-03)	Tok/s 48992 (43712)	Loss/tok 3.6076 (5.0145)	LR 2.000e-03
+0: TRAIN [0][1280/1723]	Time 1.242 (0.962)	Data 5.40e-04 (1.04e-03)	Tok/s 56472 (43756)	Loss/tok 3.8837 (5.0022)	LR 2.000e-03
+0: TRAIN [0][1290/1723]	Time 1.019 (0.962)	Data 5.11e-04 (1.03e-03)	Tok/s 49270 (43752)	Loss/tok 3.6624 (4.9921)	LR 2.000e-03
+0: TRAIN [0][1300/1723]	Time 1.034 (0.961)	Data 5.40e-04 (1.03e-03)	Tok/s 48748 (43730)	Loss/tok 3.6646 (4.9827)	LR 2.000e-03
+0: TRAIN [0][1310/1723]	Time 1.505 (0.961)	Data 5.71e-04 (1.02e-03)	Tok/s 59371 (43720)	Loss/tok 4.0487 (4.9729)	LR 2.000e-03
+0: TRAIN [0][1320/1723]	Time 1.027 (0.961)	Data 3.56e-04 (1.02e-03)	Tok/s 49245 (43721)	Loss/tok 3.6995 (4.9629)	LR 2.000e-03
+0: TRAIN [0][1330/1723]	Time 1.511 (0.961)	Data 3.60e-04 (1.02e-03)	Tok/s 58936 (43717)	Loss/tok 4.0128 (4.9531)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+0: TRAIN [0][1340/1723]	Time 1.500 (0.962)	Data 3.60e-04 (1.01e-03)	Tok/s 59332 (43733)	Loss/tok 4.1144 (4.9431)	LR 2.000e-03
+0: TRAIN [0][1350/1723]	Time 0.639 (0.962)	Data 3.45e-04 (1.01e-03)	Tok/s 24601 (43730)	Loss/tok 2.8478 (4.9335)	LR 2.000e-03
+0: TRAIN [0][1360/1723]	Time 1.028 (0.962)	Data 5.09e-04 (1.00e-03)	Tok/s 48785 (43728)	Loss/tok 3.7430 (4.9243)	LR 2.000e-03
+0: TRAIN [0][1370/1723]	Time 1.236 (0.962)	Data 5.30e-04 (9.98e-04)	Tok/s 56908 (43754)	Loss/tok 3.7814 (4.9137)	LR 2.000e-03
+0: TRAIN [0][1380/1723]	Time 1.023 (0.961)	Data 3.51e-04 (9.93e-04)	Tok/s 48901 (43707)	Loss/tok 3.6676 (4.9060)	LR 2.000e-03
+0: TRAIN [0][1390/1723]	Time 1.022 (0.962)	Data 5.42e-04 (9.89e-04)	Tok/s 49291 (43731)	Loss/tok 3.6478 (4.8961)	LR 2.000e-03
+0: TRAIN [0][1400/1723]	Time 1.238 (0.962)	Data 5.01e-04 (9.85e-04)	Tok/s 56486 (43769)	Loss/tok 3.8585 (4.8859)	LR 2.000e-03
+0: TRAIN [0][1410/1723]	Time 1.501 (0.963)	Data 3.92e-04 (9.81e-04)	Tok/s 59550 (43796)	Loss/tok 4.0057 (4.8762)	LR 2.000e-03
+0: TRAIN [0][1420/1723]	Time 1.501 (0.963)	Data 3.83e-04 (9.78e-04)	Tok/s 59868 (43819)	Loss/tok 3.9800 (4.8667)	LR 2.000e-03
+0: TRAIN [0][1430/1723]	Time 1.020 (0.963)	Data 3.65e-04 (9.73e-04)	Tok/s 49399 (43822)	Loss/tok 3.6065 (4.8578)	LR 2.000e-03
+0: TRAIN [0][1440/1723]	Time 0.822 (0.964)	Data 3.58e-04 (9.70e-04)	Tok/s 37624 (43826)	Loss/tok 3.3390 (4.8491)	LR 2.000e-03
+0: TRAIN [0][1450/1723]	Time 0.828 (0.963)	Data 5.63e-04 (9.66e-04)	Tok/s 37209 (43811)	Loss/tok 3.3900 (4.8411)	LR 2.000e-03
+0: TRAIN [0][1460/1723]	Time 1.021 (0.963)	Data 3.72e-04 (9.62e-04)	Tok/s 49536 (43797)	Loss/tok 3.5435 (4.8331)	LR 2.000e-03
+0: TRAIN [0][1470/1723]	Time 0.823 (0.963)	Data 3.81e-04 (9.58e-04)	Tok/s 37881 (43783)	Loss/tok 3.3398 (4.8253)	LR 2.000e-03
+0: TRAIN [0][1480/1723]	Time 0.819 (0.963)	Data 5.77e-04 (9.55e-04)	Tok/s 37489 (43800)	Loss/tok 3.3213 (4.8164)	LR 2.000e-03
+0: TRAIN [0][1490/1723]	Time 0.638 (0.963)	Data 4.08e-04 (9.51e-04)	Tok/s 24737 (43813)	Loss/tok 2.8585 (4.8078)	LR 2.000e-03
+0: TRAIN [0][1500/1723]	Time 0.644 (0.963)	Data 5.70e-04 (9.48e-04)	Tok/s 24597 (43788)	Loss/tok 2.9158 (4.8004)	LR 2.000e-03
+0: TRAIN [0][1510/1723]	Time 1.028 (0.963)	Data 3.55e-04 (9.45e-04)	Tok/s 49147 (43786)	Loss/tok 3.6247 (4.7928)	LR 2.000e-03
+0: TRAIN [0][1520/1723]	Time 1.019 (0.963)	Data 3.94e-04 (9.42e-04)	Tok/s 49811 (43792)	Loss/tok 3.6045 (4.7846)	LR 2.000e-03
+0: TRAIN [0][1530/1723]	Time 1.025 (0.963)	Data 3.64e-04 (9.38e-04)	Tok/s 49386 (43785)	Loss/tok 3.5926 (4.7769)	LR 2.000e-03
+0: TRAIN [0][1540/1723]	Time 0.630 (0.963)	Data 3.75e-04 (9.35e-04)	Tok/s 25106 (43787)	Loss/tok 2.8618 (4.7692)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+0: TRAIN [0][1550/1723]	Time 0.824 (0.963)	Data 3.91e-04 (9.32e-04)	Tok/s 37856 (43760)	Loss/tok 3.4343 (4.7625)	LR 2.000e-03
+0: TRAIN [0][1560/1723]	Time 1.249 (0.963)	Data 5.33e-04 (9.28e-04)	Tok/s 55977 (43766)	Loss/tok 3.7724 (4.7548)	LR 2.000e-03
+0: TRAIN [0][1570/1723]	Time 0.821 (0.962)	Data 5.44e-04 (9.25e-04)	Tok/s 38061 (43758)	Loss/tok 3.2897 (4.7475)	LR 2.000e-03
+0: TRAIN [0][1580/1723]	Time 0.821 (0.963)	Data 3.42e-04 (9.22e-04)	Tok/s 38096 (43759)	Loss/tok 3.3589 (4.7401)	LR 2.000e-03
+0: TRAIN [0][1590/1723]	Time 1.020 (0.962)	Data 3.58e-04 (9.19e-04)	Tok/s 49207 (43746)	Loss/tok 3.5598 (4.7331)	LR 2.000e-03
+0: TRAIN [0][1600/1723]	Time 0.821 (0.962)	Data 5.07e-04 (9.16e-04)	Tok/s 37826 (43722)	Loss/tok 3.3020 (4.7265)	LR 2.000e-03
+0: TRAIN [0][1610/1723]	Time 1.028 (0.961)	Data 3.89e-04 (9.12e-04)	Tok/s 48875 (43715)	Loss/tok 3.5440 (4.7195)	LR 2.000e-03
+0: TRAIN [0][1620/1723]	Time 0.639 (0.961)	Data 5.71e-04 (9.09e-04)	Tok/s 24842 (43703)	Loss/tok 2.8455 (4.7127)	LR 2.000e-03
+0: TRAIN [0][1630/1723]	Time 0.831 (0.961)	Data 4.14e-04 (9.06e-04)	Tok/s 37668 (43716)	Loss/tok 3.3126 (4.7053)	LR 2.000e-03
+0: TRAIN [0][1640/1723]	Time 0.638 (0.960)	Data 3.66e-04 (9.03e-04)	Tok/s 24742 (43671)	Loss/tok 2.8188 (4.6997)	LR 2.000e-03
+0: TRAIN [0][1650/1723]	Time 1.513 (0.961)	Data 5.49e-04 (9.00e-04)	Tok/s 59161 (43686)	Loss/tok 3.9444 (4.6923)	LR 2.000e-03
+0: TRAIN [0][1660/1723]	Time 0.823 (0.960)	Data 3.85e-04 (8.98e-04)	Tok/s 37842 (43655)	Loss/tok 3.3283 (4.6864)	LR 2.000e-03
+0: TRAIN [0][1670/1723]	Time 0.822 (0.960)	Data 3.76e-04 (8.95e-04)	Tok/s 37975 (43646)	Loss/tok 3.3412 (4.6799)	LR 2.000e-03
+0: TRAIN [0][1680/1723]	Time 1.242 (0.960)	Data 3.76e-04 (8.92e-04)	Tok/s 56028 (43673)	Loss/tok 3.7402 (4.6726)	LR 2.000e-03
+0: TRAIN [0][1690/1723]	Time 0.822 (0.960)	Data 3.93e-04 (8.89e-04)	Tok/s 38178 (43670)	Loss/tok 3.2857 (4.6660)	LR 2.000e-03
+0: TRAIN [0][1700/1723]	Time 0.820 (0.960)	Data 3.78e-04 (8.87e-04)	Tok/s 37919 (43670)	Loss/tok 3.3307 (4.6594)	LR 2.000e-03
+0: TRAIN [0][1710/1723]	Time 1.244 (0.960)	Data 5.22e-04 (8.84e-04)	Tok/s 56074 (43651)	Loss/tok 3.7875 (4.6535)	LR 2.000e-03
+0: TRAIN [0][1720/1723]	Time 1.236 (0.960)	Data 3.90e-04 (8.82e-04)	Tok/s 56446 (43647)	Loss/tok 3.7645 (4.6472)	LR 2.000e-03
+:::MLL 1586846918.084 epoch_stop: {"value": null, "metadata": {"epoch_num": 1, "file": "train.py", "lineno": 525}}
+:::MLL 1586846918.085 eval_start: {"value": null, "metadata": {"epoch_num": 1, "file": "train.py", "lineno": 530}}
+0: Running evaluation on test set
+0: TEST [0][0/8]	Time 0.853 (0.853)	Decoder iters 149.0 (149.0)	Tok/s 19511 (19511)
+0: Running moses detokenizer
+0: BLEU(score=19.799278850288477, counts=[35321, 16212, 8692, 4833], totals=[67493, 64490, 61487, 58489], precisions=[52.33283451617205, 25.138781206388586, 14.136321498853416, 8.26309220537195], bp=1.0, sys_len=67493, ref_len=64676)
+0: Finished evaluation on test set
+:::MLL 1586846924.360 eval_accuracy: {"value": 19.8, "metadata": {"epoch_num": 1, "file": "train.py", "lineno": 536}}
+:::MLL 1586846924.361 eval_stop: {"value": null, "metadata": {"epoch_num": 1, "file": "train.py", "lineno": 539}}
+0: Summary: Epoch: 0	Training Loss: 4.6462	Test BLEU: 19.80
+0: Performance: Epoch: 0	Training: 130919 Tok/s
+0: Finished epoch 0
+:::MLL 1586846924.361 block_stop: {"value": null, "metadata": {"first_epoch_num": 1, "file": "train.py", "lineno": 558}}
+:::MLL 1586846924.361 block_start: {"value": null, "metadata": {"first_epoch_num": 2, "epoch_count": 1, "file": "train.py", "lineno": 512}}
+:::MLL 1586846924.362 epoch_start: {"value": null, "metadata": {"epoch_num": 2, "file": "train.py", "lineno": 515}}
+0: Starting epoch 1
+0: Executing preallocation
+0: Sampler for epoch 1 uses seed 638754118
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+0: TRAIN [1][0/1723]	Time 1.276 (1.276)	Data 6.44e-01 (6.44e-01)	Tok/s 12428 (12428)	Loss/tok 2.8368 (2.8368)	LR 2.000e-03
+0: TRAIN [1][10/1723]	Time 1.025 (1.044)	Data 5.02e-04 (5.89e-02)	Tok/s 49048 (42522)	Loss/tok 3.3945 (3.5376)	LR 2.000e-03
+0: TRAIN [1][20/1723]	Time 0.820 (0.989)	Data 3.66e-04 (3.11e-02)	Tok/s 37705 (42448)	Loss/tok 3.1992 (3.4991)	LR 2.000e-03
+0: TRAIN [1][30/1723]	Time 1.236 (0.956)	Data 3.40e-04 (2.12e-02)	Tok/s 56700 (41807)	Loss/tok 3.6980 (3.4633)	LR 2.000e-03
+0: TRAIN [1][40/1723]	Time 1.025 (0.945)	Data 4.96e-04 (1.61e-02)	Tok/s 49146 (41728)	Loss/tok 3.4457 (3.4534)	LR 2.000e-03
+0: TRAIN [1][50/1723]	Time 1.511 (0.950)	Data 3.55e-04 (1.30e-02)	Tok/s 59139 (42181)	Loss/tok 3.9266 (3.4645)	LR 2.000e-03
+0: TRAIN [1][60/1723]	Time 0.824 (0.962)	Data 3.51e-04 (1.09e-02)	Tok/s 37502 (42715)	Loss/tok 3.2920 (3.4786)	LR 2.000e-03
+0: TRAIN [1][70/1723]	Time 1.023 (0.954)	Data 3.62e-04 (9.46e-03)	Tok/s 49820 (42539)	Loss/tok 3.4751 (3.4718)	LR 2.000e-03
+0: TRAIN [1][80/1723]	Time 1.021 (0.948)	Data 3.42e-04 (8.33e-03)	Tok/s 49199 (42468)	Loss/tok 3.5597 (3.4637)	LR 2.000e-03
+0: TRAIN [1][90/1723]	Time 1.021 (0.958)	Data 4.96e-04 (7.47e-03)	Tok/s 49090 (43013)	Loss/tok 3.4610 (3.4747)	LR 2.000e-03
+0: TRAIN [1][100/1723]	Time 0.823 (0.953)	Data 3.56e-04 (6.76e-03)	Tok/s 37135 (42891)	Loss/tok 3.3076 (3.4654)	LR 2.000e-03
+0: TRAIN [1][110/1723]	Time 1.242 (0.951)	Data 3.37e-04 (6.19e-03)	Tok/s 56374 (42834)	Loss/tok 3.6890 (3.4648)	LR 2.000e-03
+0: TRAIN [1][120/1723]	Time 1.238 (0.956)	Data 3.55e-04 (5.71e-03)	Tok/s 56402 (43137)	Loss/tok 3.6747 (3.4702)	LR 2.000e-03
+0: TRAIN [1][130/1723]	Time 1.024 (0.953)	Data 3.42e-04 (5.30e-03)	Tok/s 49226 (43168)	Loss/tok 3.4543 (3.4644)	LR 2.000e-03
+0: TRAIN [1][140/1723]	Time 0.638 (0.953)	Data 3.55e-04 (4.96e-03)	Tok/s 24833 (43140)	Loss/tok 2.8111 (3.4651)	LR 2.000e-03
+0: TRAIN [1][150/1723]	Time 0.821 (0.954)	Data 3.58e-04 (4.65e-03)	Tok/s 37907 (43249)	Loss/tok 3.2649 (3.4642)	LR 2.000e-03
+0: TRAIN [1][160/1723]	Time 0.819 (0.958)	Data 5.42e-04 (4.39e-03)	Tok/s 37697 (43435)	Loss/tok 3.2440 (3.4671)	LR 2.000e-03
+0: TRAIN [1][170/1723]	Time 1.020 (0.957)	Data 3.37e-04 (4.16e-03)	Tok/s 49244 (43496)	Loss/tok 3.4749 (3.4621)	LR 2.000e-03
+0: TRAIN [1][180/1723]	Time 0.825 (0.959)	Data 3.21e-04 (3.95e-03)	Tok/s 37525 (43607)	Loss/tok 3.2302 (3.4644)	LR 2.000e-03
+0: TRAIN [1][190/1723]	Time 0.830 (0.955)	Data 3.63e-04 (3.76e-03)	Tok/s 37169 (43444)	Loss/tok 3.2491 (3.4615)	LR 2.000e-03
+0: TRAIN [1][200/1723]	Time 0.635 (0.954)	Data 3.37e-04 (3.59e-03)	Tok/s 24959 (43376)	Loss/tok 2.7833 (3.4615)	LR 2.000e-03
+0: TRAIN [1][210/1723]	Time 1.236 (0.956)	Data 5.10e-04 (3.44e-03)	Tok/s 56588 (43472)	Loss/tok 3.6249 (3.4633)	LR 2.000e-03
+0: TRAIN [1][220/1723]	Time 0.821 (0.959)	Data 5.35e-04 (3.30e-03)	Tok/s 37952 (43573)	Loss/tok 3.2022 (3.4672)	LR 2.000e-03
+0: TRAIN [1][230/1723]	Time 0.821 (0.957)	Data 3.86e-04 (3.17e-03)	Tok/s 37887 (43481)	Loss/tok 3.3059 (3.4648)	LR 2.000e-03
+0: TRAIN [1][240/1723]	Time 0.833 (0.953)	Data 3.68e-04 (3.06e-03)	Tok/s 37090 (43310)	Loss/tok 3.2496 (3.4605)	LR 2.000e-03
+0: TRAIN [1][250/1723]	Time 0.829 (0.954)	Data 5.55e-04 (2.95e-03)	Tok/s 37341 (43331)	Loss/tok 3.2658 (3.4622)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+0: TRAIN [1][260/1723]	Time 1.030 (0.957)	Data 3.53e-04 (2.86e-03)	Tok/s 48907 (43433)	Loss/tok 3.5096 (3.4714)	LR 2.000e-03
+0: TRAIN [1][270/1723]	Time 0.825 (0.958)	Data 5.39e-04 (2.77e-03)	Tok/s 37772 (43469)	Loss/tok 3.2128 (3.4722)	LR 2.000e-03
+0: TRAIN [1][280/1723]	Time 0.634 (0.955)	Data 3.82e-04 (2.68e-03)	Tok/s 24951 (43314)	Loss/tok 2.7836 (3.4689)	LR 2.000e-03
+0: TRAIN [1][290/1723]	Time 1.251 (0.951)	Data 3.70e-04 (2.60e-03)	Tok/s 56286 (43184)	Loss/tok 3.6464 (3.4644)	LR 2.000e-03
+0: TRAIN [1][300/1723]	Time 0.833 (0.953)	Data 3.89e-04 (2.53e-03)	Tok/s 36943 (43270)	Loss/tok 3.2638 (3.4647)	LR 2.000e-03
+0: TRAIN [1][310/1723]	Time 1.507 (0.957)	Data 3.60e-04 (2.46e-03)	Tok/s 59599 (43441)	Loss/tok 3.8376 (3.4691)	LR 2.000e-03
+0: TRAIN [1][320/1723]	Time 0.820 (0.960)	Data 5.51e-04 (2.40e-03)	Tok/s 37673 (43538)	Loss/tok 3.2581 (3.4722)	LR 2.000e-03
+0: TRAIN [1][330/1723]	Time 1.027 (0.961)	Data 3.61e-04 (2.34e-03)	Tok/s 48798 (43658)	Loss/tok 3.5120 (3.4723)	LR 2.000e-03
+0: TRAIN [1][340/1723]	Time 1.021 (0.959)	Data 3.60e-04 (2.28e-03)	Tok/s 49100 (43593)	Loss/tok 3.4895 (3.4709)	LR 2.000e-03
+0: TRAIN [1][350/1723]	Time 1.024 (0.959)	Data 3.70e-04 (2.23e-03)	Tok/s 48810 (43525)	Loss/tok 3.4766 (3.4710)	LR 2.000e-03
+0: TRAIN [1][360/1723]	Time 0.642 (0.958)	Data 5.35e-04 (2.18e-03)	Tok/s 24590 (43455)	Loss/tok 2.7616 (3.4703)	LR 2.000e-03
+0: TRAIN [1][370/1723]	Time 0.826 (0.959)	Data 3.65e-04 (2.13e-03)	Tok/s 36750 (43471)	Loss/tok 3.1526 (3.4716)	LR 2.000e-03
+0: TRAIN [1][380/1723]	Time 1.021 (0.960)	Data 3.48e-04 (2.09e-03)	Tok/s 49063 (43582)	Loss/tok 3.5032 (3.4706)	LR 2.000e-03
+0: TRAIN [1][390/1723]	Time 1.238 (0.960)	Data 5.04e-04 (2.05e-03)	Tok/s 57283 (43613)	Loss/tok 3.5792 (3.4694)	LR 2.000e-03
+0: TRAIN [1][400/1723]	Time 0.826 (0.961)	Data 3.62e-04 (2.00e-03)	Tok/s 37889 (43665)	Loss/tok 3.2949 (3.4693)	LR 2.000e-03
+0: TRAIN [1][410/1723]	Time 0.827 (0.960)	Data 3.52e-04 (1.97e-03)	Tok/s 37769 (43580)	Loss/tok 3.2926 (3.4695)	LR 2.000e-03
+0: TRAIN [1][420/1723]	Time 0.823 (0.959)	Data 3.68e-04 (1.93e-03)	Tok/s 37571 (43601)	Loss/tok 3.2005 (3.4678)	LR 2.000e-03
+0: TRAIN [1][430/1723]	Time 1.018 (0.959)	Data 3.62e-04 (1.89e-03)	Tok/s 49680 (43579)	Loss/tok 3.4772 (3.4675)	LR 2.000e-03
+0: TRAIN [1][440/1723]	Time 0.823 (0.958)	Data 3.51e-04 (1.86e-03)	Tok/s 37403 (43538)	Loss/tok 3.2367 (3.4657)	LR 2.000e-03
+0: TRAIN [1][450/1723]	Time 0.824 (0.959)	Data 3.69e-04 (1.83e-03)	Tok/s 37787 (43610)	Loss/tok 3.2012 (3.4661)	LR 2.000e-03
+0: TRAIN [1][460/1723]	Time 0.823 (0.960)	Data 3.60e-04 (1.80e-03)	Tok/s 37877 (43627)	Loss/tok 3.2621 (3.4656)	LR 2.000e-03
+0: TRAIN [1][470/1723]	Time 0.828 (0.962)	Data 3.60e-04 (1.77e-03)	Tok/s 37017 (43683)	Loss/tok 3.2245 (3.4697)	LR 2.000e-03
+0: TRAIN [1][480/1723]	Time 0.824 (0.960)	Data 5.42e-04 (1.74e-03)	Tok/s 37605 (43616)	Loss/tok 3.1597 (3.4680)	LR 2.000e-03
+0: TRAIN [1][490/1723]	Time 0.632 (0.958)	Data 3.69e-04 (1.71e-03)	Tok/s 24954 (43536)	Loss/tok 2.7743 (3.4647)	LR 2.000e-03
+0: TRAIN [1][500/1723]	Time 0.823 (0.957)	Data 3.78e-04 (1.69e-03)	Tok/s 37424 (43444)	Loss/tok 3.1595 (3.4629)	LR 2.000e-03
+0: TRAIN [1][510/1723]	Time 1.243 (0.959)	Data 3.63e-04 (1.66e-03)	Tok/s 56755 (43565)	Loss/tok 3.6478 (3.4648)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [1][520/1723]	Time 0.824 (0.961)	Data 3.69e-04 (1.64e-03)	Tok/s 37923 (43610)	Loss/tok 3.2257 (3.4670)	LR 2.000e-03
+0: TRAIN [1][530/1723]	Time 1.026 (0.959)	Data 3.60e-04 (1.61e-03)	Tok/s 48713 (43537)	Loss/tok 3.4896 (3.4645)	LR 2.000e-03
+0: TRAIN [1][540/1723]	Time 0.824 (0.959)	Data 3.67e-04 (1.59e-03)	Tok/s 37987 (43546)	Loss/tok 3.2314 (3.4632)	LR 2.000e-03
+0: TRAIN [1][550/1723]	Time 0.822 (0.957)	Data 3.71e-04 (1.57e-03)	Tok/s 37733 (43482)	Loss/tok 3.1875 (3.4616)	LR 2.000e-03
+0: TRAIN [1][560/1723]	Time 0.826 (0.958)	Data 5.60e-04 (1.55e-03)	Tok/s 37758 (43528)	Loss/tok 3.1383 (3.4621)	LR 2.000e-03
+0: TRAIN [1][570/1723]	Time 1.029 (0.958)	Data 5.45e-04 (1.53e-03)	Tok/s 48799 (43536)	Loss/tok 3.4855 (3.4608)	LR 2.000e-03
+0: TRAIN [1][580/1723]	Time 0.821 (0.957)	Data 4.93e-04 (1.51e-03)	Tok/s 38089 (43489)	Loss/tok 3.1600 (3.4598)	LR 2.000e-03
+0: TRAIN [1][590/1723]	Time 0.829 (0.957)	Data 3.46e-04 (1.49e-03)	Tok/s 36762 (43470)	Loss/tok 3.2335 (3.4589)	LR 2.000e-03
+0: TRAIN [1][600/1723]	Time 0.635 (0.955)	Data 3.60e-04 (1.47e-03)	Tok/s 25075 (43401)	Loss/tok 2.7816 (3.4569)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+0: TRAIN [1][610/1723]	Time 0.824 (0.957)	Data 3.62e-04 (1.46e-03)	Tok/s 37734 (43426)	Loss/tok 3.2015 (3.4581)	LR 2.000e-03
+0: TRAIN [1][620/1723]	Time 1.237 (0.957)	Data 3.45e-04 (1.44e-03)	Tok/s 56358 (43479)	Loss/tok 3.6174 (3.4580)	LR 2.000e-03
+0: TRAIN [1][630/1723]	Time 1.021 (0.958)	Data 3.58e-04 (1.42e-03)	Tok/s 49123 (43509)	Loss/tok 3.4010 (3.4586)	LR 2.000e-03
+0: TRAIN [1][640/1723]	Time 0.826 (0.958)	Data 3.50e-04 (1.41e-03)	Tok/s 37306 (43487)	Loss/tok 3.2169 (3.4578)	LR 2.000e-03
+0: TRAIN [1][650/1723]	Time 1.018 (0.960)	Data 3.56e-04 (1.39e-03)	Tok/s 49397 (43608)	Loss/tok 3.3858 (3.4595)	LR 2.000e-03
+0: TRAIN [1][660/1723]	Time 1.237 (0.960)	Data 3.45e-04 (1.38e-03)	Tok/s 56793 (43601)	Loss/tok 3.6264 (3.4588)	LR 2.000e-03
+0: TRAIN [1][670/1723]	Time 0.824 (0.959)	Data 3.52e-04 (1.36e-03)	Tok/s 37570 (43574)	Loss/tok 3.1928 (3.4570)	LR 2.000e-03
+0: TRAIN [1][680/1723]	Time 0.823 (0.960)	Data 5.61e-04 (1.35e-03)	Tok/s 37560 (43591)	Loss/tok 3.2240 (3.4575)	LR 2.000e-03
+0: TRAIN [1][690/1723]	Time 0.824 (0.963)	Data 5.49e-04 (1.34e-03)	Tok/s 37841 (43721)	Loss/tok 3.2104 (3.4600)	LR 2.000e-03
+0: TRAIN [1][700/1723]	Time 0.824 (0.962)	Data 3.49e-04 (1.32e-03)	Tok/s 37711 (43666)	Loss/tok 3.2457 (3.4590)	LR 2.000e-03
+0: TRAIN [1][710/1723]	Time 0.825 (0.962)	Data 4.99e-04 (1.31e-03)	Tok/s 37253 (43665)	Loss/tok 3.1981 (3.4599)	LR 2.000e-03
+0: TRAIN [1][720/1723]	Time 1.026 (0.963)	Data 3.65e-04 (1.30e-03)	Tok/s 49055 (43696)	Loss/tok 3.3676 (3.4592)	LR 2.000e-03
+0: TRAIN [1][730/1723]	Time 0.825 (0.962)	Data 5.44e-04 (1.29e-03)	Tok/s 37280 (43659)	Loss/tok 3.2077 (3.4574)	LR 2.000e-03
+0: TRAIN [1][740/1723]	Time 1.507 (0.962)	Data 3.65e-04 (1.27e-03)	Tok/s 59318 (43646)	Loss/tok 3.7649 (3.4569)	LR 2.000e-03
+0: TRAIN [1][750/1723]	Time 1.026 (0.962)	Data 3.65e-04 (1.26e-03)	Tok/s 48849 (43667)	Loss/tok 3.4741 (3.4561)	LR 2.000e-03
+0: TRAIN [1][760/1723]	Time 1.017 (0.962)	Data 3.38e-04 (1.25e-03)	Tok/s 49788 (43661)	Loss/tok 3.4175 (3.4554)	LR 2.000e-03
+0: TRAIN [1][770/1723]	Time 0.641 (0.960)	Data 3.52e-04 (1.24e-03)	Tok/s 24890 (43607)	Loss/tok 2.7962 (3.4536)	LR 2.000e-03
+0: TRAIN [1][780/1723]	Time 0.820 (0.959)	Data 3.56e-04 (1.23e-03)	Tok/s 37465 (43561)	Loss/tok 3.1385 (3.4516)	LR 2.000e-03
+0: TRAIN [1][790/1723]	Time 1.024 (0.959)	Data 5.37e-04 (1.22e-03)	Tok/s 48631 (43555)	Loss/tok 3.4929 (3.4520)	LR 2.000e-03
+0: TRAIN [1][800/1723]	Time 0.826 (0.959)	Data 3.53e-04 (1.21e-03)	Tok/s 37696 (43545)	Loss/tok 3.1430 (3.4515)	LR 2.000e-03
+0: TRAIN [1][810/1723]	Time 0.825 (0.958)	Data 3.42e-04 (1.20e-03)	Tok/s 37295 (43499)	Loss/tok 3.1909 (3.4496)	LR 2.000e-03
+0: TRAIN [1][820/1723]	Time 0.827 (0.958)	Data 3.55e-04 (1.19e-03)	Tok/s 37044 (43492)	Loss/tok 3.1785 (3.4482)	LR 2.000e-03
+0: TRAIN [1][830/1723]	Time 1.027 (0.957)	Data 3.63e-04 (1.18e-03)	Tok/s 49047 (43457)	Loss/tok 3.3186 (3.4471)	LR 2.000e-03
+0: TRAIN [1][840/1723]	Time 1.238 (0.957)	Data 3.41e-04 (1.17e-03)	Tok/s 56314 (43472)	Loss/tok 3.6093 (3.4466)	LR 2.000e-03
+0: TRAIN [1][850/1723]	Time 1.021 (0.958)	Data 3.67e-04 (1.16e-03)	Tok/s 49195 (43486)	Loss/tok 3.4608 (3.4463)	LR 2.000e-03
+0: TRAIN [1][860/1723]	Time 0.824 (0.957)	Data 3.57e-04 (1.15e-03)	Tok/s 37465 (43471)	Loss/tok 3.1821 (3.4448)	LR 2.000e-03
+0: TRAIN [1][870/1723]	Time 1.242 (0.957)	Data 3.56e-04 (1.14e-03)	Tok/s 56096 (43485)	Loss/tok 3.6239 (3.4442)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [1][880/1723]	Time 1.248 (0.958)	Data 5.02e-04 (1.13e-03)	Tok/s 55886 (43505)	Loss/tok 3.5901 (3.4445)	LR 2.000e-03
+0: TRAIN [1][890/1723]	Time 1.026 (0.958)	Data 3.52e-04 (1.12e-03)	Tok/s 49494 (43515)	Loss/tok 3.3244 (3.4439)	LR 2.000e-03
+0: TRAIN [1][900/1723]	Time 1.233 (0.960)	Data 3.46e-04 (1.12e-03)	Tok/s 56596 (43585)	Loss/tok 3.5984 (3.4452)	LR 2.000e-03
+0: TRAIN [1][910/1723]	Time 0.824 (0.960)	Data 5.05e-04 (1.11e-03)	Tok/s 37279 (43567)	Loss/tok 3.1397 (3.4446)	LR 2.000e-03
+0: TRAIN [1][920/1723]	Time 0.818 (0.959)	Data 5.02e-04 (1.10e-03)	Tok/s 37545 (43561)	Loss/tok 3.0870 (3.4436)	LR 2.000e-03
+0: TRAIN [1][930/1723]	Time 0.631 (0.957)	Data 5.64e-04 (1.09e-03)	Tok/s 24736 (43454)	Loss/tok 2.7067 (3.4415)	LR 2.000e-03
+0: TRAIN [1][940/1723]	Time 0.824 (0.958)	Data 3.53e-04 (1.09e-03)	Tok/s 37415 (43493)	Loss/tok 3.1632 (3.4418)	LR 2.000e-03
+0: TRAIN [1][950/1723]	Time 1.025 (0.958)	Data 3.23e-04 (1.08e-03)	Tok/s 49105 (43476)	Loss/tok 3.3673 (3.4412)	LR 2.000e-03
+0: TRAIN [1][960/1723]	Time 0.826 (0.958)	Data 3.73e-04 (1.07e-03)	Tok/s 37433 (43484)	Loss/tok 3.1773 (3.4407)	LR 2.000e-03
+0: TRAIN [1][970/1723]	Time 1.021 (0.958)	Data 3.75e-04 (1.06e-03)	Tok/s 49355 (43516)	Loss/tok 3.3637 (3.4400)	LR 2.000e-03
+0: TRAIN [1][980/1723]	Time 0.823 (0.959)	Data 3.60e-04 (1.06e-03)	Tok/s 37356 (43537)	Loss/tok 3.2026 (3.4404)	LR 2.000e-03
+0: TRAIN [1][990/1723]	Time 0.823 (0.959)	Data 3.73e-04 (1.05e-03)	Tok/s 37764 (43540)	Loss/tok 3.1775 (3.4397)	LR 2.000e-03
+0: TRAIN [1][1000/1723]	Time 0.818 (0.958)	Data 5.42e-04 (1.05e-03)	Tok/s 38008 (43537)	Loss/tok 3.1671 (3.4394)	LR 2.000e-03
+0: TRAIN [1][1010/1723]	Time 0.828 (0.959)	Data 3.75e-04 (1.04e-03)	Tok/s 36934 (43548)	Loss/tok 3.1990 (3.4389)	LR 2.000e-03
+0: TRAIN [1][1020/1723]	Time 0.821 (0.959)	Data 3.57e-04 (1.03e-03)	Tok/s 38073 (43542)	Loss/tok 3.1637 (3.4393)	LR 2.000e-03
+0: TRAIN [1][1030/1723]	Time 1.247 (0.959)	Data 3.70e-04 (1.03e-03)	Tok/s 56411 (43556)	Loss/tok 3.4987 (3.4396)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [1][1040/1723]	Time 0.827 (0.959)	Data 6.15e-04 (1.02e-03)	Tok/s 37640 (43552)	Loss/tok 3.1413 (3.4390)	LR 2.000e-03
+0: TRAIN [1][1050/1723]	Time 0.640 (0.960)	Data 3.82e-04 (1.02e-03)	Tok/s 24591 (43545)	Loss/tok 2.8149 (3.4392)	LR 2.000e-03
+0: TRAIN [1][1060/1723]	Time 0.827 (0.959)	Data 3.71e-04 (1.01e-03)	Tok/s 37479 (43527)	Loss/tok 3.1638 (3.4381)	LR 2.000e-03
+0: TRAIN [1][1070/1723]	Time 0.636 (0.958)	Data 5.60e-04 (1.00e-03)	Tok/s 24778 (43487)	Loss/tok 2.6986 (3.4367)	LR 2.000e-03
+0: TRAIN [1][1080/1723]	Time 1.237 (0.958)	Data 3.87e-04 (9.98e-04)	Tok/s 56981 (43461)	Loss/tok 3.6592 (3.4362)	LR 2.000e-03
+0: TRAIN [1][1090/1723]	Time 1.243 (0.958)	Data 5.55e-04 (9.93e-04)	Tok/s 56398 (43449)	Loss/tok 3.6193 (3.4356)	LR 2.000e-03
+0: TRAIN [1][1100/1723]	Time 1.028 (0.957)	Data 3.69e-04 (9.88e-04)	Tok/s 48998 (43444)	Loss/tok 3.4094 (3.4348)	LR 2.000e-03
+0: TRAIN [1][1110/1723]	Time 1.238 (0.958)	Data 3.76e-04 (9.82e-04)	Tok/s 56628 (43463)	Loss/tok 3.4826 (3.4344)	LR 2.000e-03
+0: TRAIN [1][1120/1723]	Time 1.234 (0.958)	Data 3.89e-04 (9.77e-04)	Tok/s 56747 (43471)	Loss/tok 3.5809 (3.4339)	LR 2.000e-03
+0: TRAIN [1][1130/1723]	Time 1.241 (0.958)	Data 5.21e-04 (9.72e-04)	Tok/s 56577 (43497)	Loss/tok 3.4781 (3.4340)	LR 2.000e-03
+0: TRAIN [1][1140/1723]	Time 0.830 (0.959)	Data 5.35e-04 (9.67e-04)	Tok/s 37407 (43512)	Loss/tok 3.1420 (3.4332)	LR 2.000e-03
+0: TRAIN [1][1150/1723]	Time 1.025 (0.958)	Data 3.60e-04 (9.63e-04)	Tok/s 48975 (43465)	Loss/tok 3.4110 (3.4323)	LR 2.000e-03
+0: TRAIN [1][1160/1723]	Time 0.819 (0.958)	Data 3.65e-04 (9.58e-04)	Tok/s 37658 (43484)	Loss/tok 3.2286 (3.4320)	LR 2.000e-03
+0: TRAIN [1][1170/1723]	Time 0.827 (0.958)	Data 3.72e-04 (9.53e-04)	Tok/s 37686 (43476)	Loss/tok 3.1717 (3.4318)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [1][1180/1723]	Time 0.637 (0.959)	Data 3.59e-04 (9.49e-04)	Tok/s 24938 (43504)	Loss/tok 2.7596 (3.4321)	LR 2.000e-03
+0: TRAIN [1][1190/1723]	Time 1.239 (0.959)	Data 3.67e-04 (9.45e-04)	Tok/s 55977 (43512)	Loss/tok 3.5933 (3.4319)	LR 2.000e-03
+0: TRAIN [1][1200/1723]	Time 1.019 (0.960)	Data 3.63e-04 (9.40e-04)	Tok/s 49561 (43543)	Loss/tok 3.4190 (3.4316)	LR 2.000e-03
+0: TRAIN [1][1210/1723]	Time 0.822 (0.960)	Data 3.60e-04 (9.35e-04)	Tok/s 37685 (43572)	Loss/tok 3.1683 (3.4317)	LR 2.000e-03
+0: TRAIN [1][1220/1723]	Time 0.635 (0.959)	Data 3.69e-04 (9.31e-04)	Tok/s 25099 (43539)	Loss/tok 2.7381 (3.4305)	LR 2.000e-03
+0: TRAIN [1][1230/1723]	Time 0.830 (0.958)	Data 3.64e-04 (9.27e-04)	Tok/s 37499 (43477)	Loss/tok 3.1407 (3.4293)	LR 2.000e-03
+0: TRAIN [1][1240/1723]	Time 1.023 (0.960)	Data 5.15e-04 (9.23e-04)	Tok/s 49243 (43531)	Loss/tok 3.3420 (3.4298)	LR 2.000e-03
+0: TRAIN [1][1250/1723]	Time 0.631 (0.959)	Data 3.76e-04 (9.19e-04)	Tok/s 24508 (43505)	Loss/tok 2.6800 (3.4288)	LR 2.000e-03
+0: TRAIN [1][1260/1723]	Time 1.027 (0.959)	Data 5.68e-04 (9.15e-04)	Tok/s 49007 (43527)	Loss/tok 3.3029 (3.4287)	LR 2.000e-03
+0: TRAIN [1][1270/1723]	Time 1.027 (0.960)	Data 5.18e-04 (9.11e-04)	Tok/s 48868 (43548)	Loss/tok 3.3761 (3.4286)	LR 2.000e-03
+0: TRAIN [1][1280/1723]	Time 1.236 (0.960)	Data 3.64e-04 (9.07e-04)	Tok/s 56842 (43576)	Loss/tok 3.5747 (3.4288)	LR 2.000e-03
+0: TRAIN [1][1290/1723]	Time 1.239 (0.960)	Data 3.72e-04 (9.03e-04)	Tok/s 56590 (43562)	Loss/tok 3.6104 (3.4280)	LR 2.000e-03
+0: TRAIN [1][1300/1723]	Time 1.021 (0.960)	Data 5.36e-04 (8.99e-04)	Tok/s 49267 (43560)	Loss/tok 3.3446 (3.4272)	LR 2.000e-03
+0: TRAIN [1][1310/1723]	Time 0.630 (0.959)	Data 3.48e-04 (8.95e-04)	Tok/s 25007 (43552)	Loss/tok 2.6649 (3.4266)	LR 2.000e-03
+0: TRAIN [1][1320/1723]	Time 1.237 (0.960)	Data 3.70e-04 (8.91e-04)	Tok/s 56671 (43580)	Loss/tok 3.5598 (3.4262)	LR 2.000e-03
+0: TRAIN [1][1330/1723]	Time 1.241 (0.959)	Data 3.71e-04 (8.88e-04)	Tok/s 56164 (43562)	Loss/tok 3.5639 (3.4254)	LR 2.000e-03
+0: TRAIN [1][1340/1723]	Time 0.825 (0.960)	Data 3.81e-04 (8.84e-04)	Tok/s 37304 (43564)	Loss/tok 3.1314 (3.4249)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [1][1350/1723]	Time 1.506 (0.960)	Data 5.09e-04 (8.81e-04)	Tok/s 59581 (43580)	Loss/tok 3.7111 (3.4255)	LR 2.000e-03
+0: TRAIN [1][1360/1723]	Time 1.031 (0.960)	Data 3.69e-04 (8.77e-04)	Tok/s 48889 (43565)	Loss/tok 3.3239 (3.4246)	LR 2.000e-03
+0: TRAIN [1][1370/1723]	Time 0.828 (0.960)	Data 3.77e-04 (8.74e-04)	Tok/s 37223 (43573)	Loss/tok 3.2044 (3.4244)	LR 2.000e-03
+0: TRAIN [1][1380/1723]	Time 0.827 (0.960)	Data 3.59e-04 (8.71e-04)	Tok/s 38349 (43569)	Loss/tok 3.1050 (3.4238)	LR 2.000e-03
+0: TRAIN [1][1390/1723]	Time 1.029 (0.959)	Data 4.86e-04 (8.68e-04)	Tok/s 48752 (43550)	Loss/tok 3.3692 (3.4226)	LR 2.000e-03
+0: TRAIN [1][1400/1723]	Time 1.019 (0.960)	Data 3.50e-04 (8.64e-04)	Tok/s 49403 (43576)	Loss/tok 3.3718 (3.4221)	LR 2.000e-03
+0: TRAIN [1][1410/1723]	Time 0.827 (0.960)	Data 5.20e-04 (8.61e-04)	Tok/s 37832 (43579)	Loss/tok 3.1455 (3.4217)	LR 2.000e-03
+0: TRAIN [1][1420/1723]	Time 0.824 (0.959)	Data 3.92e-04 (8.58e-04)	Tok/s 37824 (43553)	Loss/tok 3.0899 (3.4205)	LR 2.000e-03
+0: TRAIN [1][1430/1723]	Time 0.825 (0.959)	Data 3.54e-04 (8.55e-04)	Tok/s 37708 (43544)	Loss/tok 3.1347 (3.4197)	LR 2.000e-03
+0: TRAIN [1][1440/1723]	Time 1.020 (0.959)	Data 5.29e-04 (8.52e-04)	Tok/s 49354 (43574)	Loss/tok 3.3577 (3.4197)	LR 2.000e-03
+0: TRAIN [1][1450/1723]	Time 1.247 (0.959)	Data 5.22e-04 (8.49e-04)	Tok/s 55824 (43575)	Loss/tok 3.5785 (3.4194)	LR 2.000e-03
+0: TRAIN [1][1460/1723]	Time 1.500 (0.959)	Data 3.71e-04 (8.46e-04)	Tok/s 59216 (43564)	Loss/tok 3.7475 (3.4190)	LR 2.000e-03
+0: TRAIN [1][1470/1723]	Time 1.023 (0.960)	Data 5.32e-04 (8.43e-04)	Tok/s 49183 (43570)	Loss/tok 3.3754 (3.4190)	LR 2.000e-03
+0: TRAIN [1][1480/1723]	Time 1.023 (0.960)	Data 3.49e-04 (8.40e-04)	Tok/s 48793 (43603)	Loss/tok 3.3563 (3.4191)	LR 2.000e-03
+0: TRAIN [1][1490/1723]	Time 1.023 (0.960)	Data 5.11e-04 (8.37e-04)	Tok/s 49241 (43591)	Loss/tok 3.3810 (3.4184)	LR 2.000e-03
+0: TRAIN [1][1500/1723]	Time 0.822 (0.960)	Data 3.55e-04 (8.35e-04)	Tok/s 37785 (43591)	Loss/tok 3.1596 (3.4179)	LR 2.000e-03
+0: TRAIN [1][1510/1723]	Time 1.237 (0.960)	Data 3.46e-04 (8.32e-04)	Tok/s 56244 (43623)	Loss/tok 3.5524 (3.4180)	LR 2.000e-03
+0: TRAIN [1][1520/1723]	Time 0.827 (0.961)	Data 5.07e-04 (8.29e-04)	Tok/s 37062 (43636)	Loss/tok 3.1562 (3.4179)	LR 2.000e-03
+0: TRAIN [1][1530/1723]	Time 0.828 (0.961)	Data 3.61e-04 (8.26e-04)	Tok/s 37692 (43664)	Loss/tok 3.2702 (3.4183)	LR 2.000e-03
+0: TRAIN [1][1540/1723]	Time 0.825 (0.961)	Data 5.09e-04 (8.24e-04)	Tok/s 37564 (43663)	Loss/tok 3.1139 (3.4182)	LR 2.000e-03
+0: TRAIN [1][1550/1723]	Time 0.821 (0.961)	Data 3.52e-04 (8.21e-04)	Tok/s 37895 (43626)	Loss/tok 3.2032 (3.4173)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [1][1560/1723]	Time 0.823 (0.961)	Data 5.19e-04 (8.18e-04)	Tok/s 37863 (43632)	Loss/tok 3.1382 (3.4173)	LR 2.000e-03
+0: TRAIN [1][1570/1723]	Time 0.642 (0.961)	Data 5.33e-04 (8.16e-04)	Tok/s 24594 (43648)	Loss/tok 2.7006 (3.4170)	LR 2.000e-03
+0: TRAIN [1][1580/1723]	Time 0.826 (0.960)	Data 5.36e-04 (8.13e-04)	Tok/s 37261 (43624)	Loss/tok 3.1382 (3.4159)	LR 2.000e-03
+0: TRAIN [1][1590/1723]	Time 1.243 (0.961)	Data 3.50e-04 (8.11e-04)	Tok/s 56330 (43655)	Loss/tok 3.5427 (3.4158)	LR 2.000e-03
+0: TRAIN [1][1600/1723]	Time 0.825 (0.960)	Data 3.44e-04 (8.09e-04)	Tok/s 37820 (43624)	Loss/tok 3.1992 (3.4147)	LR 2.000e-03
+0: TRAIN [1][1610/1723]	Time 1.503 (0.961)	Data 3.58e-04 (8.06e-04)	Tok/s 59861 (43650)	Loss/tok 3.6522 (3.4148)	LR 2.000e-03
+0: TRAIN [1][1620/1723]	Time 0.635 (0.961)	Data 3.39e-04 (8.03e-04)	Tok/s 25064 (43629)	Loss/tok 2.7050 (3.4140)	LR 2.000e-03
+0: TRAIN [1][1630/1723]	Time 0.828 (0.960)	Data 3.54e-04 (8.01e-04)	Tok/s 37101 (43627)	Loss/tok 3.0799 (3.4137)	LR 2.000e-03
+0: TRAIN [1][1640/1723]	Time 1.029 (0.960)	Data 3.68e-04 (7.98e-04)	Tok/s 48766 (43633)	Loss/tok 3.3662 (3.4130)	LR 2.000e-03
+0: TRAIN [1][1650/1723]	Time 1.503 (0.961)	Data 5.58e-04 (7.96e-04)	Tok/s 59303 (43640)	Loss/tok 3.7233 (3.4128)	LR 2.000e-03
+0: TRAIN [1][1660/1723]	Time 0.828 (0.961)	Data 3.83e-04 (7.93e-04)	Tok/s 37508 (43630)	Loss/tok 3.1085 (3.4128)	LR 2.000e-03
+0: TRAIN [1][1670/1723]	Time 0.825 (0.961)	Data 3.67e-04 (7.91e-04)	Tok/s 37606 (43625)	Loss/tok 3.0837 (3.4124)	LR 2.000e-03
+0: TRAIN [1][1680/1723]	Time 1.236 (0.961)	Data 3.63e-04 (7.89e-04)	Tok/s 56712 (43653)	Loss/tok 3.5418 (3.4128)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [1][1690/1723]	Time 1.024 (0.961)	Data 3.81e-04 (7.87e-04)	Tok/s 49012 (43642)	Loss/tok 3.3593 (3.4127)	LR 2.000e-03
+0: TRAIN [1][1700/1723]	Time 0.827 (0.961)	Data 4.25e-04 (7.85e-04)	Tok/s 37261 (43658)	Loss/tok 3.1590 (3.4122)	LR 2.000e-03
+0: TRAIN [1][1710/1723]	Time 1.026 (0.961)	Data 3.71e-04 (7.82e-04)	Tok/s 49042 (43647)	Loss/tok 3.3593 (3.4115)	LR 2.000e-03
+0: TRAIN [1][1720/1723]	Time 1.027 (0.960)	Data 3.64e-04 (7.80e-04)	Tok/s 48910 (43602)	Loss/tok 3.2780 (3.4105)	LR 2.000e-03
+:::MLL 1586848580.635 epoch_stop: {"value": null, "metadata": {"epoch_num": 2, "file": "train.py", "lineno": 525}}
+:::MLL 1586848580.636 eval_start: {"value": null, "metadata": {"epoch_num": 2, "file": "train.py", "lineno": 530}}
+0: Running evaluation on test set
+0: TEST [1][0/8]	Time 0.808 (0.808)	Decoder iters 131.0 (131.0)	Tok/s 20423 (20423)
+0: Running moses detokenizer
+0: BLEU(score=21.896884750604453, counts=[36174, 17448, 9624, 5521], totals=[66395, 63392, 60390, 57392], precisions=[54.48301829957075, 27.523977788995456, 15.936413313462493, 9.619807638695288], bp=1.0, sys_len=66395, ref_len=64676)
+0: Finished evaluation on test set
+:::MLL 1586848586.552 eval_accuracy: {"value": 21.9, "metadata": {"epoch_num": 2, "file": "train.py", "lineno": 536}}
+:::MLL 1586848586.552 eval_stop: {"value": null, "metadata": {"epoch_num": 2, "file": "train.py", "lineno": 539}}
+0: Summary: Epoch: 1	Training Loss: 3.4098	Test BLEU: 21.90
+0: Performance: Epoch: 1	Training: 130814 Tok/s
+0: Finished epoch 1
+:::MLL 1586848586.553 block_stop: {"value": null, "metadata": {"first_epoch_num": 2, "file": "train.py", "lineno": 558}}
+:::MLL 1586848586.553 block_start: {"value": null, "metadata": {"first_epoch_num": 3, "epoch_count": 1, "file": "train.py", "lineno": 512}}
+:::MLL 1586848586.553 epoch_start: {"value": null, "metadata": {"epoch_num": 3, "file": "train.py", "lineno": 515}}
+0: Starting epoch 2
+0: Executing preallocation
+0: Sampler for epoch 2 uses seed 3876443141
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+0: TRAIN [2][0/1723]	Time 1.656 (1.656)	Data 6.10e-01 (6.10e-01)	Tok/s 30426 (30426)	Loss/tok 3.2367 (3.2367)	LR 2.000e-03
+0: TRAIN [2][10/1723]	Time 1.025 (0.979)	Data 3.33e-04 (5.58e-02)	Tok/s 48647 (40057)	Loss/tok 3.2824 (3.2343)	LR 2.000e-03
+0: TRAIN [2][20/1723]	Time 1.516 (1.050)	Data 3.53e-04 (2.94e-02)	Tok/s 58427 (44836)	Loss/tok 3.6690 (3.3333)	LR 2.000e-03
+0: TRAIN [2][30/1723]	Time 0.822 (1.045)	Data 3.42e-04 (2.00e-02)	Tok/s 37201 (45657)	Loss/tok 3.0984 (3.3265)	LR 2.000e-03
+0: TRAIN [2][40/1723]	Time 0.822 (1.032)	Data 3.31e-04 (1.53e-02)	Tok/s 37841 (45619)	Loss/tok 3.0785 (3.3154)	LR 2.000e-03
+0: TRAIN [2][50/1723]	Time 0.638 (1.015)	Data 3.49e-04 (1.23e-02)	Tok/s 25233 (45308)	Loss/tok 2.6378 (3.2986)	LR 2.000e-03
+0: TRAIN [2][60/1723]	Time 1.031 (0.998)	Data 3.35e-04 (1.04e-02)	Tok/s 49121 (44715)	Loss/tok 3.2947 (3.2840)	LR 2.000e-03
+0: TRAIN [2][70/1723]	Time 1.020 (0.991)	Data 3.49e-04 (8.96e-03)	Tok/s 49424 (44489)	Loss/tok 3.2613 (3.2811)	LR 2.000e-03
+0: TRAIN [2][80/1723]	Time 1.243 (0.987)	Data 3.32e-04 (7.90e-03)	Tok/s 56258 (44278)	Loss/tok 3.4156 (3.2803)	LR 2.000e-03
+0: TRAIN [2][90/1723]	Time 1.243 (0.985)	Data 5.01e-04 (7.08e-03)	Tok/s 56524 (44269)	Loss/tok 3.4167 (3.2796)	LR 2.000e-03
+0: TRAIN [2][100/1723]	Time 0.821 (0.973)	Data 3.43e-04 (6.42e-03)	Tok/s 38227 (43813)	Loss/tok 3.0855 (3.2679)	LR 2.000e-03
+0: TRAIN [2][110/1723]	Time 1.248 (0.977)	Data 5.59e-04 (5.88e-03)	Tok/s 56127 (43988)	Loss/tok 3.4384 (3.2735)	LR 2.000e-03
+0: TRAIN [2][120/1723]	Time 0.639 (0.970)	Data 3.83e-04 (5.43e-03)	Tok/s 25045 (43707)	Loss/tok 2.6674 (3.2652)	LR 2.000e-03
+0: TRAIN [2][130/1723]	Time 0.821 (0.962)	Data 6.08e-04 (5.05e-03)	Tok/s 38039 (43334)	Loss/tok 3.0337 (3.2602)	LR 2.000e-03
+0: TRAIN [2][140/1723]	Time 1.027 (0.968)	Data 3.80e-04 (4.72e-03)	Tok/s 48903 (43712)	Loss/tok 3.2402 (3.2655)	LR 2.000e-03
+0: TRAIN [2][150/1723]	Time 1.025 (0.970)	Data 5.18e-04 (4.43e-03)	Tok/s 49410 (43822)	Loss/tok 3.2750 (3.2683)	LR 2.000e-03
+0: TRAIN [2][160/1723]	Time 1.028 (0.972)	Data 5.02e-04 (4.19e-03)	Tok/s 49014 (43994)	Loss/tok 3.2976 (3.2699)	LR 2.000e-03
+0: TRAIN [2][170/1723]	Time 1.245 (0.967)	Data 3.46e-04 (3.97e-03)	Tok/s 56356 (43786)	Loss/tok 3.3802 (3.2651)	LR 2.000e-03
+0: TRAIN [2][180/1723]	Time 0.823 (0.968)	Data 3.66e-04 (3.77e-03)	Tok/s 37284 (43903)	Loss/tok 3.0516 (3.2645)	LR 2.000e-03
+0: TRAIN [2][190/1723]	Time 0.825 (0.964)	Data 3.79e-04 (3.59e-03)	Tok/s 37787 (43759)	Loss/tok 3.0557 (3.2596)	LR 2.000e-03
+0: TRAIN [2][200/1723]	Time 0.823 (0.967)	Data 3.80e-04 (3.43e-03)	Tok/s 37923 (43835)	Loss/tok 3.1032 (3.2642)	LR 2.000e-03
+0: TRAIN [2][210/1723]	Time 0.824 (0.964)	Data 3.50e-04 (3.29e-03)	Tok/s 37330 (43681)	Loss/tok 3.0619 (3.2633)	LR 2.000e-03
+0: TRAIN [2][220/1723]	Time 0.637 (0.964)	Data 1.14e-03 (3.16e-03)	Tok/s 24717 (43634)	Loss/tok 2.6497 (3.2649)	LR 2.000e-03
+0: TRAIN [2][230/1723]	Time 1.021 (0.962)	Data 3.84e-04 (3.05e-03)	Tok/s 49439 (43526)	Loss/tok 3.2726 (3.2629)	LR 2.000e-03
+0: TRAIN [2][240/1723]	Time 1.251 (0.964)	Data 3.67e-04 (2.94e-03)	Tok/s 55998 (43655)	Loss/tok 3.3935 (3.2642)	LR 2.000e-03
+0: TRAIN [2][250/1723]	Time 1.030 (0.961)	Data 3.58e-04 (2.84e-03)	Tok/s 48992 (43601)	Loss/tok 3.3474 (3.2615)	LR 2.000e-03
+0: TRAIN [2][260/1723]	Time 0.829 (0.963)	Data 3.45e-04 (2.74e-03)	Tok/s 37574 (43685)	Loss/tok 3.0342 (3.2624)	LR 2.000e-03
+0: TRAIN [2][270/1723]	Time 0.829 (0.962)	Data 3.42e-04 (2.66e-03)	Tok/s 37560 (43672)	Loss/tok 3.0517 (3.2618)	LR 2.000e-03
+0: TRAIN [2][280/1723]	Time 0.637 (0.957)	Data 5.14e-04 (2.58e-03)	Tok/s 24951 (43402)	Loss/tok 2.6597 (3.2569)	LR 2.000e-03
+0: TRAIN [2][290/1723]	Time 1.024 (0.963)	Data 3.52e-04 (2.50e-03)	Tok/s 49172 (43621)	Loss/tok 3.2174 (3.2651)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 4096.0
+0: TRAIN [2][300/1723]	Time 1.505 (0.967)	Data 4.99e-04 (2.43e-03)	Tok/s 59586 (43738)	Loss/tok 3.6898 (3.2737)	LR 2.000e-03
+0: TRAIN [2][310/1723]	Time 0.821 (0.965)	Data 5.17e-04 (2.37e-03)	Tok/s 37637 (43625)	Loss/tok 3.0834 (3.2737)	LR 2.000e-03
+0: TRAIN [2][320/1723]	Time 0.822 (0.963)	Data 5.39e-04 (2.31e-03)	Tok/s 37533 (43523)	Loss/tok 3.0253 (3.2705)	LR 2.000e-03
+0: TRAIN [2][330/1723]	Time 1.022 (0.962)	Data 5.00e-04 (2.25e-03)	Tok/s 49141 (43499)	Loss/tok 3.3061 (3.2693)	LR 2.000e-03
+0: TRAIN [2][340/1723]	Time 1.027 (0.965)	Data 5.01e-04 (2.20e-03)	Tok/s 48867 (43635)	Loss/tok 3.3071 (3.2712)	LR 2.000e-03
+0: TRAIN [2][350/1723]	Time 1.020 (0.965)	Data 3.56e-04 (2.15e-03)	Tok/s 49671 (43678)	Loss/tok 3.2125 (3.2725)	LR 2.000e-03
+0: TRAIN [2][360/1723]	Time 1.026 (0.968)	Data 3.56e-04 (2.10e-03)	Tok/s 49549 (43785)	Loss/tok 3.2571 (3.2749)	LR 2.000e-03
+0: TRAIN [2][370/1723]	Time 1.502 (0.973)	Data 5.27e-04 (2.05e-03)	Tok/s 59220 (43958)	Loss/tok 3.6315 (3.2806)	LR 2.000e-03
+0: TRAIN [2][380/1723]	Time 0.827 (0.974)	Data 3.41e-04 (2.01e-03)	Tok/s 37364 (44028)	Loss/tok 3.0973 (3.2813)	LR 2.000e-03
+0: TRAIN [2][390/1723]	Time 0.638 (0.974)	Data 3.45e-04 (1.97e-03)	Tok/s 24735 (43971)	Loss/tok 2.6453 (3.2825)	LR 2.000e-03
+0: TRAIN [2][400/1723]	Time 1.029 (0.972)	Data 4.99e-04 (1.93e-03)	Tok/s 48950 (43912)	Loss/tok 3.2028 (3.2808)	LR 2.000e-03
+0: TRAIN [2][410/1723]	Time 0.823 (0.970)	Data 3.78e-04 (1.89e-03)	Tok/s 37723 (43813)	Loss/tok 3.0411 (3.2778)	LR 2.000e-03
+0: TRAIN [2][420/1723]	Time 0.825 (0.970)	Data 3.42e-04 (1.86e-03)	Tok/s 37813 (43858)	Loss/tok 3.1120 (3.2781)	LR 2.000e-03
+0: TRAIN [2][430/1723]	Time 0.637 (0.970)	Data 3.64e-04 (1.83e-03)	Tok/s 25078 (43825)	Loss/tok 2.6302 (3.2799)	LR 2.000e-03
+0: TRAIN [2][440/1723]	Time 1.025 (0.971)	Data 5.40e-04 (1.80e-03)	Tok/s 49271 (43841)	Loss/tok 3.2415 (3.2809)	LR 2.000e-03
+0: TRAIN [2][450/1723]	Time 1.252 (0.973)	Data 3.71e-04 (1.77e-03)	Tok/s 55662 (43909)	Loss/tok 3.3781 (3.2816)	LR 2.000e-03
+0: TRAIN [2][460/1723]	Time 0.832 (0.970)	Data 3.55e-04 (1.74e-03)	Tok/s 37186 (43785)	Loss/tok 3.0983 (3.2791)	LR 2.000e-03
+0: TRAIN [2][470/1723]	Time 1.027 (0.969)	Data 3.52e-04 (1.71e-03)	Tok/s 49148 (43745)	Loss/tok 3.2532 (3.2785)	LR 2.000e-03
+0: TRAIN [2][480/1723]	Time 1.508 (0.967)	Data 3.11e-04 (1.68e-03)	Tok/s 58605 (43600)	Loss/tok 3.6779 (3.2775)	LR 2.000e-03
+0: TRAIN [2][490/1723]	Time 0.821 (0.965)	Data 3.25e-04 (1.65e-03)	Tok/s 37702 (43520)	Loss/tok 2.9945 (3.2751)	LR 2.000e-03
+0: TRAIN [2][500/1723]	Time 0.824 (0.963)	Data 3.93e-04 (1.63e-03)	Tok/s 37431 (43460)	Loss/tok 3.1044 (3.2738)	LR 2.000e-03
+0: TRAIN [2][510/1723]	Time 0.829 (0.964)	Data 5.12e-04 (1.60e-03)	Tok/s 37543 (43502)	Loss/tok 3.0364 (3.2742)	LR 2.000e-03
+0: TRAIN [2][520/1723]	Time 1.026 (0.963)	Data 4.85e-04 (1.58e-03)	Tok/s 49095 (43464)	Loss/tok 3.3338 (3.2743)	LR 2.000e-03
+0: TRAIN [2][530/1723]	Time 0.635 (0.963)	Data 3.48e-04 (1.56e-03)	Tok/s 24765 (43449)	Loss/tok 2.6121 (3.2744)	LR 2.000e-03
+0: TRAIN [2][540/1723]	Time 1.018 (0.964)	Data 3.36e-04 (1.54e-03)	Tok/s 49930 (43492)	Loss/tok 3.2300 (3.2754)	LR 2.000e-03
+0: TRAIN [2][550/1723]	Time 0.636 (0.964)	Data 3.52e-04 (1.52e-03)	Tok/s 25057 (43454)	Loss/tok 2.6328 (3.2756)	LR 2.000e-03
+0: TRAIN [2][560/1723]	Time 0.825 (0.963)	Data 3.44e-04 (1.50e-03)	Tok/s 38157 (43421)	Loss/tok 3.0853 (3.2744)	LR 2.000e-03
+0: TRAIN [2][570/1723]	Time 0.825 (0.963)	Data 3.56e-04 (1.48e-03)	Tok/s 37216 (43450)	Loss/tok 3.0672 (3.2744)	LR 2.000e-03
+0: TRAIN [2][580/1723]	Time 1.235 (0.963)	Data 3.31e-04 (1.46e-03)	Tok/s 56529 (43479)	Loss/tok 3.4578 (3.2751)	LR 2.000e-03
+0: TRAIN [2][590/1723]	Time 1.236 (0.961)	Data 3.45e-04 (1.44e-03)	Tok/s 56599 (43389)	Loss/tok 3.3817 (3.2733)	LR 2.000e-03
+0: TRAIN [2][600/1723]	Time 0.821 (0.960)	Data 3.41e-04 (1.42e-03)	Tok/s 38031 (43354)	Loss/tok 3.0996 (3.2727)	LR 2.000e-03
+0: TRAIN [2][610/1723]	Time 0.826 (0.961)	Data 3.70e-04 (1.41e-03)	Tok/s 37762 (43376)	Loss/tok 3.0344 (3.2733)	LR 2.000e-03
+0: TRAIN [2][620/1723]	Time 0.826 (0.959)	Data 5.25e-04 (1.39e-03)	Tok/s 37545 (43310)	Loss/tok 3.1045 (3.2717)	LR 2.000e-03
+0: TRAIN [2][630/1723]	Time 0.824 (0.959)	Data 3.92e-04 (1.38e-03)	Tok/s 37675 (43304)	Loss/tok 3.0360 (3.2715)	LR 2.000e-03
+0: TRAIN [2][640/1723]	Time 0.827 (0.960)	Data 5.27e-04 (1.36e-03)	Tok/s 37500 (43335)	Loss/tok 3.1061 (3.2717)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [2][650/1723]	Time 1.026 (0.960)	Data 3.60e-04 (1.35e-03)	Tok/s 49193 (43353)	Loss/tok 3.2724 (3.2731)	LR 2.000e-03
+0: TRAIN [2][660/1723]	Time 1.245 (0.960)	Data 3.60e-04 (1.33e-03)	Tok/s 55766 (43355)	Loss/tok 3.4985 (3.2731)	LR 2.000e-03
+0: TRAIN [2][670/1723]	Time 0.825 (0.961)	Data 5.36e-04 (1.32e-03)	Tok/s 37366 (43392)	Loss/tok 3.0822 (3.2732)	LR 2.000e-03
+0: TRAIN [2][680/1723]	Time 1.248 (0.960)	Data 3.46e-04 (1.30e-03)	Tok/s 55972 (43382)	Loss/tok 3.4430 (3.2727)	LR 2.000e-03
+0: TRAIN [2][690/1723]	Time 1.020 (0.959)	Data 5.01e-04 (1.29e-03)	Tok/s 49745 (43321)	Loss/tok 3.2958 (3.2716)	LR 2.000e-03
+0: TRAIN [2][700/1723]	Time 0.824 (0.959)	Data 4.90e-04 (1.28e-03)	Tok/s 37546 (43313)	Loss/tok 3.0159 (3.2705)	LR 2.000e-03
+0: TRAIN [2][710/1723]	Time 0.827 (0.958)	Data 5.01e-04 (1.27e-03)	Tok/s 37509 (43300)	Loss/tok 3.0707 (3.2700)	LR 2.000e-03
+0: TRAIN [2][720/1723]	Time 0.831 (0.958)	Data 3.40e-04 (1.25e-03)	Tok/s 36850 (43292)	Loss/tok 3.1268 (3.2704)	LR 2.000e-03
+0: TRAIN [2][730/1723]	Time 0.821 (0.958)	Data 3.56e-04 (1.24e-03)	Tok/s 37583 (43309)	Loss/tok 3.0100 (3.2701)	LR 2.000e-03
+0: TRAIN [2][740/1723]	Time 0.828 (0.958)	Data 5.00e-04 (1.23e-03)	Tok/s 37472 (43330)	Loss/tok 3.0569 (3.2699)	LR 2.000e-03
+0: TRAIN [2][750/1723]	Time 0.821 (0.958)	Data 5.78e-04 (1.22e-03)	Tok/s 37392 (43297)	Loss/tok 3.0722 (3.2697)	LR 2.000e-03
+0: TRAIN [2][760/1723]	Time 1.507 (0.958)	Data 3.43e-04 (1.21e-03)	Tok/s 60051 (43259)	Loss/tok 3.6912 (3.2704)	LR 2.000e-03
+0: TRAIN [2][770/1723]	Time 0.826 (0.957)	Data 3.36e-04 (1.20e-03)	Tok/s 37621 (43245)	Loss/tok 3.0179 (3.2695)	LR 2.000e-03
+0: TRAIN [2][780/1723]	Time 1.028 (0.957)	Data 4.84e-04 (1.19e-03)	Tok/s 48669 (43246)	Loss/tok 3.2939 (3.2695)	LR 2.000e-03
+0: TRAIN [2][790/1723]	Time 1.244 (0.958)	Data 3.55e-04 (1.18e-03)	Tok/s 56523 (43303)	Loss/tok 3.4674 (3.2707)	LR 2.000e-03
+0: TRAIN [2][800/1723]	Time 1.026 (0.958)	Data 4.99e-04 (1.17e-03)	Tok/s 49125 (43284)	Loss/tok 3.2043 (3.2702)	LR 2.000e-03
+0: TRAIN [2][810/1723]	Time 1.242 (0.958)	Data 3.65e-04 (1.16e-03)	Tok/s 56492 (43301)	Loss/tok 3.4103 (3.2699)	LR 2.000e-03
+0: TRAIN [2][820/1723]	Time 0.819 (0.958)	Data 5.07e-04 (1.15e-03)	Tok/s 37855 (43329)	Loss/tok 3.0788 (3.2702)	LR 2.000e-03
+0: TRAIN [2][830/1723]	Time 1.028 (0.960)	Data 3.45e-04 (1.14e-03)	Tok/s 49525 (43369)	Loss/tok 3.3478 (3.2720)	LR 2.000e-03
+0: TRAIN [2][840/1723]	Time 0.822 (0.959)	Data 3.56e-04 (1.13e-03)	Tok/s 37802 (43343)	Loss/tok 3.0219 (3.2706)	LR 2.000e-03
+0: TRAIN [2][850/1723]	Time 0.826 (0.959)	Data 5.13e-04 (1.12e-03)	Tok/s 36890 (43364)	Loss/tok 3.0900 (3.2702)	LR 2.000e-03
+0: TRAIN [2][860/1723]	Time 1.021 (0.959)	Data 3.39e-04 (1.11e-03)	Tok/s 49215 (43378)	Loss/tok 3.2853 (3.2708)	LR 2.000e-03
+0: TRAIN [2][870/1723]	Time 1.023 (0.959)	Data 3.37e-04 (1.11e-03)	Tok/s 49475 (43361)	Loss/tok 3.2573 (3.2705)	LR 2.000e-03
+0: TRAIN [2][880/1723]	Time 1.240 (0.960)	Data 3.47e-04 (1.10e-03)	Tok/s 56329 (43385)	Loss/tok 3.4367 (3.2713)	LR 2.000e-03
+0: TRAIN [2][890/1723]	Time 0.639 (0.960)	Data 4.92e-04 (1.09e-03)	Tok/s 24734 (43400)	Loss/tok 2.5940 (3.2713)	LR 2.000e-03
+0: TRAIN [2][900/1723]	Time 0.817 (0.959)	Data 5.11e-04 (1.08e-03)	Tok/s 37415 (43365)	Loss/tok 3.1696 (3.2712)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+0: TRAIN [2][910/1723]	Time 1.025 (0.959)	Data 5.12e-04 (1.08e-03)	Tok/s 49098 (43365)	Loss/tok 3.2502 (3.2705)	LR 2.000e-03
+0: TRAIN [2][920/1723]	Time 1.244 (0.961)	Data 3.79e-04 (1.07e-03)	Tok/s 56158 (43424)	Loss/tok 3.3700 (3.2722)	LR 2.000e-03
+0: TRAIN [2][930/1723]	Time 0.824 (0.962)	Data 5.54e-04 (1.06e-03)	Tok/s 37410 (43483)	Loss/tok 3.0366 (3.2725)	LR 2.000e-03
+0: TRAIN [2][940/1723]	Time 1.023 (0.962)	Data 3.47e-04 (1.06e-03)	Tok/s 48788 (43534)	Loss/tok 3.3304 (3.2730)	LR 2.000e-03
+0: TRAIN [2][950/1723]	Time 1.243 (0.963)	Data 3.58e-04 (1.05e-03)	Tok/s 55953 (43558)	Loss/tok 3.4376 (3.2738)	LR 2.000e-03
+0: TRAIN [2][960/1723]	Time 0.820 (0.963)	Data 4.90e-04 (1.04e-03)	Tok/s 37596 (43529)	Loss/tok 3.0581 (3.2733)	LR 2.000e-03
+0: TRAIN [2][970/1723]	Time 1.237 (0.962)	Data 5.66e-04 (1.04e-03)	Tok/s 56400 (43523)	Loss/tok 3.4333 (3.2726)	LR 2.000e-03
+0: TRAIN [2][980/1723]	Time 0.830 (0.961)	Data 3.73e-04 (1.03e-03)	Tok/s 37452 (43491)	Loss/tok 3.0081 (3.2718)	LR 2.000e-03
+0: TRAIN [2][990/1723]	Time 1.026 (0.962)	Data 5.67e-04 (1.02e-03)	Tok/s 49098 (43521)	Loss/tok 3.2530 (3.2720)	LR 2.000e-03
+0: TRAIN [2][1000/1723]	Time 1.501 (0.963)	Data 3.85e-04 (1.02e-03)	Tok/s 59554 (43546)	Loss/tok 3.5513 (3.2729)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [2][1010/1723]	Time 0.827 (0.963)	Data 5.39e-04 (1.01e-03)	Tok/s 37415 (43550)	Loss/tok 3.0662 (3.2730)	LR 2.000e-03
+0: TRAIN [2][1020/1723]	Time 0.820 (0.963)	Data 3.84e-04 (1.01e-03)	Tok/s 37944 (43567)	Loss/tok 3.0556 (3.2741)	LR 2.000e-03
+0: TRAIN [2][1030/1723]	Time 0.640 (0.963)	Data 5.69e-04 (1.00e-03)	Tok/s 24698 (43549)	Loss/tok 2.6078 (3.2735)	LR 2.000e-03
+0: TRAIN [2][1040/1723]	Time 1.249 (0.963)	Data 3.81e-04 (9.95e-04)	Tok/s 56365 (43576)	Loss/tok 3.3617 (3.2735)	LR 2.000e-03
+0: TRAIN [2][1050/1723]	Time 0.826 (0.963)	Data 3.53e-04 (9.90e-04)	Tok/s 37431 (43536)	Loss/tok 2.9713 (3.2735)	LR 2.000e-03
+0: TRAIN [2][1060/1723]	Time 1.022 (0.963)	Data 3.68e-04 (9.84e-04)	Tok/s 48823 (43542)	Loss/tok 3.2748 (3.2739)	LR 2.000e-03
+0: TRAIN [2][1070/1723]	Time 1.027 (0.963)	Data 5.45e-04 (9.79e-04)	Tok/s 48803 (43525)	Loss/tok 3.2715 (3.2736)	LR 2.000e-03
+0: TRAIN [2][1080/1723]	Time 1.239 (0.963)	Data 5.38e-04 (9.75e-04)	Tok/s 56174 (43535)	Loss/tok 3.5074 (3.2737)	LR 2.000e-03
+0: TRAIN [2][1090/1723]	Time 0.634 (0.963)	Data 5.46e-04 (9.70e-04)	Tok/s 24779 (43534)	Loss/tok 2.6108 (3.2736)	LR 2.000e-03
+0: TRAIN [2][1100/1723]	Time 0.639 (0.963)	Data 3.52e-04 (9.65e-04)	Tok/s 24658 (43552)	Loss/tok 2.6042 (3.2740)	LR 2.000e-03
+0: TRAIN [2][1110/1723]	Time 1.019 (0.964)	Data 3.64e-04 (9.60e-04)	Tok/s 49484 (43569)	Loss/tok 3.2408 (3.2741)	LR 2.000e-03
+0: TRAIN [2][1120/1723]	Time 0.822 (0.963)	Data 3.63e-04 (9.55e-04)	Tok/s 37777 (43553)	Loss/tok 3.0246 (3.2735)	LR 2.000e-03
+0: TRAIN [2][1130/1723]	Time 0.637 (0.963)	Data 3.78e-04 (9.50e-04)	Tok/s 24929 (43535)	Loss/tok 2.6273 (3.2729)	LR 2.000e-03
+0: TRAIN [2][1140/1723]	Time 0.820 (0.963)	Data 5.36e-04 (9.46e-04)	Tok/s 37417 (43550)	Loss/tok 3.0284 (3.2725)	LR 2.000e-03
+0: TRAIN [2][1150/1723]	Time 1.024 (0.963)	Data 3.62e-04 (9.41e-04)	Tok/s 49257 (43585)	Loss/tok 3.2897 (3.2724)	LR 2.000e-03
+0: TRAIN [2][1160/1723]	Time 0.641 (0.963)	Data 5.30e-04 (9.37e-04)	Tok/s 24994 (43594)	Loss/tok 2.6327 (3.2726)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [2][1170/1723]	Time 1.245 (0.964)	Data 5.40e-04 (9.32e-04)	Tok/s 56543 (43621)	Loss/tok 3.4007 (3.2734)	LR 2.000e-03
+0: TRAIN [2][1180/1723]	Time 0.823 (0.964)	Data 3.64e-04 (9.28e-04)	Tok/s 37898 (43633)	Loss/tok 3.0428 (3.2734)	LR 2.000e-03
+0: TRAIN [2][1190/1723]	Time 1.024 (0.964)	Data 3.64e-04 (9.24e-04)	Tok/s 49094 (43646)	Loss/tok 3.2534 (3.2737)	LR 2.000e-03
+0: TRAIN [2][1200/1723]	Time 1.024 (0.964)	Data 3.62e-04 (9.19e-04)	Tok/s 49001 (43613)	Loss/tok 3.2716 (3.2726)	LR 2.000e-03
+0: TRAIN [2][1210/1723]	Time 1.240 (0.964)	Data 5.45e-04 (9.15e-04)	Tok/s 56126 (43610)	Loss/tok 3.5032 (3.2728)	LR 2.000e-03
+0: TRAIN [2][1220/1723]	Time 1.019 (0.964)	Data 3.55e-04 (9.11e-04)	Tok/s 49296 (43640)	Loss/tok 3.2363 (3.2733)	LR 2.000e-03
+0: TRAIN [2][1230/1723]	Time 1.027 (0.964)	Data 4.04e-04 (9.08e-04)	Tok/s 49207 (43627)	Loss/tok 3.2934 (3.2725)	LR 2.000e-03
+0: TRAIN [2][1240/1723]	Time 1.028 (0.964)	Data 3.70e-04 (9.03e-04)	Tok/s 48860 (43619)	Loss/tok 3.1939 (3.2718)	LR 2.000e-03
+0: TRAIN [2][1250/1723]	Time 0.824 (0.963)	Data 5.54e-04 (9.00e-04)	Tok/s 38122 (43604)	Loss/tok 3.0171 (3.2711)	LR 2.000e-03
+0: TRAIN [2][1260/1723]	Time 0.824 (0.964)	Data 3.48e-04 (8.96e-04)	Tok/s 37285 (43610)	Loss/tok 3.1095 (3.2720)	LR 2.000e-03
+0: TRAIN [2][1270/1723]	Time 1.246 (0.964)	Data 3.67e-04 (8.92e-04)	Tok/s 56533 (43628)	Loss/tok 3.4389 (3.2718)	LR 2.000e-03
+0: TRAIN [2][1280/1723]	Time 0.823 (0.963)	Data 5.06e-04 (8.88e-04)	Tok/s 37763 (43608)	Loss/tok 3.0841 (3.2709)	LR 2.000e-03
+0: TRAIN [2][1290/1723]	Time 0.825 (0.962)	Data 3.57e-04 (8.85e-04)	Tok/s 37256 (43551)	Loss/tok 3.0935 (3.2697)	LR 2.000e-03
+0: TRAIN [2][1300/1723]	Time 1.022 (0.962)	Data 5.08e-04 (8.81e-04)	Tok/s 48931 (43553)	Loss/tok 3.3268 (3.2694)	LR 2.000e-03
+0: TRAIN [2][1310/1723]	Time 1.027 (0.961)	Data 3.52e-04 (8.77e-04)	Tok/s 49195 (43528)	Loss/tok 3.2362 (3.2685)	LR 2.000e-03
+0: TRAIN [2][1320/1723]	Time 0.829 (0.961)	Data 3.60e-04 (8.74e-04)	Tok/s 37466 (43513)	Loss/tok 3.0711 (3.2682)	LR 2.000e-03
+0: TRAIN [2][1330/1723]	Time 0.635 (0.961)	Data 3.60e-04 (8.70e-04)	Tok/s 24659 (43495)	Loss/tok 2.5995 (3.2676)	LR 2.000e-03
+0: TRAIN [2][1340/1723]	Time 0.827 (0.961)	Data 3.57e-04 (8.67e-04)	Tok/s 37397 (43490)	Loss/tok 3.0333 (3.2676)	LR 2.000e-03
+0: TRAIN [2][1350/1723]	Time 1.031 (0.961)	Data 5.23e-04 (8.63e-04)	Tok/s 49113 (43513)	Loss/tok 3.2258 (3.2677)	LR 2.000e-03
+0: TRAIN [2][1360/1723]	Time 1.026 (0.961)	Data 3.69e-04 (8.60e-04)	Tok/s 49488 (43518)	Loss/tok 3.2584 (3.2674)	LR 2.000e-03
+0: TRAIN [2][1370/1723]	Time 1.502 (0.961)	Data 3.65e-04 (8.57e-04)	Tok/s 59366 (43521)	Loss/tok 3.6369 (3.2674)	LR 2.000e-03
+0: TRAIN [2][1380/1723]	Time 0.825 (0.961)	Data 3.59e-04 (8.54e-04)	Tok/s 38019 (43532)	Loss/tok 3.0347 (3.2670)	LR 2.000e-03
+0: TRAIN [2][1390/1723]	Time 0.634 (0.961)	Data 3.71e-04 (8.50e-04)	Tok/s 24879 (43524)	Loss/tok 2.5572 (3.2666)	LR 2.000e-03
+0: TRAIN [2][1400/1723]	Time 0.825 (0.961)	Data 3.82e-04 (8.48e-04)	Tok/s 37203 (43542)	Loss/tok 3.0862 (3.2669)	LR 2.000e-03
+0: TRAIN [2][1410/1723]	Time 1.240 (0.962)	Data 3.59e-04 (8.45e-04)	Tok/s 56469 (43555)	Loss/tok 3.4091 (3.2670)	LR 2.000e-03
+0: TRAIN [2][1420/1723]	Time 1.024 (0.962)	Data 3.71e-04 (8.42e-04)	Tok/s 49105 (43565)	Loss/tok 3.2330 (3.2673)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+0: TRAIN [2][1430/1723]	Time 0.831 (0.962)	Data 3.65e-04 (8.38e-04)	Tok/s 37140 (43556)	Loss/tok 3.0961 (3.2669)	LR 2.000e-03
+0: TRAIN [2][1440/1723]	Time 1.027 (0.962)	Data 3.58e-04 (8.35e-04)	Tok/s 49288 (43554)	Loss/tok 3.3104 (3.2670)	LR 2.000e-03
+0: TRAIN [2][1450/1723]	Time 1.022 (0.962)	Data 5.30e-04 (8.33e-04)	Tok/s 49072 (43583)	Loss/tok 3.2254 (3.2676)	LR 2.000e-03
+0: TRAIN [2][1460/1723]	Time 1.025 (0.961)	Data 3.60e-04 (8.30e-04)	Tok/s 49537 (43549)	Loss/tok 3.2531 (3.2668)	LR 2.000e-03
+0: TRAIN [2][1470/1723]	Time 0.822 (0.961)	Data 5.37e-04 (8.27e-04)	Tok/s 37633 (43541)	Loss/tok 3.0336 (3.2664)	LR 2.000e-03
+0: TRAIN [2][1480/1723]	Time 0.827 (0.961)	Data 3.57e-04 (8.24e-04)	Tok/s 37570 (43531)	Loss/tok 3.0124 (3.2662)	LR 2.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [2][1490/1723]	Time 0.832 (0.961)	Data 5.28e-04 (8.21e-04)	Tok/s 37276 (43534)	Loss/tok 3.1015 (3.2663)	LR 2.000e-03
+0: TRAIN [2][1500/1723]	Time 1.034 (0.961)	Data 5.25e-04 (8.19e-04)	Tok/s 48645 (43541)	Loss/tok 3.2628 (3.2666)	LR 2.000e-03
+0: TRAIN [2][1510/1723]	Time 0.822 (0.962)	Data 5.55e-04 (8.16e-04)	Tok/s 37833 (43553)	Loss/tok 3.0158 (3.2671)	LR 2.000e-03
+0: TRAIN [2][1520/1723]	Time 1.244 (0.962)	Data 5.66e-04 (8.13e-04)	Tok/s 56196 (43569)	Loss/tok 3.4264 (3.2670)	LR 2.000e-03
+0: TRAIN [2][1530/1723]	Time 0.825 (0.962)	Data 3.68e-04 (8.11e-04)	Tok/s 37963 (43590)	Loss/tok 3.0645 (3.2678)	LR 2.000e-03
+0: TRAIN [2][1540/1723]	Time 1.025 (0.962)	Data 3.52e-04 (8.08e-04)	Tok/s 49154 (43593)	Loss/tok 3.2919 (3.2676)	LR 2.000e-03
+0: TRAIN [2][1550/1723]	Time 0.824 (0.962)	Data 3.59e-04 (8.05e-04)	Tok/s 37570 (43596)	Loss/tok 3.0610 (3.2674)	LR 2.000e-03
+0: TRAIN [2][1560/1723]	Time 0.823 (0.961)	Data 5.38e-04 (8.03e-04)	Tok/s 38143 (43549)	Loss/tok 3.1025 (3.2664)	LR 2.000e-03
+0: TRAIN [2][1570/1723]	Time 1.022 (0.961)	Data 5.09e-04 (8.00e-04)	Tok/s 49369 (43555)	Loss/tok 3.2512 (3.2664)	LR 2.000e-03
+0: TRAIN [2][1580/1723]	Time 0.821 (0.961)	Data 3.62e-04 (7.98e-04)	Tok/s 37412 (43554)	Loss/tok 3.1011 (3.2659)	LR 2.000e-03
+0: TRAIN [2][1590/1723]	Time 0.822 (0.961)	Data 3.56e-04 (7.95e-04)	Tok/s 37708 (43547)	Loss/tok 3.0148 (3.2656)	LR 2.000e-03
+0: TRAIN [2][1600/1723]	Time 0.640 (0.961)	Data 3.61e-04 (7.93e-04)	Tok/s 24501 (43537)	Loss/tok 2.6261 (3.2653)	LR 2.000e-03
+0: TRAIN [2][1610/1723]	Time 1.025 (0.960)	Data 5.60e-04 (7.91e-04)	Tok/s 49149 (43532)	Loss/tok 3.1636 (3.2648)	LR 2.000e-03
+0: TRAIN [2][1620/1723]	Time 0.825 (0.960)	Data 3.79e-04 (7.88e-04)	Tok/s 37397 (43521)	Loss/tok 3.0125 (3.2643)	LR 2.000e-03
+0: TRAIN [2][1630/1723]	Time 1.506 (0.961)	Data 5.11e-04 (7.86e-04)	Tok/s 58673 (43557)	Loss/tok 3.6504 (3.2652)	LR 2.000e-03
+0: TRAIN [2][1640/1723]	Time 0.823 (0.961)	Data 3.55e-04 (7.84e-04)	Tok/s 37341 (43541)	Loss/tok 3.0051 (3.2646)	LR 2.000e-03
+0: TRAIN [2][1650/1723]	Time 0.823 (0.960)	Data 3.47e-04 (7.82e-04)	Tok/s 37795 (43542)	Loss/tok 3.0198 (3.2645)	LR 2.000e-03
+0: TRAIN [2][1660/1723]	Time 1.240 (0.961)	Data 5.30e-04 (7.80e-04)	Tok/s 56495 (43549)	Loss/tok 3.4293 (3.2642)	LR 2.000e-03
+0: TRAIN [2][1670/1723]	Time 0.825 (0.960)	Data 5.12e-04 (7.77e-04)	Tok/s 37359 (43545)	Loss/tok 3.0785 (3.2641)	LR 2.000e-03
+0: TRAIN [2][1680/1723]	Time 0.825 (0.960)	Data 3.30e-04 (7.75e-04)	Tok/s 37441 (43522)	Loss/tok 3.1230 (3.2635)	LR 2.000e-03
+0: TRAIN [2][1690/1723]	Time 1.024 (0.960)	Data 3.53e-04 (7.73e-04)	Tok/s 49233 (43529)	Loss/tok 3.2547 (3.2633)	LR 2.000e-03
+0: TRAIN [2][1700/1723]	Time 1.242 (0.961)	Data 3.59e-04 (7.70e-04)	Tok/s 56344 (43559)	Loss/tok 3.4141 (3.2640)	LR 2.000e-03
+0: TRAIN [2][1710/1723]	Time 1.021 (0.961)	Data 5.20e-04 (7.68e-04)	Tok/s 49003 (43571)	Loss/tok 3.2637 (3.2640)	LR 2.000e-03
+0: TRAIN [2][1720/1723]	Time 0.824 (0.961)	Data 5.34e-04 (7.66e-04)	Tok/s 37402 (43584)	Loss/tok 3.0438 (3.2639)	LR 2.000e-03
+:::MLL 1586850243.850 epoch_stop: {"value": null, "metadata": {"epoch_num": 3, "file": "train.py", "lineno": 525}}
+:::MLL 1586850243.851 eval_start: {"value": null, "metadata": {"epoch_num": 3, "file": "train.py", "lineno": 530}}
+0: Running evaluation on test set
+0: TEST [2][0/8]	Time 0.675 (0.675)	Decoder iters 90.0 (90.0)	Tok/s 23551 (23551)
+0: Running moses detokenizer
+0: BLEU(score=22.710037208689474, counts=[35799, 17516, 9761, 5628], totals=[63270, 60267, 57264, 54265], precisions=[56.58131816026553, 29.063998539831086, 17.045613299804415, 10.371325900672625], bp=0.9780228724846006, sys_len=63270, ref_len=64676)
+0: Finished evaluation on test set
+:::MLL 1586850249.747 eval_accuracy: {"value": 22.71, "metadata": {"epoch_num": 3, "file": "train.py", "lineno": 536}}
+:::MLL 1586850249.748 eval_stop: {"value": null, "metadata": {"epoch_num": 3, "file": "train.py", "lineno": 539}}
+0: Summary: Epoch: 2	Training Loss: 3.2620	Test BLEU: 22.71
+0: Performance: Epoch: 2	Training: 130728 Tok/s
+0: Finished epoch 2
+:::MLL 1586850249.748 block_stop: {"value": null, "metadata": {"first_epoch_num": 3, "file": "train.py", "lineno": 558}}
+:::MLL 1586850249.748 block_start: {"value": null, "metadata": {"first_epoch_num": 4, "epoch_count": 1, "file": "train.py", "lineno": 512}}
+:::MLL 1586850249.749 epoch_start: {"value": null, "metadata": {"epoch_num": 4, "file": "train.py", "lineno": 515}}
+0: Starting epoch 3
+0: Executing preallocation
+0: Sampler for epoch 3 uses seed 23873792
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 8192.0
+0: TRAIN [3][0/1723]	Time 2.167 (2.167)	Data 6.16e-01 (6.16e-01)	Tok/s 41187 (41187)	Loss/tok 3.5194 (3.5194)	LR 2.000e-03
+0: TRAIN [3][10/1723]	Time 0.638 (1.067)	Data 5.04e-04 (5.64e-02)	Tok/s 25062 (42335)	Loss/tok 2.6661 (3.2717)	LR 2.000e-03
+0: TRAIN [3][20/1723]	Time 1.247 (1.030)	Data 3.47e-04 (2.98e-02)	Tok/s 56272 (44032)	Loss/tok 3.3335 (3.2262)	LR 2.000e-03
+0: TRAIN [3][30/1723]	Time 1.026 (1.011)	Data 5.41e-04 (2.03e-02)	Tok/s 49001 (44128)	Loss/tok 3.1981 (3.2022)	LR 2.000e-03
+0: TRAIN [3][40/1723]	Time 1.027 (0.991)	Data 3.56e-04 (1.55e-02)	Tok/s 48891 (43774)	Loss/tok 3.1669 (3.1843)	LR 2.000e-03
+0: TRAIN [3][50/1723]	Time 0.636 (0.955)	Data 3.20e-04 (1.25e-02)	Tok/s 25249 (42272)	Loss/tok 2.5766 (3.1567)	LR 2.000e-03
+0: TRAIN [3][60/1723]	Time 0.823 (0.961)	Data 3.39e-04 (1.05e-02)	Tok/s 37578 (42820)	Loss/tok 2.9980 (3.1669)	LR 2.000e-03
+0: TRAIN [3][70/1723]	Time 0.821 (0.951)	Data 3.57e-04 (9.09e-03)	Tok/s 37546 (42546)	Loss/tok 2.9957 (3.1532)	LR 2.000e-03
+0: TRAIN [3][80/1723]	Time 0.642 (0.967)	Data 3.41e-04 (8.02e-03)	Tok/s 24879 (42836)	Loss/tok 2.5934 (3.1832)	LR 2.000e-03
+0: TRAIN [3][90/1723]	Time 0.826 (0.972)	Data 3.48e-04 (7.18e-03)	Tok/s 37080 (43197)	Loss/tok 2.9793 (3.1887)	LR 2.000e-03
+0: TRAIN [3][100/1723]	Time 1.025 (0.968)	Data 3.53e-04 (6.51e-03)	Tok/s 48854 (43020)	Loss/tok 3.1583 (3.1861)	LR 2.000e-03
+0: TRAIN [3][110/1723]	Time 1.024 (0.967)	Data 3.55e-04 (5.96e-03)	Tok/s 49218 (43065)	Loss/tok 3.1467 (3.1817)	LR 2.000e-03
+0: TRAIN [3][120/1723]	Time 0.823 (0.964)	Data 3.41e-04 (5.50e-03)	Tok/s 37673 (42977)	Loss/tok 2.9744 (3.1785)	LR 2.000e-03
+0: TRAIN [3][130/1723]	Time 0.826 (0.962)	Data 5.00e-04 (5.11e-03)	Tok/s 37683 (42871)	Loss/tok 2.9897 (3.1772)	LR 1.000e-03
+0: TRAIN [3][140/1723]	Time 0.645 (0.954)	Data 3.39e-04 (4.78e-03)	Tok/s 24488 (42522)	Loss/tok 2.5482 (3.1703)	LR 1.000e-03
+0: TRAIN [3][150/1723]	Time 0.824 (0.955)	Data 5.05e-04 (4.49e-03)	Tok/s 37703 (42623)	Loss/tok 3.0110 (3.1712)	LR 1.000e-03
+0: TRAIN [3][160/1723]	Time 0.635 (0.948)	Data 5.46e-04 (4.23e-03)	Tok/s 24986 (42360)	Loss/tok 2.5539 (3.1644)	LR 1.000e-03
+0: TRAIN [3][170/1723]	Time 0.823 (0.948)	Data 3.67e-04 (4.01e-03)	Tok/s 37420 (42421)	Loss/tok 2.9498 (3.1630)	LR 1.000e-03
+0: TRAIN [3][180/1723]	Time 0.821 (0.952)	Data 3.42e-04 (3.81e-03)	Tok/s 37989 (42601)	Loss/tok 2.9138 (3.1654)	LR 1.000e-03
+0: TRAIN [3][190/1723]	Time 0.829 (0.949)	Data 3.56e-04 (3.63e-03)	Tok/s 37271 (42481)	Loss/tok 2.8921 (3.1602)	LR 1.000e-03
+0: TRAIN [3][200/1723]	Time 1.027 (0.950)	Data 3.63e-04 (3.47e-03)	Tok/s 49135 (42601)	Loss/tok 3.1883 (3.1591)	LR 1.000e-03
+0: TRAIN [3][210/1723]	Time 1.021 (0.951)	Data 3.50e-04 (3.33e-03)	Tok/s 49239 (42652)	Loss/tok 3.1867 (3.1607)	LR 1.000e-03
+0: TRAIN [3][220/1723]	Time 1.031 (0.949)	Data 3.56e-04 (3.19e-03)	Tok/s 48679 (42611)	Loss/tok 3.1141 (3.1567)	LR 1.000e-03
+0: TRAIN [3][230/1723]	Time 0.825 (0.952)	Data 3.70e-04 (3.07e-03)	Tok/s 37282 (42805)	Loss/tok 2.9515 (3.1562)	LR 1.000e-03
+0: TRAIN [3][240/1723]	Time 0.825 (0.952)	Data 4.99e-04 (2.96e-03)	Tok/s 37463 (42818)	Loss/tok 2.9745 (3.1566)	LR 1.000e-03
+0: TRAIN [3][250/1723]	Time 0.819 (0.954)	Data 5.53e-04 (2.86e-03)	Tok/s 37905 (42851)	Loss/tok 2.8925 (3.1604)	LR 1.000e-03
+0: TRAIN [3][260/1723]	Time 0.826 (0.955)	Data 3.38e-04 (2.76e-03)	Tok/s 37706 (42941)	Loss/tok 2.9543 (3.1604)	LR 1.000e-03
+0: TRAIN [3][270/1723]	Time 0.820 (0.956)	Data 3.63e-04 (2.67e-03)	Tok/s 37706 (43006)	Loss/tok 2.9563 (3.1596)	LR 1.000e-03
+0: TRAIN [3][280/1723]	Time 0.637 (0.957)	Data 5.26e-04 (2.59e-03)	Tok/s 24525 (43061)	Loss/tok 2.5573 (3.1605)	LR 1.000e-03
+0: TRAIN [3][290/1723]	Time 1.238 (0.960)	Data 3.69e-04 (2.52e-03)	Tok/s 56880 (43207)	Loss/tok 3.2968 (3.1617)	LR 1.000e-03
+0: TRAIN [3][300/1723]	Time 0.825 (0.957)	Data 3.53e-04 (2.45e-03)	Tok/s 37859 (43042)	Loss/tok 2.9461 (3.1592)	LR 1.000e-03
+0: TRAIN [3][310/1723]	Time 1.025 (0.954)	Data 3.64e-04 (2.38e-03)	Tok/s 49524 (42942)	Loss/tok 3.1047 (3.1551)	LR 1.000e-03
+0: TRAIN [3][320/1723]	Time 0.826 (0.955)	Data 3.67e-04 (2.32e-03)	Tok/s 37206 (42971)	Loss/tok 2.9608 (3.1553)	LR 1.000e-03
+0: TRAIN [3][330/1723]	Time 0.824 (0.958)	Data 5.54e-04 (2.26e-03)	Tok/s 37362 (43031)	Loss/tok 2.9400 (3.1597)	LR 1.000e-03
+0: TRAIN [3][340/1723]	Time 0.641 (0.956)	Data 3.49e-04 (2.21e-03)	Tok/s 24819 (42992)	Loss/tok 2.5775 (3.1575)	LR 1.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+0: TRAIN [3][350/1723]	Time 0.826 (0.958)	Data 5.34e-04 (2.16e-03)	Tok/s 37759 (43088)	Loss/tok 2.9267 (3.1583)	LR 1.000e-03
+0: TRAIN [3][360/1723]	Time 1.250 (0.957)	Data 3.55e-04 (2.11e-03)	Tok/s 56048 (43033)	Loss/tok 3.3500 (3.1566)	LR 1.000e-03
+0: TRAIN [3][370/1723]	Time 0.636 (0.960)	Data 3.68e-04 (2.06e-03)	Tok/s 24794 (43180)	Loss/tok 2.6052 (3.1592)	LR 1.000e-03
+0: TRAIN [3][380/1723]	Time 1.243 (0.962)	Data 3.83e-04 (2.02e-03)	Tok/s 56045 (43309)	Loss/tok 3.3805 (3.1596)	LR 1.000e-03
+0: TRAIN [3][390/1723]	Time 1.026 (0.961)	Data 5.60e-04 (1.98e-03)	Tok/s 49318 (43322)	Loss/tok 3.1380 (3.1582)	LR 1.000e-03
+0: TRAIN [3][400/1723]	Time 1.237 (0.961)	Data 3.44e-04 (1.94e-03)	Tok/s 56624 (43284)	Loss/tok 3.2886 (3.1573)	LR 1.000e-03
+0: TRAIN [3][410/1723]	Time 0.826 (0.963)	Data 3.82e-04 (1.90e-03)	Tok/s 37442 (43405)	Loss/tok 2.9109 (3.1585)	LR 1.000e-03
+0: TRAIN [3][420/1723]	Time 0.821 (0.963)	Data 5.42e-04 (1.87e-03)	Tok/s 37826 (43422)	Loss/tok 2.9185 (3.1568)	LR 1.000e-03
+0: TRAIN [3][430/1723]	Time 1.511 (0.965)	Data 3.67e-04 (1.83e-03)	Tok/s 59345 (43528)	Loss/tok 3.4482 (3.1577)	LR 1.000e-03
+0: TRAIN [3][440/1723]	Time 0.824 (0.967)	Data 3.65e-04 (1.80e-03)	Tok/s 37392 (43612)	Loss/tok 2.9144 (3.1594)	LR 1.000e-03
+0: TRAIN [3][450/1723]	Time 0.822 (0.967)	Data 3.50e-04 (1.77e-03)	Tok/s 37733 (43620)	Loss/tok 3.0212 (3.1587)	LR 1.000e-03
+0: TRAIN [3][460/1723]	Time 1.024 (0.968)	Data 5.10e-04 (1.74e-03)	Tok/s 49099 (43652)	Loss/tok 3.1612 (3.1589)	LR 1.000e-03
+0: TRAIN [3][470/1723]	Time 1.244 (0.967)	Data 5.56e-04 (1.71e-03)	Tok/s 56023 (43636)	Loss/tok 3.2995 (3.1575)	LR 1.000e-03
+0: TRAIN [3][480/1723]	Time 0.823 (0.965)	Data 3.60e-04 (1.68e-03)	Tok/s 37425 (43544)	Loss/tok 2.9413 (3.1555)	LR 1.000e-03
+0: TRAIN [3][490/1723]	Time 1.239 (0.963)	Data 3.43e-04 (1.66e-03)	Tok/s 56290 (43481)	Loss/tok 3.3066 (3.1537)	LR 1.000e-03
+0: TRAIN [3][500/1723]	Time 0.635 (0.962)	Data 3.33e-04 (1.63e-03)	Tok/s 24571 (43441)	Loss/tok 2.5593 (3.1523)	LR 1.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+0: TRAIN [3][510/1723]	Time 1.020 (0.965)	Data 3.71e-04 (1.61e-03)	Tok/s 49875 (43552)	Loss/tok 3.0763 (3.1550)	LR 1.000e-03
+0: TRAIN [3][520/1723]	Time 0.824 (0.964)	Data 3.52e-04 (1.58e-03)	Tok/s 37350 (43515)	Loss/tok 2.9117 (3.1533)	LR 1.000e-03
+0: TRAIN [3][530/1723]	Time 1.026 (0.964)	Data 3.55e-04 (1.56e-03)	Tok/s 48851 (43541)	Loss/tok 3.1535 (3.1528)	LR 1.000e-03
+0: TRAIN [3][540/1723]	Time 1.023 (0.963)	Data 3.74e-04 (1.54e-03)	Tok/s 48976 (43516)	Loss/tok 3.1410 (3.1513)	LR 1.000e-03
+0: TRAIN [3][550/1723]	Time 1.030 (0.963)	Data 3.67e-04 (1.52e-03)	Tok/s 48921 (43522)	Loss/tok 3.1436 (3.1506)	LR 1.000e-03
+0: TRAIN [3][560/1723]	Time 1.023 (0.961)	Data 5.46e-04 (1.50e-03)	Tok/s 49101 (43470)	Loss/tok 3.1276 (3.1493)	LR 1.000e-03
+0: TRAIN [3][570/1723]	Time 0.633 (0.962)	Data 5.31e-04 (1.48e-03)	Tok/s 24772 (43467)	Loss/tok 2.5968 (3.1498)	LR 1.000e-03
+0: TRAIN [3][580/1723]	Time 1.242 (0.962)	Data 3.55e-04 (1.46e-03)	Tok/s 56475 (43474)	Loss/tok 3.2104 (3.1498)	LR 1.000e-03
+0: TRAIN [3][590/1723]	Time 0.822 (0.962)	Data 5.13e-04 (1.45e-03)	Tok/s 37829 (43475)	Loss/tok 2.8674 (3.1492)	LR 1.000e-03
+0: TRAIN [3][600/1723]	Time 1.025 (0.961)	Data 3.57e-04 (1.43e-03)	Tok/s 49225 (43453)	Loss/tok 3.1459 (3.1478)	LR 1.000e-03
+0: TRAIN [3][610/1723]	Time 1.239 (0.962)	Data 3.61e-04 (1.41e-03)	Tok/s 56099 (43556)	Loss/tok 3.3062 (3.1489)	LR 1.000e-03
+0: TRAIN [3][620/1723]	Time 1.022 (0.962)	Data 5.03e-04 (1.39e-03)	Tok/s 49212 (43524)	Loss/tok 3.0916 (3.1488)	LR 1.000e-03
+0: TRAIN [3][630/1723]	Time 1.244 (0.962)	Data 3.62e-04 (1.38e-03)	Tok/s 56242 (43554)	Loss/tok 3.3170 (3.1487)	LR 1.000e-03
+0: TRAIN [3][640/1723]	Time 0.640 (0.962)	Data 3.45e-04 (1.36e-03)	Tok/s 24997 (43552)	Loss/tok 2.5254 (3.1481)	LR 1.000e-03
+0: TRAIN [3][650/1723]	Time 1.023 (0.963)	Data 3.51e-04 (1.35e-03)	Tok/s 49532 (43616)	Loss/tok 3.1420 (3.1489)	LR 1.000e-03
+0: TRAIN [3][660/1723]	Time 0.820 (0.963)	Data 5.17e-04 (1.33e-03)	Tok/s 37576 (43615)	Loss/tok 2.9204 (3.1480)	LR 1.000e-03
+0: TRAIN [3][670/1723]	Time 0.822 (0.962)	Data 3.55e-04 (1.32e-03)	Tok/s 37574 (43585)	Loss/tok 2.9341 (3.1468)	LR 1.000e-03
+0: TRAIN [3][680/1723]	Time 1.024 (0.962)	Data 3.60e-04 (1.31e-03)	Tok/s 49374 (43591)	Loss/tok 3.1410 (3.1462)	LR 1.000e-03
+0: TRAIN [3][690/1723]	Time 1.241 (0.963)	Data 5.31e-04 (1.29e-03)	Tok/s 56671 (43617)	Loss/tok 3.2418 (3.1460)	LR 1.000e-03
+0: TRAIN [3][700/1723]	Time 1.024 (0.963)	Data 3.55e-04 (1.28e-03)	Tok/s 49335 (43679)	Loss/tok 3.1337 (3.1463)	LR 1.000e-03
+0: TRAIN [3][710/1723]	Time 0.828 (0.964)	Data 5.30e-04 (1.27e-03)	Tok/s 37515 (43699)	Loss/tok 2.8940 (3.1463)	LR 1.000e-03
+0: TRAIN [3][720/1723]	Time 1.022 (0.964)	Data 3.50e-04 (1.26e-03)	Tok/s 49239 (43720)	Loss/tok 3.1463 (3.1457)	LR 1.000e-03
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+0: TRAIN [3][730/1723]	Time 0.821 (0.963)	Data 3.52e-04 (1.24e-03)	Tok/s 37561 (43704)	Loss/tok 3.0020 (3.1453)	LR 1.000e-03
+0: TRAIN [3][740/1723]	Time 0.821 (0.962)	Data 3.69e-04 (1.23e-03)	Tok/s 37835 (43659)	Loss/tok 2.9182 (3.1440)	LR 1.000e-03
+0: TRAIN [3][750/1723]	Time 1.026 (0.962)	Data 5.22e-04 (1.22e-03)	Tok/s 49330 (43635)	Loss/tok 3.1035 (3.1425)	LR 1.000e-03
+0: TRAIN [3][760/1723]	Time 1.028 (0.961)	Data 3.51e-04 (1.21e-03)	Tok/s 49171 (43630)	Loss/tok 3.1788 (3.1415)	LR 1.000e-03
+0: TRAIN [3][770/1723]	Time 0.825 (0.960)	Data 3.63e-04 (1.20e-03)	Tok/s 37580 (43559)	Loss/tok 2.9618 (3.1401)	LR 1.000e-03
+0: TRAIN [3][780/1723]	Time 0.829 (0.961)	Data 3.48e-04 (1.19e-03)	Tok/s 37176 (43623)	Loss/tok 2.9484 (3.1412)	LR 1.000e-03
+0: TRAIN [3][790/1723]	Time 0.822 (0.961)	Data 3.71e-04 (1.18e-03)	Tok/s 38306 (43639)	Loss/tok 2.9218 (3.1408)	LR 1.000e-03
+0: TRAIN [3][800/1723]	Time 0.825 (0.961)	Data 5.16e-04 (1.17e-03)	Tok/s 37228 (43642)	Loss/tok 2.9458 (3.1409)	LR 1.000e-03
+0: TRAIN [3][810/1723]	Time 1.026 (0.960)	Data 3.54e-04 (1.16e-03)	Tok/s 48959 (43597)	Loss/tok 3.1681 (3.1397)	LR 1.000e-03
+0: TRAIN [3][820/1723]	Time 0.828 (0.959)	Data 3.52e-04 (1.15e-03)	Tok/s 37890 (43542)	Loss/tok 2.9138 (3.1394)	LR 1.000e-03
+0: TRAIN [3][830/1723]	Time 0.824 (0.960)	Data 3.56e-04 (1.14e-03)	Tok/s 37273 (43573)	Loss/tok 2.9969 (3.1399)	LR 1.000e-03
+0: TRAIN [3][840/1723]	Time 0.828 (0.959)	Data 3.51e-04 (1.13e-03)	Tok/s 37873 (43552)	Loss/tok 2.9714 (3.1390)	LR 1.000e-03
+0: TRAIN [3][850/1723]	Time 0.636 (0.958)	Data 3.45e-04 (1.12e-03)	Tok/s 24854 (43510)	Loss/tok 2.5424 (3.1379)	LR 5.000e-04
+0: TRAIN [3][860/1723]	Time 0.827 (0.958)	Data 3.49e-04 (1.12e-03)	Tok/s 37730 (43492)	Loss/tok 2.9123 (3.1369)	LR 5.000e-04
+0: TRAIN [3][870/1723]	Time 0.826 (0.958)	Data 5.19e-04 (1.11e-03)	Tok/s 37333 (43523)	Loss/tok 2.9046 (3.1374)	LR 5.000e-04
+0: TRAIN [3][880/1723]	Time 0.823 (0.959)	Data 5.37e-04 (1.10e-03)	Tok/s 37526 (43521)	Loss/tok 2.9872 (3.1378)	LR 5.000e-04
+0: TRAIN [3][890/1723]	Time 1.016 (0.958)	Data 3.64e-04 (1.09e-03)	Tok/s 49318 (43501)	Loss/tok 3.1086 (3.1368)	LR 5.000e-04
+0: TRAIN [3][900/1723]	Time 0.828 (0.959)	Data 3.94e-04 (1.08e-03)	Tok/s 37113 (43561)	Loss/tok 2.9035 (3.1377)	LR 5.000e-04
+0: TRAIN [3][910/1723]	Time 0.815 (0.959)	Data 3.87e-04 (1.08e-03)	Tok/s 38006 (43551)	Loss/tok 2.9378 (3.1377)	LR 5.000e-04
+0: TRAIN [3][920/1723]	Time 0.822 (0.959)	Data 3.96e-04 (1.07e-03)	Tok/s 38205 (43558)	Loss/tok 2.9648 (3.1373)	LR 5.000e-04
+0: TRAIN [3][930/1723]	Time 0.637 (0.959)	Data 3.69e-04 (1.06e-03)	Tok/s 24846 (43544)	Loss/tok 2.5280 (3.1366)	LR 5.000e-04
+0: TRAIN [3][940/1723]	Time 0.821 (0.960)	Data 3.73e-04 (1.06e-03)	Tok/s 37970 (43602)	Loss/tok 2.8251 (3.1374)	LR 5.000e-04
+0: TRAIN [3][950/1723]	Time 1.028 (0.961)	Data 5.25e-04 (1.05e-03)	Tok/s 49007 (43652)	Loss/tok 3.1212 (3.1376)	LR 5.000e-04
+0: TRAIN [3][960/1723]	Time 0.643 (0.961)	Data 3.75e-04 (1.04e-03)	Tok/s 24845 (43633)	Loss/tok 2.5267 (3.1381)	LR 5.000e-04
+0: TRAIN [3][970/1723]	Time 1.507 (0.961)	Data 3.72e-04 (1.04e-03)	Tok/s 59466 (43633)	Loss/tok 3.4498 (3.1381)	LR 5.000e-04
+0: TRAIN [3][980/1723]	Time 0.823 (0.961)	Data 3.60e-04 (1.03e-03)	Tok/s 38276 (43647)	Loss/tok 2.8749 (3.1376)	LR 5.000e-04
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+0: TRAIN [3][990/1723]	Time 0.826 (0.961)	Data 5.84e-04 (1.02e-03)	Tok/s 37502 (43624)	Loss/tok 2.9871 (3.1375)	LR 5.000e-04
+0: TRAIN [3][1000/1723]	Time 0.822 (0.961)	Data 5.61e-04 (1.02e-03)	Tok/s 37312 (43627)	Loss/tok 2.9450 (3.1375)	LR 5.000e-04
+0: TRAIN [3][1010/1723]	Time 1.027 (0.961)	Data 3.83e-04 (1.01e-03)	Tok/s 49189 (43642)	Loss/tok 3.0633 (3.1368)	LR 5.000e-04
+0: TRAIN [3][1020/1723]	Time 1.023 (0.961)	Data 3.63e-04 (1.01e-03)	Tok/s 49136 (43638)	Loss/tok 3.1060 (3.1361)	LR 5.000e-04
+0: TRAIN [3][1030/1723]	Time 0.821 (0.961)	Data 3.64e-04 (1.00e-03)	Tok/s 38253 (43623)	Loss/tok 2.9337 (3.1363)	LR 5.000e-04
+0: TRAIN [3][1040/1723]	Time 1.023 (0.961)	Data 4.86e-04 (9.94e-04)	Tok/s 49275 (43656)	Loss/tok 3.1663 (3.1366)	LR 5.000e-04
+0: TRAIN [3][1050/1723]	Time 1.242 (0.961)	Data 3.50e-04 (9.89e-04)	Tok/s 56403 (43645)	Loss/tok 3.2737 (3.1363)	LR 5.000e-04
+0: TRAIN [3][1060/1723]	Time 1.029 (0.961)	Data 3.52e-04 (9.83e-04)	Tok/s 49201 (43641)	Loss/tok 3.0285 (3.1358)	LR 5.000e-04
+0: TRAIN [3][1070/1723]	Time 1.026 (0.961)	Data 4.81e-04 (9.78e-04)	Tok/s 49048 (43634)	Loss/tok 3.0749 (3.1358)	LR 5.000e-04
+0: TRAIN [3][1080/1723]	Time 0.826 (0.960)	Data 3.58e-04 (9.72e-04)	Tok/s 37199 (43597)	Loss/tok 2.9108 (3.1352)	LR 5.000e-04
+0: TRAIN [3][1090/1723]	Time 1.508 (0.960)	Data 3.72e-04 (9.67e-04)	Tok/s 59291 (43583)	Loss/tok 3.4374 (3.1353)	LR 5.000e-04
+0: TRAIN [3][1100/1723]	Time 0.640 (0.959)	Data 4.94e-04 (9.61e-04)	Tok/s 24799 (43531)	Loss/tok 2.5252 (3.1344)	LR 5.000e-04
+0: TRAIN [3][1110/1723]	Time 1.238 (0.959)	Data 3.42e-04 (9.56e-04)	Tok/s 56663 (43515)	Loss/tok 3.2500 (3.1337)	LR 5.000e-04
+0: TRAIN [3][1120/1723]	Time 1.027 (0.959)	Data 5.79e-04 (9.51e-04)	Tok/s 49187 (43510)	Loss/tok 3.1197 (3.1331)	LR 5.000e-04
+0: TRAIN [3][1130/1723]	Time 0.826 (0.958)	Data 3.43e-04 (9.46e-04)	Tok/s 37527 (43482)	Loss/tok 2.9279 (3.1328)	LR 5.000e-04
+0: TRAIN [3][1140/1723]	Time 1.029 (0.959)	Data 3.45e-04 (9.42e-04)	Tok/s 49433 (43533)	Loss/tok 3.1384 (3.1332)	LR 5.000e-04
+0: TRAIN [3][1150/1723]	Time 0.820 (0.959)	Data 3.75e-04 (9.37e-04)	Tok/s 37724 (43525)	Loss/tok 2.9723 (3.1334)	LR 5.000e-04
+0: TRAIN [3][1160/1723]	Time 0.824 (0.958)	Data 5.11e-04 (9.32e-04)	Tok/s 37534 (43494)	Loss/tok 2.8886 (3.1322)	LR 5.000e-04
+0: TRAIN [3][1170/1723]	Time 1.235 (0.958)	Data 5.05e-04 (9.28e-04)	Tok/s 56553 (43474)	Loss/tok 3.3087 (3.1316)	LR 5.000e-04
+0: TRAIN [3][1180/1723]	Time 1.027 (0.959)	Data 3.46e-04 (9.24e-04)	Tok/s 49072 (43499)	Loss/tok 3.1253 (3.1324)	LR 5.000e-04
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+0: TRAIN [3][1190/1723]	Time 1.242 (0.959)	Data 3.49e-04 (9.19e-04)	Tok/s 56386 (43498)	Loss/tok 3.2674 (3.1326)	LR 5.000e-04
+0: TRAIN [3][1200/1723]	Time 1.238 (0.959)	Data 3.28e-04 (9.15e-04)	Tok/s 56258 (43488)	Loss/tok 3.2500 (3.1323)	LR 5.000e-04
+0: TRAIN [3][1210/1723]	Time 1.023 (0.959)	Data 3.39e-04 (9.11e-04)	Tok/s 49820 (43515)	Loss/tok 3.1053 (3.1322)	LR 5.000e-04
+0: TRAIN [3][1220/1723]	Time 0.825 (0.958)	Data 5.17e-04 (9.07e-04)	Tok/s 36989 (43489)	Loss/tok 2.9217 (3.1315)	LR 5.000e-04
+0: TRAIN [3][1230/1723]	Time 0.824 (0.958)	Data 4.96e-04 (9.03e-04)	Tok/s 37359 (43475)	Loss/tok 2.9283 (3.1308)	LR 5.000e-04
+0: TRAIN [3][1240/1723]	Time 0.819 (0.958)	Data 4.94e-04 (8.99e-04)	Tok/s 37752 (43490)	Loss/tok 3.0196 (3.1305)	LR 5.000e-04
+0: TRAIN [3][1250/1723]	Time 1.018 (0.958)	Data 3.48e-04 (8.95e-04)	Tok/s 49080 (43496)	Loss/tok 3.1343 (3.1307)	LR 5.000e-04
+0: TRAIN [3][1260/1723]	Time 1.024 (0.958)	Data 3.52e-04 (8.91e-04)	Tok/s 49052 (43467)	Loss/tok 3.0618 (3.1297)	LR 5.000e-04
+0: TRAIN [3][1270/1723]	Time 0.640 (0.958)	Data 5.25e-04 (8.87e-04)	Tok/s 24633 (43466)	Loss/tok 2.4948 (3.1295)	LR 5.000e-04
+0: TRAIN [3][1280/1723]	Time 0.831 (0.957)	Data 3.40e-04 (8.83e-04)	Tok/s 36998 (43442)	Loss/tok 2.8993 (3.1289)	LR 5.000e-04
+0: TRAIN [3][1290/1723]	Time 1.031 (0.958)	Data 3.42e-04 (8.80e-04)	Tok/s 49302 (43455)	Loss/tok 3.1054 (3.1293)	LR 5.000e-04
+0: TRAIN [3][1300/1723]	Time 1.021 (0.958)	Data 3.53e-04 (8.76e-04)	Tok/s 49669 (43478)	Loss/tok 3.0767 (3.1293)	LR 5.000e-04
+0: TRAIN [3][1310/1723]	Time 1.023 (0.958)	Data 5.19e-04 (8.73e-04)	Tok/s 48980 (43465)	Loss/tok 3.0801 (3.1285)	LR 5.000e-04
+0: TRAIN [3][1320/1723]	Time 0.821 (0.958)	Data 3.61e-04 (8.69e-04)	Tok/s 37937 (43485)	Loss/tok 2.9705 (3.1287)	LR 5.000e-04
+0: TRAIN [3][1330/1723]	Time 1.243 (0.958)	Data 3.55e-04 (8.66e-04)	Tok/s 55822 (43485)	Loss/tok 3.2233 (3.1292)	LR 5.000e-04
+0: TRAIN [3][1340/1723]	Time 1.030 (0.959)	Data 3.59e-04 (8.62e-04)	Tok/s 48469 (43494)	Loss/tok 3.1124 (3.1291)	LR 5.000e-04
+0: TRAIN [3][1350/1723]	Time 0.830 (0.958)	Data 3.49e-04 (8.58e-04)	Tok/s 37180 (43499)	Loss/tok 2.8988 (3.1286)	LR 5.000e-04
+0: TRAIN [3][1360/1723]	Time 0.826 (0.959)	Data 3.43e-04 (8.55e-04)	Tok/s 37286 (43523)	Loss/tok 2.8931 (3.1288)	LR 5.000e-04
+0: TRAIN [3][1370/1723]	Time 0.817 (0.960)	Data 3.63e-04 (8.51e-04)	Tok/s 37822 (43556)	Loss/tok 2.9474 (3.1293)	LR 5.000e-04
+0: TRAIN [3][1380/1723]	Time 1.023 (0.960)	Data 5.31e-04 (8.48e-04)	Tok/s 48843 (43584)	Loss/tok 3.1347 (3.1296)	LR 5.000e-04
+0: TRAIN [3][1390/1723]	Time 1.508 (0.961)	Data 5.18e-04 (8.45e-04)	Tok/s 58772 (43599)	Loss/tok 3.4796 (3.1299)	LR 5.000e-04
+0: TRAIN [3][1400/1723]	Time 0.826 (0.960)	Data 4.97e-04 (8.42e-04)	Tok/s 37412 (43545)	Loss/tok 2.8711 (3.1292)	LR 5.000e-04
+0: TRAIN [3][1410/1723]	Time 0.830 (0.960)	Data 3.58e-04 (8.39e-04)	Tok/s 37641 (43549)	Loss/tok 2.9286 (3.1288)	LR 5.000e-04
+0: TRAIN [3][1420/1723]	Time 0.822 (0.960)	Data 3.85e-04 (8.36e-04)	Tok/s 37781 (43553)	Loss/tok 2.9254 (3.1284)	LR 5.000e-04
+0: TRAIN [3][1430/1723]	Time 1.026 (0.961)	Data 5.39e-04 (8.33e-04)	Tok/s 48750 (43589)	Loss/tok 3.1334 (3.1291)	LR 5.000e-04
+0: TRAIN [3][1440/1723]	Time 0.831 (0.960)	Data 3.48e-04 (8.31e-04)	Tok/s 36990 (43580)	Loss/tok 2.9075 (3.1288)	LR 5.000e-04
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 32768.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 32768.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 32768.0
+0: TRAIN [3][1450/1723]	Time 1.238 (0.961)	Data 5.40e-04 (8.28e-04)	Tok/s 56765 (43588)	Loss/tok 3.2496 (3.1288)	LR 5.000e-04
+0: TRAIN [3][1460/1723]	Time 0.823 (0.960)	Data 5.36e-04 (8.25e-04)	Tok/s 37402 (43566)	Loss/tok 2.9960 (3.1284)	LR 5.000e-04
+0: TRAIN [3][1470/1723]	Time 1.246 (0.961)	Data 3.71e-04 (8.22e-04)	Tok/s 56214 (43584)	Loss/tok 3.2993 (3.1285)	LR 5.000e-04
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+Gradient overflow.  Skipping step, loss scaler 0 reducing loss scale to 16384.0
+0: TRAIN [3][1480/1723]	Time 1.500 (0.960)	Data 3.18e-04 (8.20e-04)	Tok/s 59107 (43564)	Loss/tok 3.5540 (3.1284)	LR 5.000e-04
+0: TRAIN [3][1490/1723]	Time 0.826 (0.960)	Data 3.73e-04 (8.17e-04)	Tok/s 37534 (43539)	Loss/tok 2.9299 (3.1277)	LR 5.000e-04
+0: TRAIN [3][1500/1723]	Time 1.026 (0.960)	Data 4.99e-04 (8.14e-04)	Tok/s 49089 (43553)	Loss/tok 3.0968 (3.1279)	LR 5.000e-04
+0: TRAIN [3][1510/1723]	Time 0.825 (0.960)	Data 5.34e-04 (8.11e-04)	Tok/s 37768 (43565)	Loss/tok 2.8998 (3.1276)	LR 5.000e-04
+0: TRAIN [3][1520/1723]	Time 1.019 (0.960)	Data 2.69e-04 (8.09e-04)	Tok/s 49377 (43553)	Loss/tok 3.0865 (3.1271)	LR 5.000e-04
+0: TRAIN [3][1530/1723]	Time 0.637 (0.959)	Data 3.48e-04 (8.06e-04)	Tok/s 24855 (43539)	Loss/tok 2.5295 (3.1269)	LR 5.000e-04
+0: TRAIN [3][1540/1723]	Time 0.641 (0.960)	Data 4.91e-04 (8.03e-04)	Tok/s 24571 (43546)	Loss/tok 2.5600 (3.1272)	LR 5.000e-04
+0: TRAIN [3][1550/1723]	Time 1.504 (0.960)	Data 4.93e-04 (8.01e-04)	Tok/s 59253 (43535)	Loss/tok 3.4383 (3.1269)	LR 5.000e-04
+0: TRAIN [3][1560/1723]	Time 1.022 (0.959)	Data 3.63e-04 (7.98e-04)	Tok/s 49208 (43540)	Loss/tok 3.0517 (3.1263)	LR 5.000e-04
+0: TRAIN [3][1570/1723]	Time 0.822 (0.959)	Data 3.37e-04 (7.96e-04)	Tok/s 37485 (43529)	Loss/tok 2.9026 (3.1258)	LR 5.000e-04
+0: TRAIN [3][1580/1723]	Time 0.827 (0.960)	Data 3.55e-04 (7.93e-04)	Tok/s 37289 (43542)	Loss/tok 3.0406 (3.1263)	LR 2.500e-04
+0: TRAIN [3][1590/1723]	Time 1.032 (0.961)	Data 5.27e-04 (7.91e-04)	Tok/s 49118 (43586)	Loss/tok 3.0677 (3.1273)	LR 2.500e-04
+0: TRAIN [3][1600/1723]	Time 1.024 (0.960)	Data 4.94e-04 (7.89e-04)	Tok/s 48887 (43577)	Loss/tok 3.0910 (3.1266)	LR 2.500e-04
+0: TRAIN [3][1610/1723]	Time 1.242 (0.960)	Data 3.49e-04 (7.86e-04)	Tok/s 56432 (43596)	Loss/tok 3.2575 (3.1262)	LR 2.500e-04
+0: TRAIN [3][1620/1723]	Time 1.023 (0.960)	Data 3.31e-04 (7.84e-04)	Tok/s 49352 (43579)	Loss/tok 3.0869 (3.1255)	LR 2.500e-04
+0: TRAIN [3][1630/1723]	Time 0.829 (0.959)	Data 4.93e-04 (7.82e-04)	Tok/s 37660 (43560)	Loss/tok 2.9035 (3.1249)	LR 2.500e-04
+0: TRAIN [3][1640/1723]	Time 0.828 (0.959)	Data 5.01e-04 (7.79e-04)	Tok/s 37802 (43556)	Loss/tok 2.8713 (3.1244)	LR 2.500e-04
+0: TRAIN [3][1650/1723]	Time 1.032 (0.960)	Data 5.89e-04 (7.78e-04)	Tok/s 48469 (43601)	Loss/tok 3.0957 (3.1253)	LR 2.500e-04
+0: TRAIN [3][1660/1723]	Time 0.826 (0.960)	Data 5.23e-04 (7.75e-04)	Tok/s 37333 (43563)	Loss/tok 2.9330 (3.1244)	LR 2.500e-04
+0: TRAIN [3][1670/1723]	Time 1.022 (0.960)	Data 3.57e-04 (7.73e-04)	Tok/s 49482 (43561)	Loss/tok 3.0838 (3.1242)	LR 2.500e-04
+0: TRAIN [3][1680/1723]	Time 0.822 (0.960)	Data 5.13e-04 (7.71e-04)	Tok/s 37406 (43587)	Loss/tok 2.9392 (3.1249)	LR 2.500e-04
+0: TRAIN [3][1690/1723]	Time 0.821 (0.961)	Data 3.50e-04 (7.68e-04)	Tok/s 37640 (43607)	Loss/tok 2.8416 (3.1251)	LR 2.500e-04
+0: TRAIN [3][1700/1723]	Time 0.629 (0.961)	Data 3.47e-04 (7.66e-04)	Tok/s 25014 (43587)	Loss/tok 2.5455 (3.1248)	LR 2.500e-04
+0: TRAIN [3][1710/1723]	Time 1.245 (0.961)	Data 3.56e-04 (7.64e-04)	Tok/s 55902 (43586)	Loss/tok 3.2222 (3.1248)	LR 2.500e-04
+0: TRAIN [3][1720/1723]	Time 0.822 (0.961)	Data 4.99e-04 (7.62e-04)	Tok/s 37602 (43596)	Loss/tok 2.8819 (3.1250)	LR 2.500e-04
+:::MLL 1586851906.776 epoch_stop: {"value": null, "metadata": {"epoch_num": 4, "file": "train.py", "lineno": 525}}
+:::MLL 1586851906.777 eval_start: {"value": null, "metadata": {"epoch_num": 4, "file": "train.py", "lineno": 530}}
+0: Running evaluation on test set
+0: TEST [3][0/8]	Time 0.685 (0.685)	Decoder iters 102.0 (102.0)	Tok/s 24011 (24011)
+0: Running moses detokenizer
+0: BLEU(score=24.20617484134752, counts=[37266, 18753, 10701, 6390], totals=[65676, 62673, 59670, 56671], precisions=[56.74218892746209, 29.921975970513618, 17.933634992458522, 11.275608335833143], bp=1.0, sys_len=65676, ref_len=64676)
+0: Target accuracy reached
+0: Finished evaluation on test set
+:::MLL 1586851912.542 eval_accuracy: {"value": 24.21, "metadata": {"epoch_num": 4, "file": "train.py", "lineno": 536}}
+:::MLL 1586851912.543 eval_stop: {"value": null, "metadata": {"epoch_num": 4, "file": "train.py", "lineno": 539}}
+0: Summary: Epoch: 3	Training Loss: 3.1241	Test BLEU: 24.21
+0: Performance: Epoch: 3	Training: 130748 Tok/s
+0: Finished epoch 3
+:::MLL 1586851912.543 block_stop: {"value": null, "metadata": {"first_epoch_num": 4, "file": "train.py", "lineno": 558}}
+0: Closing preprocessed data file
+:::MLL 1586851912.544 run_stop: {"value": null, "metadata": {"status": "success", "file": "train.py", "lineno": 569}}
++ ret_code=0
++ set +x
+ENDING TIMING RUN AT 2020-04-14 08:11:56 AM
+RESULT,RNN_TRANSLATOR,,6669,nvidia,2020-04-14 06:20:47 AM

@@ -26,7 +26,8 @@ from ml_perf import utils
 
 N = os.environ.get('BOARD_SIZE', '19')
 
-flags.DEFINE_string('src_dir', 'gs://minigo-pub/ml_perf/',
+#flags.DEFINE_string('src_dir', 'gs://minigo-pub/ml_perf/',
+flags.DEFINE_string('src_dir', 'gs://minigo-pub/ml_perf/0.6',
                     'Directory on GCS to copy source data from. Files will be '
                     'copied from subdirectories of src_dir corresponding to '
                     'the BOARD_SIZE environment variable (defaults to 19).')
@@ -52,10 +53,24 @@ def main(unused_argv):
   try:
     for d in ['checkpoint', 'target']:
       # Pull the required training checkpoints and models from GCS.
-      src = os.path.join(FLAGS.src_dir, d, N)
-      dst = os.path.join(FLAGS.dst_dir, d)
+      #src = os.path.join(FLAGS.src_dir, d, N)
+      #dst = os.path.join(FLAGS.dst_dir, d)
+      #utils.ensure_dir_exists(dst)
+      #utils.wait(utils.checked_run(None, 'gsutil', '-m', 'cp', '-r', src, dst))
+      # Pull the required training checkpoints and models from GCS.
+      src = os.path.join(FLAGS.src_dir, 'target/*')
+      dst = os.path.join(FLAGS.dst_dir, 'target', N)
       utils.ensure_dir_exists(dst)
       utils.wait(utils.checked_run(None, 'gsutil', '-m', 'cp', '-r', src, dst))
+      # download checkpoint files to the correct 9x9 path
+      wd_src = os.path.join(FLAGS.src_dir, 'checkpoint/work_dir/work_dir')
+      wd_dst = os.path.join(FLAGS.dst_dir, 'checkpoint', N)
+      utils.ensure_dir_exists(wd_dst)
+      utils.wait(utils.checked_run(None, 'gsutil', '-m', 'cp', '-r', wd_src, wd_dst))
+      wd_src = os.path.join(FLAGS.src_dir, 'checkpoint/golden_chunks')
+      wd_dst = os.path.join(FLAGS.dst_dir, 'checkpoint', N)
+      utils.ensure_dir_exists(wd_dst)
+      utils.wait(utils.checked_run(None, 'gsutil', '-m', 'cp', '-r', wd_src, wd_dst))
 
     # Freeze the target model.
     freeze_graph(os.path.join(FLAGS.dst_dir, 'target', N, 'target'), 2048)

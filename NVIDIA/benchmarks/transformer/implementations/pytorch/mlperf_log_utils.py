@@ -158,7 +158,7 @@ def mlperf_submission_log(benchmark):
         'lspci | grep Infiniband | grep Mellanox | wc -l'
         )
     mofed_version = query(
-        'cat /sys/module/mlx5_core/version'
+        'cat /sys/module/mlx4_core/version'
         )
     interconnect = get_interconnect()
 

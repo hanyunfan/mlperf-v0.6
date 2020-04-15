@@ -1,0 +1,124 @@
+Beginning trial 7 of 7
+Gathering sys log on node001
+:::MLL 1586878676.680 submission_benchmark: {"value": "transformer", "metadata": {"file": "mlperf_log_utils.py", "lineno": 225}}
+:::MLL 1586878676.682 submission_org: {"value": "NVIDIA", "metadata": {"file": "mlperf_log_utils.py", "lineno": 230}}
+WARNING: Log validation: Key "submission_division" is not in known transformer keys.
+:::MLL 1586878676.684 submission_division: {"value": "closed", "metadata": {"file": "mlperf_log_utils.py", "lineno": 234}}
+:::MLL 1586878676.686 submission_status: {"value": "onprem", "metadata": {"file": "mlperf_log_utils.py", "lineno": 238}}
+:::MLL 1586878676.687 submission_platform: {"value": "1xPowerEdge R7525", "metadata": {"file": "mlperf_log_utils.py", "lineno": 242}}
+:::MLL 1586878676.689 submission_entry: {"value": "{'hardware': 'PowerEdge R7525', 'framework': 'PyTorch NVIDIA Release 19.05', 'power': 'N/A', 'notes': 'N/A', 'interconnect': ' ', 'os': '\\\\S / ', 'libraries': \"{'container_base': 'Ubuntu-16.04', 'openmpi_version': '3.1.3', 'mofed_version': '4.0-0', 'cuda_version': '10.1.163', 'cuda_driver_version': '418.67', 'nccl_version': '2.4.6', 'cudnn_version': '7.6.0.64', 'cublas_version': '10.2.0.163', 'trt_version': '5.1.5.0', 'dali_version': '0.9.1'}\", 'compilers': 'gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609', 'nodes': \"{'num_nodes': '1', 'cpu': '2x AMD EPYC 7502 32-Core Processor', 'num_cores': '64', 'num_vcpus': '64', 'accelerator': 'Tesla V100S-PCIE-32GB', 'num_accelerators': '3', 'sys_mem_size': '251 GB', 'sys_storage_type': 'NVMe SSD', 'sys_storage_size': '1x 931.5G', 'cpu_accel_interconnect': 'QPI', 'network_card': '', 'num_network_cards': '0', 'notes': ''}\"}", "metadata": {"file": "mlperf_log_utils.py", "lineno": 246}}
+:::MLL 1586878676.691 submission_poc_name: {"value": "Paulius Micikevicius", "metadata": {"file": "mlperf_log_utils.py", "lineno": 250}}
+:::MLL 1586878676.692 submission_poc_email: {"value": "pauliusm@nvidia.com", "metadata": {"file": "mlperf_log_utils.py", "lineno": 254}}
+Clearing caches
+:::MLL 1586878679.699 cache_clear: {"value": true, "metadata": {"file": "<string>", "lineno": 1}}
+Launching on node node001
++ pids+=($!)
++ set +x
+++ eval echo
++++ echo
++ docker exec -e DGXSYSTEM=DGX1 -e 'MULTI_NODE= --master_port=5198' -e 'SEED=     3205284' -e SLURM_JOB_ID=200414103157126517767 -e SLURM_NTASKS_PER_NODE= -e SLURM_NNODES=1 -e MODE=TRAIN cont_200414103157126517767 ./run_and_time.sh
+Run vars: id 200414103157126517767 gpus 3 mparams  --master_port=5198
++ SEED='     3205284'
++ MAX_TOKENS=15360
++ DATASET_DIR=/data
++ MODE=TRAIN
++ NUMEPOCHS=30
++ case "$MODE" in
++ source run_training.sh
++++ date +%s
+++ START=1586878680
++++ date '+%Y-%m-%d %r'
+++ START_FMT='2020-04-14 03:38:00 PM'
+STARTING TIMING RUN AT 2020-04-14 03:38:00 PM
+++ echo 'STARTING TIMING RUN AT 2020-04-14 03:38:00 PM'
+++ [[ 3 -ne 1 ]]
+++ DISTRIBUTED_INIT_METHOD='--distributed-init-method env://'
+++ export DGXSYSTEM
+++ export SLURM_NTASKS_PER_NODE
+++ export SLURM_NNODES
+++ export MLPERF_HOST_OS
+++ python -m bind_launch --nsockets_per_node 2 --ncores_per_socket 32 --nproc_per_node 3 --master_port=5198 --no_hyperthreads train.py /data --seed 3205284 --arch transformer_wmt_en_de_big_t2t --share-all-embeddings --optimizer adam --adam-betas '(0.9, 0.997)' --adam-eps 1e-9 --clip-norm 0.0 --lr-scheduler inverse_sqrt --warmup-init-lr 0.0 --warmup-updates 3000 --lr 1.976e-3 --min-lr 0.0 --dropout 0.1 --weight-decay 0.0 --criterion label_smoothed_cross_entropy --label-smoothing 0.1 --max-tokens 15360 --max-epoch 30 --target-bleu 25.0 --ignore-case --no-save --update-freq 1 --fp16 --seq-len-multiple 2 --softmax-type fast_fill --source_lang en --target_lang de --bucket_growth_factor 1.035 --batching_scheme v0p5_better --batch_multiple_strategy dynamic --fast-xentropy --max-len-a 1 --max-len-b 50 --lenpen 0.6 --distributed-init-method env:// --max-source-positions 64 --max-target-positions 64 --enable-parallel-backward-allred-opt --parallel-backward-allred-opt-threshold 105404416 --parallel-backward-allred-cuda-nstreams 2 --adam-betas '(0.9,0.98)'
+| distributed init (rank 0): env://
+| distributed env init. MASTER_ADDR: 127.0.0.1, MASTER_PORT: 5198, WORLD_SIZE: 3, RANK: 0
+| distributed init (rank 0): env://
+| distributed env init. MASTER_ADDR: 127.0.0.1, MASTER_PORT: 5198, WORLD_SIZE: 3, RANK: 1
+| distributed init done!
+:::MLL 1586878684.120 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 57}}
+| distributed init (rank 0): env://
+| distributed env init. MASTER_ADDR: 127.0.0.1, MASTER_PORT: 5198, WORLD_SIZE: 3, RANK: 2
+| distributed init done!
+| distributed init done!
+| initialized host node001 as rank 0 and device id 0
+:::MLL 1586878684.227 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 57}}
+:::MLL 1586878684.234 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 57}}
+Namespace(adam_betas='(0.9,0.98)', adam_eps=1e-09, adaptive_softmax_cutoff=None, arch='transformer_wmt_en_de_big_t2t', attention_dropout=0.1, batch_multiple_strategy='dynamic', batching_scheme='v0p5_better', beam=4, bucket_growth_factor=1.035, clip_norm=0.0, cpu=False, criterion='label_smoothed_cross_entropy', data='/data', dataloader_num_workers=1, decoder_attention_heads=16, decoder_embed_dim=1024, decoder_embed_path=None, decoder_ffn_embed_dim=4096, decoder_layers=6, decoder_learned_pos=False, decoder_normalize_before=True, device_id=0, distributed_backend='nccl', distributed_init_method='env://', distributed_port=-1, distributed_rank=0, distributed_world_size=3, dropout=0.1, enable_dataloader_pin_memory=False, enable_parallel_backward_allred_opt=True, enable_parallel_backward_allred_opt_correctness_check=False, encoder_attention_heads=16, encoder_embed_dim=1024, encoder_embed_path=None, encoder_ffn_embed_dim=4096, encoder_layers=6, encoder_learned_pos=False, encoder_normalize_before=True, fast_xentropy=True, fp16=True, fuse_dropout_add=False, fuse_relu_dropout=False, gen_subset='test', ignore_case=True, keep_interval_updates=-1, label_smoothing=0.1, left_pad_source='True', left_pad_target='False', lenpen=0.6, local_rank=0, log_format=None, log_interval=1000, log_translations=False, lr=[0.001976], lr_scheduler='inverse_sqrt', lr_shrink=0.1, max_epoch=30, max_len_a=1.0, max_len_b=50, max_sentences=None, max_sentences_valid=None, max_source_positions=64, max_target_positions=64, max_tokens=15360, max_update=0, min_len=1, min_loss_scale=0.0001, min_lr=0.0, model_overrides='{}', momentum=0.99, nbest=1, no_beamable_mm=False, no_early_stop=False, no_epoch_checkpoints=False, no_progress_bar=False, no_save=True, no_token_positional_embeddings=False, num_shards=1, online_eval=False, optimizer='adam', parallel_backward_allred_cuda_nstreams=2, parallel_backward_allred_opt_threshold=105404416, path=None, prefix_size=0, print_alignment=False, profile=None, quiet=False, raw_text=False, relu_dropout=0.1, remove_bpe=None, replace_unk=None, restore_file='checkpoint_last.pt', sampling=False, sampling_temperature=1, sampling_topk=-1, save_dir='checkpoints', save_interval=1, save_interval_updates=0, score_reference=False, seed=3205284, sentence_avg=False, seq_len_multiple=2, shard_id=0, share_all_embeddings=True, share_decoder_input_output_embed=False, skip_invalid_size_inputs_valid_test=False, softmax_type='fast_fill', source_lang='en', target_bleu=25.0, target_lang='de', task='translation', train_subset='train', unkpen=0, unnormalized=False, update_freq=[1], valid_subset='valid', validate_interval=1, warmup_init_lr=0.0, warmup_updates=3000, weight_decay=0.0)
+:::MLL 1586878687.088 global_batch_size: {"value": 46080, "metadata": {"file": "train.py", "lineno": 74}}
+:::MLL 1586878687.089 opt_name: {"value": "adam", "metadata": {"file": "train.py", "lineno": 75}}
+:::MLL 1586878687.089 opt_base_learning_rate: {"value": 0.001976, "metadata": {"file": "train.py", "lineno": 77}}
+:::MLL 1586878687.089 opt_learning_rate_warmup_steps: {"value": 3000, "metadata": {"file": "train.py", "lineno": 78}}
+Traceback (most recent call last):
+  File "train.py", line 768, in <module>
+:::MLL 1586878687.089 max_sequence_length: {"value": 64, "metadata": {"file": "train.py", "lineno": 80}}
+    distributed_main(args)
+  File "/workspace/translation/distributed_train.py", line 40, in main
+    single_process_main(args)
+  File "/workspace/translation/train.py", line 92, in main
+    task = tasks.setup_task(args)
+  File "/workspace/translation/fairseq/tasks/__init__.py", line 19, in setup_task
+:::MLL 1586878687.090 opt_adam_beta_1: {"value": 0.9, "metadata": {"file": "train.py", "lineno": 81}}
+    return TASK_REGISTRY[args.task].setup_task(args)
+  File "/workspace/translation/fairseq/tasks/translation.py", line 67, in setup_task
+    src_dict = Dictionary.load(os.path.join(args.data, 'dict.{}.txt'.format(args.source_lang)))
+  File "/workspace/translation/fairseq/data/dictionary.py", line 178, in load
+:::MLL 1586878687.090 opt_adam_beta_2: {"value": 0.98, "metadata": {"file": "train.py", "lineno": 82}}
+    raise fnfe
+  File "/workspace/translation/fairseq/data/dictionary.py", line 171, in load
+    with open(f, 'r', encoding='utf-8') as fd:
+FileNotFoundError: [Errno 2] No such file or directory: '/data/dict.en.txt'
+:::MLL 1586878687.090 opt_adam_epsilon: {"value": 1e-09, "metadata": {"file": "train.py", "lineno": 83}}
+Traceback (most recent call last):
+  File "train.py", line 768, in <module>
+    distributed_main(args)
+  File "/workspace/translation/distributed_train.py", line 40, in main
+    single_process_main(args)
+  File "/workspace/translation/train.py", line 92, in main
+    task = tasks.setup_task(args)
+  File "/workspace/translation/fairseq/tasks/__init__.py", line 19, in setup_task
+    return TASK_REGISTRY[args.task].setup_task(args)
+  File "/workspace/translation/fairseq/tasks/translation.py", line 67, in setup_task
+    src_dict = Dictionary.load(os.path.join(args.data, 'dict.{}.txt'.format(args.source_lang)))
+  File "/workspace/translation/fairseq/data/dictionary.py", line 178, in load
+Traceback (most recent call last):
+    raise fnfe
+  File "/workspace/translation/fairseq/data/dictionary.py", line 171, in load
+  File "train.py", line 768, in <module>
+    with open(f, 'r', encoding='utf-8') as fd:
+FileNotFoundError: [Errno 2] No such file or directory: '/data/dict.en.txt'
+    distributed_main(args)
+  File "/workspace/translation/distributed_train.py", line 40, in main
+    single_process_main(args)
+  File "/workspace/translation/train.py", line 92, in main
+    task = tasks.setup_task(args)
+  File "/workspace/translation/fairseq/tasks/__init__.py", line 19, in setup_task
+    return TASK_REGISTRY[args.task].setup_task(args)
+  File "/workspace/translation/fairseq/tasks/translation.py", line 67, in setup_task
+    src_dict = Dictionary.load(os.path.join(args.data, 'dict.{}.txt'.format(args.source_lang)))
+  File "/workspace/translation/fairseq/data/dictionary.py", line 178, in load
+    raise fnfe
+  File "/workspace/translation/fairseq/data/dictionary.py", line 171, in load
+    with open(f, 'r', encoding='utf-8') as fd:
+FileNotFoundError: [Errno 2] No such file or directory: '/data/dict.en.txt'
+++ ret_code=0
+++ sleep 3
+++ [[ 0 != 0 ]]
++++ date +%s
+++ END=1586878690
++++ date '+%Y-%m-%d %r'
+++ END_FMT='2020-04-14 03:38:10 PM'
+++ echo 'ENDING TIMING RUN AT 2020-04-14 03:38:10 PM'
+++ RESULT=10
+++ RESULT_NAME=transformer
+ENDING TIMING RUN AT 2020-04-14 03:38:10 PM
+++ echo 'RESULT,transformer,     3205284,10,,2020-04-14 03:38:00 PM'
++ set +x
+RESULT,transformer,     3205284,10,,2020-04-14 03:38:00 PM

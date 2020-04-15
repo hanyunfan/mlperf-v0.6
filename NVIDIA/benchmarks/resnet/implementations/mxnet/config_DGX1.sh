@@ -3,10 +3,9 @@
 ## DL params
 OPTIMIZER="sgdwfastlars"
 BATCHSIZE="208"
-#BATCHSIZE="240"
 KVSTORE="horovod"
-#LR="5"
-LR="6"
+LR="5"
+#LR="6"
 WARMUP_EPOCHS="5"
 EVAL_OFFSET="3"
 EVAL_PERIOD="4"
@@ -44,12 +43,12 @@ DGXSYSTEM=$(basename $(readlink -f ${BASH_SOURCE[0]}) | sed 's/^config_//' | sed
 WALLTIME=03:00:00
 
 ## System config params
-DGXNGPU=4
-DGXSOCKETCORES=20
+DGXNGPU=3
+DGXSOCKETCORES=32
 DGXHT=1         # HT is on is 2, HT off is 1
 DGXIBDEVICES=''
 
 
-export NCCL_SOCKET_NTHREADS=2
-export NCCL_NSOCKS_PERTHREAD=8
+#export NCCL_SOCKET_NTHREADS=2
+#export NCCL_NSOCKS_PERTHREAD=8
 

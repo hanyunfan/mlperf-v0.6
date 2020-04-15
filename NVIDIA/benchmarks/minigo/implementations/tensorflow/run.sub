@@ -15,8 +15,9 @@ DATESTAMP=${DATESTAMP:-`date +'%y%m%d%H%M%S%N'`}
 BENCHMARK=${BENCHMARK:-"reinforcement"}
 BENCHMARK_NAME="MINIGO"
 CONT=${CONT:-"mlperf-nvidia:$BENCHMARK"}
-DATADIR=${DATADIR:-"/raid/data"}
-LOGDIR=${LOGDIR:-"/raid/results/$BENCHMARK"}
+DATADIR=${DATADIR:-"/mnt/data"}
+#LOGDIR=${LOGDIR:-"/raid/results/$BENCHMARK"}
+LOGDIR=${LOGDIR:-"/home/frank/mlperf-v0.6/results/$BENCHMARK"}
 NEXP=${NEXP:-10} # Default number of times to run the benchmark
 SEED=${SEED:-$(od -A n -t d -N 3 /dev/urandom)} # Allows passing SEED in, which is helpful if NEXP=1 ; for NEXP>1 we need to pick different seeds for subsequent runs
 SYSLOGGING=1
@@ -63,10 +64,11 @@ LOGFILE_BASE="${LOGDIR}/${DATESTAMP}"
 mkdir -p $(dirname "${LOGFILE_BASE}")
 
 ## Docker params
-CONTVOLS="-v $DATADIR:/data -v $LOGDIR:/results"
+CONTVOLS="-v $DATADIR:/data -v $LOGDIR:/results -v /cm/local/apps/cuda/libs/current:/usr/local/nvidia"
 NV_GPU="${NVIDIA_VISIBLE_DEVICES:-$(seq 0 $((${SLURM_NTASKS_PER_NODE:-${DGXNGPU}}-1)) | tr '\n' ',' | sed 's/,$//')}"
 
-DOCKEREXEC="env NV_GPU=${NV_GPU} nvidia-docker run --init --rm --net=host --uts=host --ipc=host --ulimit stack=67108864 --ulimit memlock=-1 --name=cont_${SLURM_JOB_ID} --security-opt seccomp=unconfined $IBDEVICES"
+#DOCKEREXEC="env NV_GPU=${NV_GPU} nvidia-docker run --init --rm --net=host --uts=host --ipc=host --ulimit stack=67108864 --ulimit memlock=-1 --name=cont_${SLURM_JOB_ID} --security-opt seccomp=unconfined $IBDEVICES"
+DOCKEREXEC="env NV_GPU=${NV_GPU} docker run --gpus=all --init --rm --net=host --uts=host --ipc=host --ulimit stack=67108864 --ulimit memlock=-1 --name=cont_${SLURM_JOB_ID} --security-opt seccomp=unconfined $IBDEVICES"
 
 
 export MLPERF_HOST_OS="$(cat /etc/issue | head -1 | cut -f1-3 -d" ") / $(cat /etc/dgx-release | grep -E "DGX_PRETTY_NAME|DGX_OTA_VERSION" |cut -f2 -d= |cut -f2 -d '"' |paste -sd' ')"
@@ -165,12 +167,14 @@ MULTINODE_VARS=(
        -e "OMPI_MCA_mca_base_param_files=/dev/shm/mpi/${SLURM_JOB_ID}/mca_params.conf"
      )
 
+PULL=0
+docker build -t $CONT .
 
 if [[ $SLURM_NNODES -gt 1 ]]; then
     # Pull image
 	echo "Creating containers:"
 	[[ "${PULL}" != "0" ]] && $SRUNl docker pull $CONT
-	$SRUNl nvidia-docker run -d "${MULTINODE_DOCKERRUN_ARGS[@]}" --name=cont_${SLURM_JOB_ID} $CONTVOLS "${MULTINODE_VARS[@]}" $CONT bash -c 'sleep infinity' ; rv=$?
+	$SRUNl docker run --gpus=all -d "${MULTINODE_DOCKERRUN_ARGS[@]}" --name=cont_${SLURM_JOB_ID} $CONTVOLS "${MULTINODE_VARS[@]}" $CONT bash -c 'sleep infinity' ; rv=$?
     $SRUNl docker exec cont_${SLURM_JOB_ID} rm -f /etc/shinit
 
 	[[ $rv -ne 0 ]] && echo "ERR: Container launch failed." && exit $rv

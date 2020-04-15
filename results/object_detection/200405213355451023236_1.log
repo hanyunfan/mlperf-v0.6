@@ -1,0 +1,69 @@
+Beginning trial 1 of 2
+Gathering sys log on node001
+:::MLL 1586140695.776 submission_benchmark: {"value": "maskrcnn", "metadata": {"file": "mlperf_logger.py", "lineno": 213}}
+:::MLL 1586140695.778 submission_org: {"value": "NVIDIA", "metadata": {"file": "mlperf_logger.py", "lineno": 218}}
+WARNING: Log validation: Key "submission_division" is not in known maskrcnn keys.
+:::MLL 1586140695.779 submission_division: {"value": "closed", "metadata": {"file": "mlperf_logger.py", "lineno": 222}}
+:::MLL 1586140695.781 submission_status: {"value": "onprem", "metadata": {"file": "mlperf_logger.py", "lineno": 226}}
+:::MLL 1586140695.783 submission_platform: {"value": "1xPowerEdge R7525", "metadata": {"file": "mlperf_logger.py", "lineno": 230}}
+:::MLL 1586140695.784 submission_entry: {"value": "{'hardware': 'PowerEdge R7525', 'framework': 'PyTorch NVIDIA Release 19.05', 'power': 'N/A', 'notes': 'N/A', 'interconnect': ' ', 'os': '\\\\S / ', 'libraries': \"{'container_base': 'Ubuntu-16.04', 'openmpi_version': '3.1.3', 'mofed_version': '4.0-0', 'cuda_version': '10.1.163', 'cuda_driver_version': '418.67', 'nccl_version': '2.4.6', 'cudnn_version': '7.6.0.64', 'cublas_version': '10.2.0.163', 'trt_version': '5.1.5.0', 'dali_version': '0.9.1'}\", 'compilers': 'gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609', 'nodes': \"{'num_nodes': '1', 'cpu': '2x AMD EPYC 7502 32-Core Processor', 'num_cores': '64', 'num_vcpus': '64', 'accelerator': 'Tesla V100-PCIE-32GB', 'num_accelerators': '3', 'sys_mem_size': '251 GB', 'sys_storage_type': 'NVMe SSD', 'sys_storage_size': '1x 931.5G', 'cpu_accel_interconnect': 'QPI', 'network_card': '', 'num_network_cards': '0', 'notes': ''}\"}", "metadata": {"file": "mlperf_logger.py", "lineno": 234}}
+:::MLL 1586140695.786 submission_poc_name: {"value": "Paulius Micikevicius", "metadata": {"file": "mlperf_logger.py", "lineno": 238}}
+:::MLL 1586140695.788 submission_poc_email: {"value": "pauliusm@nvidia.com", "metadata": {"file": "mlperf_logger.py", "lineno": 242}}
+Clearing caches
+:::MLL 1586140696.555 cache_clear: {"value": true, "metadata": {"file": "<string>", "lineno": 1}}
+Launching on node node001
++ pids+=($!)
++ set +x
+++ eval echo
++++ echo
++ docker exec -e DGXSYSTEM=DGX1 -e 'MULTI_NODE= --master_port=5037' -e SLURM_JOB_ID=200405213355451023236 -e SLURM_NTASKS_PER_NODE= -e SLURM_NNODES=1 cont_200405213355451023236 ./run_and_time.sh
++ DGXSYSTEM=DGX1
++ [[ -f config_DGX1.sh ]]
++ source config_DGX1.sh
+++ EXTRA_PARAMS=
+++ EXTRA_CONFIG=("SOLVER.BASE_LR" "0.03" "SOLVER.MAX_ITER" "160000" "SOLVER.WARMUP_FACTOR" "0.000096" "SOLVER.WARMUP_ITERS" "625" "SOLVER.WARMUP_METHOD" "mlperf_linear" "SOLVER.STEPS" "(48000, 64000)" "SOLVER.IMS_PER_BATCH" "18" "TEST.IMS_PER_BATCH" "3" "MODEL.RPN.FPN_POST_NMS_TOP_N_TRAIN" "6000" "NHWC" "True")
+++ DGXNNODES=1
++++ sed 's/^config_//'
++++ sed 's/\.sh$//'
+++++ readlink -f config_DGX1.sh
++++ basename /workspace/object_detection/config_DGX1.sh
+++ DGXSYSTEM=DGX1
+++ WALLTIME=14:00:00
+++ DGXNGPU=3
+++ DGXSOCKETCORES=16
+++ DGXNSOCKET=2
+++ DGXHT=1
+++ DGXIBDEVICES=
+++ BIND_LAUNCH=0
++ SLURM_NTASKS_PER_NODE=3
++ SLURM_JOB_ID=200405213355451023236
++ MULTI_NODE=' --master_port=5037'
++ echo 'Run vars: id 200405213355451023236 gpus 3 mparams  --master_port=5037'
+Run vars: id 200405213355451023236 gpus 3 mparams  --master_port=5037
++ set -e
+++ date +%s
++ start=1586140696
+++ date '+%Y-%m-%d %r'
++ start_fmt='2020-04-06 02:38:16 AM'
+STARTING TIMING RUN AT 2020-04-06 02:38:16 AM
++ echo 'STARTING TIMING RUN AT 2020-04-06 02:38:16 AM'
++ set -x
+running benchmark
++ echo 'running benchmark'
++ DATASET_DIR=/data
++ '[' '!' -f /coco ']'
++ ln -sf /data/coco2017 /coco
+++ ls /data
++ echo coco2017 ilsvrc12_passthrough torchvision
+coco2017 ilsvrc12_passthrough torchvision
++ python -m bind_launch --nsockets_per_node 2 --ncores_per_socket 16 --no_hyperthreads --nproc_per_node 3 --master_port=5037 tools/train_mlperf.py --config-file configs/e2e_mask_rcnn_R_50_FPN_1x.yaml DTYPE float16 PATHS_CATALOG maskrcnn_benchmark/config/paths_catalog_dbcluster.py MODEL.WEIGHT /coco/models/R-50.pkl DISABLE_REDUCED_LOGGING True SOLVER.BASE_LR 0.03 SOLVER.MAX_ITER 160000 SOLVER.WARMUP_FACTOR 0.000096 SOLVER.WARMUP_ITERS 625 SOLVER.WARMUP_METHOD mlperf_linear SOLVER.STEPS '(48000, 64000)' SOLVER.IMS_PER_BATCH 18 TEST.IMS_PER_BATCH 3 MODEL.RPN.FPN_POST_NMS_TOP_N_TRAIN 6000 NHWC True
+numactl: execution of `': No such file or directory
+
+numactl: execution of `': No such file or directory
+
+numactl: execution of `': No such file or directory
+
++ ret_code=0
++ set +x
+ENDING TIMING RUN AT 2020-04-06 02:38:20 AM
+RESULT,OBJECT_DETECTION,,4,nvidia,2020-04-06 02:38:16 AM

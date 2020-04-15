@@ -1,0 +1,1005 @@
+Beginning trial 1 of 1
+Gathering sys log on node001
+:::MLL 1586546333.481 submission_benchmark: {"value": "minigo", "metadata": {"file": "mlperf_log_utils.py", "lineno": 176}}
+:::MLL 1586546333.482 submission_org: {"value": "NVIDIA", "metadata": {"file": "mlperf_log_utils.py", "lineno": 181}}
+WARNING: Log validation: Key "submission_division" is not in known minigo keys.
+:::MLL 1586546333.483 submission_division: {"value": "closed", "metadata": {"file": "mlperf_log_utils.py", "lineno": 185}}
+:::MLL 1586546333.483 submission_status: {"value": "onprem", "metadata": {"file": "mlperf_log_utils.py", "lineno": 189}}
+:::MLL 1586546333.484 submission_platform: {"value": "1xPowerEdge R7525", "metadata": {"file": "mlperf_log_utils.py", "lineno": 193}}
+:::MLL 1586546333.485 submission_entry: {"value": "{'notes': 'N/A', 'compilers': 'gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609', 'power': 'N/A', 'interconnect': ' ', 'hardware': 'PowerEdge R7525', 'libraries': \"{'cuda_driver_version': '418.67', 'trt_version': '5.1.5.0', 'container_base': 'Ubuntu-16.04', 'mofed_version': '4.0-0', 'openmpi_version': '3.1.3', 'dali_version': '0.9.1', 'cuda_version': '10.1.163', 'cudnn_version': '7.6.0.64', 'nccl_version': '2.4.6', 'cublas_version': '10.2.0.163'}\", 'nodes': \"{'num_network_cards': '0', 'network_card': '', 'sys_mem_size': '251 GB', 'cpu': '2x AMD EPYC 7502 32-Core Processor', 'sys_storage_type': 'NVMe SSD', 'notes': '', 'num_cores': '64', 'sys_storage_size': '1x 931.5G', 'cpu_accel_interconnect': 'QPI', 'num_vcpus': '64', 'num_nodes': '1', 'num_accelerators': '3', 'accelerator': 'Tesla V100-PCIE-32GB'}\", 'framework': 'TensorFlow NVIDIA Release 19.05', 'os': '\\\\S / '}", "metadata": {"file": "mlperf_log_utils.py", "lineno": 197}}
+:::MLL 1586546333.486 submission_poc_name: {"value": "Paulius Micikevicius", "metadata": {"file": "mlperf_log_utils.py", "lineno": 201}}
+:::MLL 1586546333.487 submission_poc_email: {"value": "pauliusm@nvidia.com", "metadata": {"file": "mlperf_log_utils.py", "lineno": 205}}
+Clearing caches
+:::MLL 1586546336.846 cache_clear: {"metadata": {"file": "<string>", "lineno": 1}, "value": true}
+Launching on node node001
++ pids+=($!)
++ set +x
+++ eval echo
++++ echo
++ docker exec -e DGXSYSTEM=DGX1 -e 'SEED=     2466632' -e 'MULTI_NODE= --master_port=4909' -e SLURM_JOB_ID=200410141636535044861 -e SLURM_NTASKS_PER_NODE=8 -e SLURM_NNODES=1 -e 'MLPERF_HOST_OS=\S / ' cont_200410141636535044861 ./run_and_time.sh
+Run vars: id 200410141636535044861 gpus 8 mparams  --master_port=4909
+Making dir ml_perf/target/9
+I0410 19:18:57.479645 140737354036992 utils.py:74] Running: gsutil  -m  cp  -r  gs://minigo-pub/ml_perf/0.6/target/*  ml_perf/target/9
+I0410 19:18:59.736110 140737354036992 utils.py:84] gsutil finished: 2.256 seconds
+Making dir ml_perf/checkpoint/9
+I0410 19:18:59.737117 140737354036992 utils.py:74] Running: gsutil  -m  cp  -r  gs://minigo-pub/ml_perf/0.6/checkpoint/work_dir/work_dir  ml_perf/checkpoint/9
+I0410 19:19:01.810050 140737354036992 utils.py:84] gsutil finished: 2.073 seconds
+I0410 19:19:01.810913 140737354036992 utils.py:74] Running: gsutil  -m  cp  -r  gs://minigo-pub/ml_perf/0.6/checkpoint/golden_chunks  ml_perf/checkpoint/9
+I0410 19:19:54.347528 140737354036992 utils.py:84] gsutil finished: 52.536 seconds
+I0410 19:19:54.348383 140737354036992 utils.py:74] Running: gsutil  -m  cp  -r  gs://minigo-pub/ml_perf/0.6/target/*  ml_perf/target/9
+I0410 19:19:56.201055 140737354036992 utils.py:84] gsutil finished: 1.852 seconds
+I0410 19:19:56.201894 140737354036992 utils.py:74] Running: gsutil  -m  cp  -r  gs://minigo-pub/ml_perf/0.6/checkpoint/work_dir/work_dir  ml_perf/checkpoint/9
+I0410 19:19:58.065989 140737354036992 utils.py:84] gsutil finished: 1.864 seconds
+I0410 19:19:58.066832 140737354036992 utils.py:74] Running: gsutil  -m  cp  -r  gs://minigo-pub/ml_perf/0.6/checkpoint/golden_chunks  ml_perf/checkpoint/9
+I0410 19:20:50.183122 140737354036992 utils.py:84] gsutil finished: 52.116 seconds
+I0410 19:20:50.183912 140737354036992 utils.py:74] Running: python  freeze_graph.py  --model_path=ml_perf/target/9/target  --trt_batch=2048  --use_tpu=False
+I0410 19:21:07.339130 140737354036992 utils.py:84] freeze_graph finished: 17.155 seconds
+I0410 19:21:07.340289 140737354036992 utils.py:74] Running: python  freeze_graph.py  --model_path=ml_perf/checkpoint/9/work_dir/model.ckpt-9383  --trt_batch=2048  --use_tpu=False
+I0410 19:21:24.329462 140737354036992 utils.py:84] freeze_graph finished: 16.989 seconds
++ echo 'running benchmark'
++ python ml_perf/reference_implementation.py --base_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21 --flagfile=ml_perf/flags/9/rl_loop.flags
+STARTING TIMING RUN AT 2020-04-10 07:21:24 PM
+running benchmark
+--------------------------------------------------------------------------
+[[1538,1],0]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: node001
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+Wiping dir /opt/reinforcement/minigo/results/node001-2020-04-10-19-21
+Making dir /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models
+Making dir /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay
+Making dir /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout
+Making dir /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/sgf/eval
+Making dir /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks
+Making dir /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir
+:::MLL 1586546486.840 init_start: {"value": null, "metadata": {"file": "ml_perf/reference_implementation.py", "lineno": 879}}
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:03<00:00,  3.03s/it]100%|██████████| 1/1 [00:03<00:00,  3.03s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:03<00:00,  3.06s/it]100%|██████████| 1/1 [00:03<00:00,  3.06s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:03<00:00,  3.07s/it]100%|██████████| 1/1 [00:03<00:00,  3.07s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:03<00:00,  3.03s/it]100%|██████████| 1/1 [00:03<00:00,  3.03s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:03<00:00,  3.40s/it]100%|██████████| 1/1 [00:03<00:00,  3.40s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:03<00:00,  3.34s/it]100%|██████████| 1/1 [00:03<00:00,  3.34s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:03<00:00,  3.28s/it]100%|██████████| 1/1 [00:03<00:00,  3.28s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:03<00:00,  3.04s/it]100%|██████████| 1/1 [00:03<00:00,  3.04s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:03<00:00,  3.30s/it]100%|██████████| 1/1 [00:03<00:00,  3.30s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:03<00:00,  3.30s/it]100%|██████████| 1/1 [00:03<00:00,  3.30s/it]Got 345422 examples
+Writing examples to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz: 12.549 seconds
+Got 348718 examples
+Writing examples to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz: 12.657 seconds
+Got 388763 examples
+Writing examples to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz: 14.764 seconds
+Got 343406 examples
+Writing examples to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz: 11.788 seconds
+Got 391359 examples
+Writing examples to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz: 13.763 seconds
+Got 383423 examples
+Writing examples to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz: 13.855 seconds
+Got 380149 examples
+Writing examples to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz: 13.554 seconds
+Got 347559 examples
+Writing examples to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz: 12.058 seconds
+Got 377689 examples
+Writing examples to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz: 13.861 seconds
+Got 387417 examples
+Writing examples to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz: 14.059 seconds
+:::MLL 1586546661.728 opt_base_learning_rate: {"value": [0.32, 0.032, 0.0032], "metadata": {"file": "ml_perf/reference_implementation.py", "lineno": 901}}
+:::MLL 1586546661.729 opt_learning_rate_decay_boundary_steps: {"value": [12500, 18750], "metadata": {"file": "ml_perf/reference_implementation.py", "lineno": 902}}
+:::MLL 1586546661.730 global_batch_size: {"value": 8192, "metadata": {"file": "ml_perf/reference_implementation.py", "lineno": 903}}
+:::MLL 1586546661.730 virtual_losses: {"value": 8, "metadata": {"file": "ml_perf/reference_implementation.py", "lineno": 906}}
+:::MLL 1586546661.731 init_stop: {"value": null, "metadata": {"file": "ml_perf/reference_implementation.py", "lineno": 988}}
+:::MLL 1586546661.731 run_start: {"value": null, "metadata": {"file": "ml_perf/reference_implementation.py", "lineno": 989}}
+:::MLL 1586546661.732 train_loop: {"value": null, "metadata": {"file": "ml_perf/reference_implementation.py", "lineno": 992}}
+:::MLL 1586546661.733 epoch_start: {"value": null, "metadata": {"file": "ml_perf/reference_implementation.py", "lineno": 993, "epoch_num": 1}}
+
+I0410 19:24:21.761090 140737354036992 utils.py:74] Running: mpiexec  --allow-run-as-root  --map-by  ppr:4:socket,pe=2  -np  8  python3  train.py  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_0  --conv_width=32  --fc_width=64  --trunk_layers=9  --value_cost_weight=0.25  --summary_steps=64  --shuffle_buffer_size=10000  --filter_amount=0.5  --train_batch_size=8192  --lr_rates=[0.32,0.032,0.0032]  --lr_boundaries=[12500,18750]  --l2_strength=0.0001  --work_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir  --export_path=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/000001-000001  --training_seed=2  --use_mgpu_horovod=true  --freeze=true
+I0410 19:24:21.810493 140737354036992 utils.py:74] Running: numactl  --physcpubind=8-10  --membind=0  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=32
+I0410 19:24:21.854571 140737354036992 utils.py:74] Running: numactl  --physcpubind=11-13  --membind=0  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=33
+I0410 19:24:21.898754 140737354036992 utils.py:74] Running: numactl  --physcpubind=14-16  --membind=0  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=34
+I0410 19:24:21.941209 140737354036992 utils.py:74] Running: numactl  --physcpubind=17-19  --membind=0  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=35
+I0410 19:24:21.980294 140737354036992 utils.py:74] Running: numactl  --physcpubind=28-30  --membind=1  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=36
+I0410 19:24:22.022245 140737354036992 utils.py:74] Running: numactl  --physcpubind=31-33  --membind=1  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=37
+I0410 19:24:22.066070 140737354036992 utils.py:74] Running: numactl  --physcpubind=34-36  --membind=1  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=38
+I0410 19:24:22.109889 140737354036992 utils.py:74] Running: numactl  --physcpubind=37-39  --membind=1  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=39
+I0410 19:24:22.145787 140737354036992 utils.py:74] Running: numactl  --physcpubind=48-50  --membind=0  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=40
+I0410 19:24:22.181224 140737354036992 utils.py:74] Running: numactl  --physcpubind=51-53  --membind=0  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=41
+I0410 19:24:22.219445 140737354036992 utils.py:74] Running: numactl  --physcpubind=54-56  --membind=0  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=42
+I0410 19:24:22.251264 140737354036992 utils.py:74] Running: numactl  --physcpubind=57-59  --membind=0  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=43
+I0410 19:24:22.284877 140737354036992 utils.py:74] Running: numactl  --physcpubind=68-70  --membind=1  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=44
+I0410 19:24:22.316793 140737354036992 utils.py:74] Running: numactl  --physcpubind=71-73  --membind=1  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=45
+I0410 19:24:22.349814 140737354036992 utils.py:74] Running: numactl  --physcpubind=74-76  --membind=1  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=46
+I0410 19:24:22.382109 140737354036992 utils.py:74] Running: numactl  --physcpubind=77-79  --membind=1  bazel-bin/cc/selfplay  --num_games=256  --num_readouts=240  --value_init_penalty=0.2  --holdout_pct=0.03  --disable_resign_pct=0.1  --resign_threshold=-0.99  --parallel_games=128  --virtual_losses=8  --model=trt:1024,/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/checkpoint.pb  --output_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/selfplay/000001-000000  --holdout_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/holdout/000001-000000  --seed=47
+I0410 19:25:24.107721 140737354036992 utils.py:84] numactl finished: 62.297 seconds
+I0410 19:25:24.206715 140737354036992 utils.py:84] numactl finished: 62.307 seconds
+I0410 19:25:29.005634 140737354036992 utils.py:84] numactl finished: 67.151 seconds
+I0410 19:25:29.353495 140737354036992 utils.py:84] numactl finished: 67.207 seconds
+I0410 19:25:29.478243 140737354036992 utils.py:84] numactl finished: 67.258 seconds
+I0410 19:25:36.487939 140737354036992 utils.py:84] numactl finished: 74.306 seconds
+I0410 19:25:36.490503 140737354036992 reference_implementation.py:364] Thread 38 stopping
+Played 256 games, total time 61.5588 sec.
+             Black   Black   Black   Black   White   White   White   White
+             total   passes  resign  m.lmt.  total   passes  resign  m.lmt.
+checkpoint     146     114      32       0     110      41      69       0
+Ran 7276 batches with an average size of 804.298
+I0410 19:25:36.491574 140737354036992 reference_implementation.py:364] Thread 88 stopping
+Played 256 games, total time 66.5391 sec.
+             Black   Black   Black   Black   White   White   White   White
+             total   passes  resign  m.lmt.  total   passes  resign  m.lmt.
+checkpoint     148     106      42       0     108      52      56       0
+Ran 8466 batches with an average size of 710.24
+I0410 19:25:36.491702 140737354036992 reference_implementation.py:364] Thread 52 stopping
+Played 256 games, total time 61.5949 sec.
+             Black   Black   Black   Black   White   White   White   White
+             total   passes  resign  m.lmt.  total   passes  resign  m.lmt.
+checkpoint     129      91      38       0     127      65      62       0
+Ran 7312 batches with an average size of 798.202
+Train get_golden_chunks at iter = 1 has win_size = 10
+Traceback (most recent call last):
+  File "ml_perf/reference_implementation.py", line 1060, in <module>
+    app.run(main)
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 300, in run
+    _run_main(main, args)
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 251, in _run_main
+    sys.exit(main(argv))
+  File "ml_perf/reference_implementation.py", line 1056, in main
+    asyncio.get_event_loop().close()
+  File "/usr/lib/python3.5/contextlib.py", line 77, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "./utils.py", line 82, in logged_timer
+    yield
+  File "ml_perf/reference_implementation.py", line 1054, in main
+    rl_loop(mpi_comm, mpi_rank, mpi_size)
+  File "ml_perf/reference_implementation.py", line 1010, in rl_loop
+    minigo_print(key=constants.EPOCH_STOP, metadata={'epoch_num': state.iter_num})
+  File "/usr/lib/python3.5/contextlib.py", line 77, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "./utils.py", line 82, in logged_timer
+    yield
+  File "ml_perf/reference_implementation.py", line 1001, in rl_loop
+    selfplay(state)])
+  File "./ml_perf/utils.py", line 124, in wait
+    raise result
+  File "/usr/lib/python3.5/asyncio/tasks.py", line 239, in _step
+    result = coro.send(None)
+  File "ml_perf/reference_implementation.py", line 778, in train_eval_convert
+    await train(state, tf_records)
+  File "ml_perf/reference_implementation.py", line 507, in train
+    '--freeze=true')
+  File "ml_perf/reference_implementation.py", line 258, in run
+    stdout = await checked_run(env, *cmd)
+  File "./ml_perf/utils.py", line 96, in checked_run
+    return stdout
+  File "/usr/lib/python3.5/contextlib.py", line 77, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "./utils.py", line 82, in logged_timer
+    yield
+  File "./ml_perf/utils.py", line 94, in checked_run
+    p.returncode, expand_cmd_str(cmd), stdout))
+RuntimeError: Return code 134 from process: mpiexec  --allow-run-as-root  --map-by  ppr:4:socket,pe=2  -np  8  python3  train.py  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000008.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000007.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000006.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000005.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000004.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000003.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000002.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000001.tfrecord.zz_0  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_7  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_6  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_5  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_4  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_3  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_2  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_1  /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_0  --conv_width=32  --fc_width=64  --trunk_layers=9  --value_cost_weight=0.25  --summary_steps=64  --shuffle_buffer_size=10000  --filter_amount=0.5  --train_batch_size=8192  --lr_rates=[0.32,0.032,0.0032]  --lr_boundaries=[12500,18750]  --l2_strength=0.0001  --work_dir=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir  --export_path=/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/models/000001-000001  --training_seed=2  --use_mgpu_horovod=true  --freeze=true
+[node001:10976] [[1401,0],0] ORTE_ERROR_LOG: Out of resource in file util/show_help.c at line 501
+--------------------------------------------------------------------------
+[[1401,1],5]: A high-performance Open MPI point-to-point messaging module
+was unable to find any relevant network interfaces:
+
+Module: OpenFabrics (openib)
+  Host: node001
+
+Another transport will be used instead, although this may result in
+lower performance.
+
+NOTE: You can disable this warning by setting the MCA parameter
+btl_base_warn_component_unused to 0.
+--------------------------------------------------------------------------
+I0410 19:24:25.226667 140737354036992 train.py:321] Training on 80 records: /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_7 to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_0
+I0410 19:24:25.226706 140737354036992 train.py:321] Training on 80 records: /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_7 to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_0
+I0410 19:24:25.226682 140737354036992 train.py:321] Training on 80 records: /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_7 to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_0
+I0410 19:24:25.226752 140737354036992 train.py:321] Training on 80 records: /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_7 to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_0
+I0410 19:24:25.226734 140737354036992 train.py:321] Training on 80 records: /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_7 to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_0
+I0410 19:24:25.226841 140737354036992 train.py:321] Training on 80 records: /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_7 to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_0
+I0410 19:24:25.226847 140737354036992 train.py:321] Training on 80 records: /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_7 to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_0
+I0410 19:24:25.227007 140737354036992 train.py:321] Training on 80 records: /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000009.tfrecord.zz_7 to /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/data/golden_chunks/000000-000000.tfrecord.zz_0
+I0410 19:24:25.242412 140737354036992 estimator.py:201] Using config: {'_keep_checkpoint_max': 5, '_save_checkpoints_steps': None, '_experimental_distribute': None, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7fffc0811550>, '_evaluation_master': '', '_global_id_in_cluster': 0, '_device_fn': None, '_num_ps_replicas': 0, '_is_chief': True, '_task_type': 'worker', '_save_summary_steps': 64, '_num_worker_replicas': 1, '_session_config': intra_op_parallelism_threads: 1
+inter_op_parallelism_threads: 4
+gpu_options {
+  per_process_gpu_memory_fraction: 0.7
+  visible_device_list: "5"
+  force_gpu_compatible: true
+}
+, '_keep_checkpoint_every_n_hours': 10000, '_tf_random_seed': None, '_eval_distribute': None, '_log_step_count_steps': 100, '_task_id': 0, '_service': None, '_model_dir': '/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir', '_save_checkpoints_secs': None, '_train_distribute': None, '_master': '', '_protocol': None}
+I0410 19:24:25.243219 140737354036992 train.py:236] Training, steps = ?, batch = 8192 -> ? examples
+I0410 19:24:25.242441 140737354036992 estimator.py:201] Using config: {'_task_type': 'worker', '_evaluation_master': '', '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7fffdf750550>, '_save_checkpoints_steps': 1000, '_service': None, '_task_id': 0, '_train_distribute': None, '_num_ps_replicas': 0, '_experimental_distribute': None, '_model_dir': '/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir', '_master': '', '_device_fn': None, '_protocol': None, '_is_chief': True, '_keep_checkpoint_every_n_hours': 10000, '_session_config': intra_op_parallelism_threads: 1
+inter_op_parallelism_threads: 4
+gpu_options {
+  per_process_gpu_memory_fraction: 0.7
+  visible_device_list: "0"
+  force_gpu_compatible: true
+}
+, '_tf_random_seed': None, '_save_summary_steps': 64, '_save_checkpoints_secs': None, '_num_worker_replicas': 1, '_keep_checkpoint_max': 5, '_log_step_count_steps': 100, '_global_id_in_cluster': 0, '_eval_distribute': None}
+I0410 19:24:25.243171 140737354036992 train.py:236] Training, steps = ?, batch = 8192 -> ? examples
+I0410 19:24:25.242586 140737354036992 estimator.py:201] Using config: {'_experimental_distribute': None, '_protocol': None, '_train_distribute': None, '_save_summary_steps': 64, '_master': '', '_num_worker_replicas': 1, '_evaluation_master': '', '_save_checkpoints_steps': None, '_session_config': intra_op_parallelism_threads: 1
+inter_op_parallelism_threads: 4
+gpu_options {
+  per_process_gpu_memory_fraction: 0.7
+  visible_device_list: "1"
+  force_gpu_compatible: true
+}
+, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7fffd759c550>, '_log_step_count_steps': 100, '_keep_checkpoint_max': 5, '_num_ps_replicas': 0, '_global_id_in_cluster': 0, '_service': None, '_tf_random_seed': None, '_task_id': 0, '_eval_distribute': None, '_keep_checkpoint_every_n_hours': 10000, '_is_chief': True, '_model_dir': '/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir', '_save_checkpoints_secs': None, '_task_type': 'worker', '_device_fn': None}
+I0410 19:24:25.243397 140737354036992 train.py:236] Training, steps = ?, batch = 8192 -> ? examples
+I0410 19:24:25.243161 140737354036992 estimator.py:201] Using config: {'_global_id_in_cluster': 0, '_experimental_distribute': None, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7fffca2f6550>, '_protocol': None, '_task_id': 0, '_train_distribute': None, '_tf_random_seed': None, '_keep_checkpoint_every_n_hours': 10000, '_num_ps_replicas': 0, '_eval_distribute': None, '_task_type': 'worker', '_log_step_count_steps': 100, '_save_checkpoints_secs': None, '_model_dir': '/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir', '_save_summary_steps': 64, '_keep_checkpoint_max': 5, '_service': None, '_save_checkpoints_steps': None, '_device_fn': None, '_num_worker_replicas': 1, '_master': '', '_evaluation_master': '', '_session_config': intra_op_parallelism_threads: 1
+inter_op_parallelism_threads: 4
+gpu_options {
+  per_process_gpu_memory_fraction: 0.7
+  visible_device_list: "2"
+  force_gpu_compatible: true
+}
+, '_is_chief': True}
+I0410 19:24:25.243850 140737354036992 train.py:236] Training, steps = ?, batch = 8192 -> ? examples
+I0410 19:24:25.242609 140737354036992 estimator.py:201] Using config: {'_master': '', '_eval_distribute': None, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7fffc07d9550>, '_log_step_count_steps': 100, '_session_config': intra_op_parallelism_threads: 1
+inter_op_parallelism_threads: 4
+gpu_options {
+  per_process_gpu_memory_fraction: 0.7
+  visible_device_list: "7"
+  force_gpu_compatible: true
+}
+, '_device_fn': None, '_keep_checkpoint_every_n_hours': 10000, '_num_ps_replicas': 0, '_global_id_in_cluster': 0, '_train_distribute': None, '_tf_random_seed': None, '_model_dir': '/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir', '_save_checkpoints_secs': None, '_is_chief': True, '_save_summary_steps': 64, '_experimental_distribute': None, '_task_type': 'worker', '_keep_checkpoint_max': 5, '_task_id': 0, '_evaluation_master': '', '_protocol': None, '_service': None, '_num_worker_replicas': 1, '_save_checkpoints_steps': None}
+I0410 19:24:25.243357 140737354036992 train.py:236] Training, steps = ?, batch = 8192 -> ? examples
+I0410 19:24:25.243710 140737354036992 estimator.py:201] Using config: {'_session_config': intra_op_parallelism_threads: 1
+inter_op_parallelism_threads: 4
+gpu_options {
+  per_process_gpu_memory_fraction: 0.7
+  visible_device_list: "4"
+  force_gpu_compatible: true
+}
+, '_save_checkpoints_steps': None, '_service': None, '_experimental_distribute': None, '_num_ps_replicas': 0, '_num_worker_replicas': 1, '_save_summary_steps': 64, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7fffc07d8550>, '_keep_checkpoint_every_n_hours': 10000, '_evaluation_master': '', '_task_id': 0, '_eval_distribute': None, '_keep_checkpoint_max': 5, '_train_distribute': None, '_tf_random_seed': None, '_task_type': 'worker', '_log_step_count_steps': 100, '_save_checkpoints_secs': None, '_model_dir': '/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir', '_global_id_in_cluster': 0, '_device_fn': None, '_master': '', '_is_chief': True, '_protocol': None}
+I0410 19:24:25.244740 140737354036992 train.py:236] Training, steps = ?, batch = 8192 -> ? examples
+I0410 19:24:25.242871 140737354036992 estimator.py:201] Using config: {'_log_step_count_steps': 100, '_is_chief': True, '_num_worker_replicas': 1, '_eval_distribute': None, '_keep_checkpoint_every_n_hours': 10000, '_task_id': 0, '_master': '', '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7fffca2f6550>, '_save_summary_steps': 64, '_global_id_in_cluster': 0, '_protocol': None, '_device_fn': None, '_num_ps_replicas': 0, '_experimental_distribute': None, '_session_config': intra_op_parallelism_threads: 1
+inter_op_parallelism_threads: 4
+gpu_options {
+  per_process_gpu_memory_fraction: 0.7
+  visible_device_list: "3"
+  force_gpu_compatible: true
+}
+, '_evaluation_master': '', '_save_checkpoints_secs': None, '_tf_random_seed': None, '_task_type': 'worker', '_model_dir': '/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir', '_service': None, '_keep_checkpoint_max': 5, '_save_checkpoints_steps': None, '_train_distribute': None}
+I0410 19:24:25.243693 140737354036992 train.py:236] Training, steps = ?, batch = 8192 -> ? examples
+I0410 19:24:25.245701 140737354036992 estimator.py:201] Using config: {'_is_chief': True, '_evaluation_master': '', '_session_config': intra_op_parallelism_threads: 1
+inter_op_parallelism_threads: 4
+gpu_options {
+  per_process_gpu_memory_fraction: 0.7
+  visible_device_list: "6"
+  force_gpu_compatible: true
+}
+, '_model_dir': '/opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir', '_protocol': None, '_service': None, '_num_worker_replicas': 1, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7fffc27d8550>, '_master': '', '_train_distribute': None, '_keep_checkpoint_every_n_hours': 10000, '_save_checkpoints_secs': None, '_global_id_in_cluster': 0, '_tf_random_seed': None, '_log_step_count_steps': 100, '_eval_distribute': None, '_save_checkpoints_steps': None, '_task_id': 0, '_keep_checkpoint_max': 5, '_device_fn': None, '_num_ps_replicas': 0, '_experimental_distribute': None, '_save_summary_steps': 64, '_task_type': 'worker'}
+W0410 19:24:25.246375 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+I0410 19:24:25.246434 140737354036992 train.py:236] Training, steps = ?, batch = 8192 -> ? examples
+W0410 19:24:25.246484 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+W0410 19:24:25.246773 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+W0410 19:24:25.246779 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+W0410 19:24:25.247095 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+W0410 19:24:25.247425 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+W0410 19:24:25.249061 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+W0410 19:24:25.249341 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+Reading tf_records from 80 inputs
+Reading tf_records from 80 inputs
+W0410 19:24:25.254892 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:127: DatasetV1.shard (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `dataset.apply(tf.data.experimental.filter_for_shard(...))`.
+Reading tf_records from 80 inputs
+Reading tf_records from 80 inputs
+Reading tf_records from 80 inputs
+W0410 19:24:25.256099 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:127: DatasetV1.shard (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `dataset.apply(tf.data.experimental.filter_for_shard(...))`.
+W0410 19:24:25.256669 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:127: DatasetV1.shard (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `dataset.apply(tf.data.experimental.filter_for_shard(...))`.
+W0410 19:24:25.257085 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:127: DatasetV1.shard (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `dataset.apply(tf.data.experimental.filter_for_shard(...))`.
+Reading tf_records from 80 inputs
+W0410 19:24:25.257705 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:127: DatasetV1.shard (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `dataset.apply(tf.data.experimental.filter_for_shard(...))`.
+W0410 19:24:25.259191 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:127: DatasetV1.shard (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `dataset.apply(tf.data.experimental.filter_for_shard(...))`.
+Reading tf_records from 80 inputs
+W0410 19:24:25.263623 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:127: DatasetV1.shard (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `dataset.apply(tf.data.experimental.filter_for_shard(...))`.
+W0410 19:24:25.267645 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:140: parallel_interleave (from tensorflow.contrib.data.python.ops.interleave_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.data.experimental.parallel_interleave(...)`.
+Reading tf_records from 80 inputs
+W0410 19:24:25.270313 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:140: parallel_interleave (from tensorflow.contrib.data.python.ops.interleave_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.data.experimental.parallel_interleave(...)`.
+W0410 19:24:25.270764 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:140: parallel_interleave (from tensorflow.contrib.data.python.ops.interleave_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.data.experimental.parallel_interleave(...)`.
+W0410 19:24:25.272167 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:127: DatasetV1.shard (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `dataset.apply(tf.data.experimental.filter_for_shard(...))`.
+W0410 19:24:25.276397 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:140: parallel_interleave (from tensorflow.contrib.data.python.ops.interleave_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.data.experimental.parallel_interleave(...)`.
+W0410 19:24:25.284486 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:140: parallel_interleave (from tensorflow.contrib.data.python.ops.interleave_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.data.experimental.parallel_interleave(...)`.
+W0410 19:24:25.288194 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:140: parallel_interleave (from tensorflow.contrib.data.python.ops.interleave_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.data.experimental.parallel_interleave(...)`.
+W0410 19:24:25.292093 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:223: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, use
+    tf.py_function, which takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    
+W0410 19:24:25.294485 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:140: parallel_interleave (from tensorflow.contrib.data.python.ops.interleave_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.data.experimental.parallel_interleave(...)`.
+W0410 19:24:25.297601 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:223: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, use
+    tf.py_function, which takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    
+W0410 19:24:25.297832 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:223: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, use
+    tf.py_function, which takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    
+W0410 19:24:25.309791 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:223: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, use
+    tf.py_function, which takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    
+W0410 19:24:25.316482 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:140: parallel_interleave (from tensorflow.contrib.data.python.ops.interleave_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.data.experimental.parallel_interleave(...)`.
+W0410 19:24:25.327172 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:223: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, use
+    tf.py_function, which takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    
+W0410 19:24:25.351120 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:223: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, use
+    tf.py_function, which takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    
+W0410 19:24:25.356977 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:223: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, use
+    tf.py_function, which takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    
+W0410 19:24:25.358191 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/preprocessing.py:223: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, use
+    tf.py_function, which takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    
+I0410 19:24:25.368197 140737354036992 estimator.py:1111] Calling model_fn.
+W0410 19:24:25.368418 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: conv2d (from tensorflow.python.layers.convolutional) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.conv2d instead.
+W0410 19:24:25.377312 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: batch_normalization (from tensorflow.python.layers.normalization) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.batch_normalization instead.
+I0410 19:24:25.388109 140737354036992 estimator.py:1111] Calling model_fn.
+W0410 19:24:25.388394 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: conv2d (from tensorflow.python.layers.convolutional) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.conv2d instead.
+I0410 19:24:25.395868 140737354036992 estimator.py:1111] Calling model_fn.
+W0410 19:24:25.396077 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: conv2d (from tensorflow.python.layers.convolutional) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.conv2d instead.
+I0410 19:24:25.400826 140737354036992 estimator.py:1111] Calling model_fn.
+W0410 19:24:25.401110 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: conv2d (from tensorflow.python.layers.convolutional) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.conv2d instead.
+W0410 19:24:25.402934 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: batch_normalization (from tensorflow.python.layers.normalization) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.batch_normalization instead.
+W0410 19:24:25.406857 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: batch_normalization (from tensorflow.python.layers.normalization) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.batch_normalization instead.
+I0410 19:24:25.421531 140737354036992 estimator.py:1111] Calling model_fn.
+W0410 19:24:25.421764 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: conv2d (from tensorflow.python.layers.convolutional) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.conv2d instead.
+W0410 19:24:25.422945 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: batch_normalization (from tensorflow.python.layers.normalization) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.batch_normalization instead.
+W0410 19:24:25.429464 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: batch_normalization (from tensorflow.python.layers.normalization) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.batch_normalization instead.
+I0410 19:24:25.445723 140737354036992 estimator.py:1111] Calling model_fn.
+W0410 19:24:25.446097 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: conv2d (from tensorflow.python.layers.convolutional) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.conv2d instead.
+W0410 19:24:25.460773 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: batch_normalization (from tensorflow.python.layers.normalization) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.batch_normalization instead.
+I0410 19:24:25.504547 140737354036992 estimator.py:1111] Calling model_fn.
+I0410 19:24:25.511446 140737354036992 estimator.py:1111] Calling model_fn.
+W0410 19:24:25.511660 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: conv2d (from tensorflow.python.layers.convolutional) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.conv2d instead.
+W0410 19:24:25.516421 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: conv2d (from tensorflow.python.layers.convolutional) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.conv2d instead.
+W0410 19:24:25.521199 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: batch_normalization (from tensorflow.python.layers.normalization) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.batch_normalization instead.
+W0410 19:24:25.539513 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:576: batch_normalization (from tensorflow.python.layers.normalization) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.batch_normalization instead.
+W0410 19:24:25.940038 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:593: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+W0410 19:24:26.052715 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:593: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+W0410 19:24:26.062560 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:593: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+W0410 19:24:26.184020 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:593: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+W0410 19:24:26.242134 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:593: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+W0410 19:24:26.372656 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:593: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+W0410 19:24:26.379407 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/horovod-0.16.1-py3.5-linux-x86_64.egg/horovod/tensorflow/__init__.py:91: div (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Deprecated in favor of operator or tf.math.divide.
+W0410 19:24:26.400093 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:593: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+W0410 19:24:26.462479 140737354036992 deprecation.py:323] From /opt/reinforcement/minigo/dual_net.py:593: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.dense instead.
+W0410 19:24:26.485913 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/horovod-0.16.1-py3.5-linux-x86_64.egg/horovod/tensorflow/__init__.py:91: div (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Deprecated in favor of operator or tf.math.divide.
+W0410 19:24:26.506931 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/horovod-0.16.1-py3.5-linux-x86_64.egg/horovod/tensorflow/__init__.py:91: div (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Deprecated in favor of operator or tf.math.divide.
+W0410 19:24:26.775579 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/horovod-0.16.1-py3.5-linux-x86_64.egg/horovod/tensorflow/__init__.py:91: div (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Deprecated in favor of operator or tf.math.divide.
+W0410 19:24:26.818630 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/horovod-0.16.1-py3.5-linux-x86_64.egg/horovod/tensorflow/__init__.py:91: div (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Deprecated in favor of operator or tf.math.divide.
+I0410 19:24:26.820577 140737354036992 estimator.py:1113] Done calling model_fn.
+W0410 19:24:26.839051 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/horovod-0.16.1-py3.5-linux-x86_64.egg/horovod/tensorflow/__init__.py:91: div (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Deprecated in favor of operator or tf.math.divide.
+I0410 19:24:26.928900 140737354036992 estimator.py:1113] Done calling model_fn.
+I0410 19:24:26.945020 140737354036992 estimator.py:1113] Done calling model_fn.
+W0410 19:24:26.947776 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/horovod-0.16.1-py3.5-linux-x86_64.egg/horovod/tensorflow/__init__.py:91: div (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Deprecated in favor of operator or tf.math.divide.
+W0410 19:24:26.985739 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/horovod-0.16.1-py3.5-linux-x86_64.egg/horovod/tensorflow/__init__.py:91: div (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Deprecated in favor of operator or tf.math.divide.
+I0410 19:24:27.223422 140737354036992 estimator.py:1113] Done calling model_fn.
+I0410 19:24:27.272266 140737354036992 estimator.py:1113] Done calling model_fn.
+I0410 19:24:27.394873 140737354036992 estimator.py:1113] Done calling model_fn.
+I0410 19:24:27.395932 140737354036992 basic_session_run_hooks.py:527] Create CheckpointSaverHook.
+I0410 19:24:27.424519 140737354036992 estimator.py:1113] Done calling model_fn.
+I0410 19:24:27.541092 140737354036992 estimator.py:1113] Done calling model_fn.
+I0410 19:24:27.548835 140737354036992 monitored_session.py:222] Graph was finalized.
+2020-04-10 19:24:27.566334: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2495415000 Hz
+2020-04-10 19:24:27.566639: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x70d3160 executing computations on platform Host. Devices:
+2020-04-10 19:24:27.566654: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): <undefined>, <undefined>
+2020-04-10 19:24:27.674354: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x71402f0 executing computations on platform CUDA. Devices:
+2020-04-10 19:24:27.674386: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): Tesla V100-PCIE-32GB, Compute Capability 7.0
+2020-04-10 19:24:27.674513: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: Tesla V100-PCIE-32GB major: 7 minor: 0 memoryClockRate(GHz): 1.38
+pciBusID: 0000:e2:00.0
+totalMemory: 31.75GiB freeMemory: 29.60GiB
+2020-04-10 19:24:27.674527: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 2
+I0410 19:24:27.680044 140737354036992 monitored_session.py:222] Graph was finalized.
+2020-04-10 19:24:27.685685: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2495415000 Hz
+2020-04-10 19:24:27.685874: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x708ebe0 executing computations on platform Host. Devices:
+2020-04-10 19:24:27.685884: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): <undefined>, <undefined>
+2020-04-10 19:24:27.697124: F tensorflow/stream_executor/lib/statusor.cc:34] Attempting to fetch value instead of handling error Internal: no supported devices found for platform CUDA
+Fatal Python error: Aborted
+
+Thread 0x00007fff57ffe700 (most recent call first):
+  File "/usr/lib/python3.5/threading.py", line 293 in wait
+  File "/usr/lib/python3.5/queue.py", line 164 in get
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/summary/writer/event_file_writer.py", line 159 in run
+  File "/usr/lib/python3.5/threading.py", line 914 in _bootstrap_inner
+  File "/usr/lib/python3.5/threading.py", line 882 in _bootstrap
+
+Current thread 0x00007ffff7fe7700 (most recent call first):
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/client/session.py", line 676 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/client/session.py", line 1551 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/session_manager.py", line 184 in _restore_checkpoint
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/session_manager.py", line 281 in prepare_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 571 in create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 805 in create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 1127 in _create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 1122 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 648 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 934 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 508 in MonitoredTrainingSession
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1403 in _train_with_estimator_spec
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1158 in _train_model_default
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1124 in _train_model
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 358 in train
+  File "train.py", line 249 in train
+  File "train.py", line 389 in main
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 251 in _run_main
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 300 in run
+  File "train.py", line 401 in <module>
+[node001:10987] *** Process received signal ***
+[node001:10987] Signal: Aborted (6)
+[node001:10987] Signal code:  (-6)
+[node001:10987] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7ffff7bcb390]
+[node001:10987] [ 1] /lib/x86_64-linux-gnu/libpthread.so.0(raise+0x29)[0x7ffff7bcb269]
+[node001:10987] [ 2] /lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7ffff7bcb390]
+[node001:10987] [ 3] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0x38)[0x7ffff7825428]
+[node001:10987] [ 4] /lib/x86_64-linux-gnu/libc.so.6(abort+0x16a)[0x7ffff782702a]
+[node001:10987] [ 5] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(+0x77c4ed4)[0x7ffe4eeebed4]
+[node001:10987] [ 6] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN15stream_executor4port17internal_statusor6Helper5CrashERKN10tensorflow6StatusE+0x4e)[0x7ffe4705601e]
+[node001:10987] [ 7] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZNK10tensorflow9XlaDevice6clientEv+0x41)[0x7ffe4ca7af11]
+[node001:10987] [ 8] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow9XlaDevice22GetDeviceContextLockedEv+0x43)[0x7ffe4ca7d433]
+[node001:10987] [ 9] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow9XlaDevice16UseGpuDeviceInfoEv+0x3c)[0x7ffe4ca7e2ac]
+[node001:10987] [10] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow19XlaGpuDeviceFactory13CreateDevicesERKNS_14SessionOptionsERKSsPSt6vectorISt10unique_ptrINS_6DeviceESt14default_deleteIS8_EESaISB_EE+0x58d)[0x7ffe4ca6b31d]
+[node001:10987] [11] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN10tensorflow13DeviceFactory10AddDevicesERKNS_14SessionOptionsERKSsPSt6vectorISt10unique_ptrINS_6DeviceESt14default_deleteIS8_EESaISB_EE+0x101)[0x7ffe46ce9f91]
+[node001:10987] [12] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow20DirectSessionFactory10NewSessionERKNS_14SessionOptionsEPPNS_7SessionE+0x90)[0x7ffe4bfe62a0]
+[node001:10987] [13] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN10tensorflow10NewSessionERKNS_14SessionOptionsEPPNS_7SessionE+0x99)[0x7ffe46d51789]
+[node001:10987] [14] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(TF_NewSession+0x25)[0x7ffe49a31bb5]
+[node001:10987] [15] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow16TF_NewSessionRefEP8TF_GraphPK17TF_SessionOptionsP9TF_Status+0x12)[0x7ffe49825402]
+[node001:10987] [16] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(+0x209ba75)[0x7ffe497c2a75]
+[node001:10987] [17] python3(PyCFunction_Call+0x4f)[0x4ea10f]
+[node001:10987] [18] python3(PyEval_EvalFrameEx+0x614)[0x536d94]
+[node001:10987] [19] python3[0x53fc97]
+[node001:10987] [20] python3(PyEval_EvalFrameEx+0x50bf)[0x53b83f]
+[node001:10987] [21] python3(PyEval_EvalCodeEx+0x87a)[0x54124a]
+[node001:10987] [22] python3[0x4ec3f7]
+[node001:10987] [23] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10987] [24] python3[0x4fbfce]
+[node001:10987] [25] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10987] [26] python3[0x574c19]
+[node001:10987] [27] python3[0x57f58c]
+[node001:10987] [28] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10987] [29] python3(PyEval_EvalFrameEx+0x4ed6)[0x53b656]
+[node001:10987] *** End of error message ***
+I0410 19:24:27.827369 140737354036992 monitored_session.py:222] Graph was finalized.
+2020-04-10 19:24:27.832992: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2495415000 Hz
+2020-04-10 19:24:27.833184: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x70d7480 executing computations on platform Host. Devices:
+2020-04-10 19:24:27.833194: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): <undefined>, <undefined>
+2020-04-10 19:24:27.853563: F tensorflow/stream_executor/lib/statusor.cc:34] Attempting to fetch value instead of handling error Internal: no supported devices found for platform CUDA
+Fatal Python error: Aborted
+
+Thread 0x00007fff3bfff700 (most recent call first):
+  File "/usr/lib/python3.5/threading.py", line 293 in wait
+  File "/usr/lib/python3.5/queue.py", line 164 in get
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/summary/writer/event_file_writer.py", line 159 in run
+  File "/usr/lib/python3.5/threading.py", line 914 in _bootstrap_inner
+  File "/usr/lib/python3.5/threading.py", line 882 in _bootstrap
+
+Current thread 0x00007ffff7fe7700 (most recent call first):
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/client/session.py", line 676 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/client/session.py", line 1551 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/session_manager.py", line 184 in _restore_checkpoint
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/session_manager.py", line 281 in prepare_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 571 in create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 805 in create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 1127 in _create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 1122 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 648 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 934 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 508 in MonitoredTrainingSession
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1403 in _train_with_estimator_spec
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1158 in _train_model_default
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1124 in _train_model
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 358 in train
+  File "train.py", line 249 in train
+  File "train.py", line 389 in main
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 251 in _run_main
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 300 in run
+  File "train.py", line 401 in <module>
+[node001:10989] *** Process received signal ***
+[node001:10989] Signal: Aborted (6)
+[node001:10989] Signal code:  (-6)
+[node001:10989] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7ffff7bcb390]
+[node001:10989] [ 1] /lib/x86_64-linux-gnu/libpthread.so.0(raise+0x29)[0x7ffff7bcb269]
+[node001:10989] [ 2] /lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7ffff7bcb390]
+[node001:10989] [ 3] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0x38)[0x7ffff7825428]
+[node001:10989] [ 4] /lib/x86_64-linux-gnu/libc.so.6(abort+0x16a)[0x7ffff782702a]
+[node001:10989] [ 5] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(+0x77c4ed4)[0x7ffe4eeebed4]
+[node001:10989] [ 6] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN15stream_executor4port17internal_statusor6Helper5CrashERKN10tensorflow6StatusE+0x4e)[0x7ffe4705601e]
+[node001:10989] [ 7] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZNK10tensorflow9XlaDevice6clientEv+0x41)[0x7ffe4ca7af11]
+[node001:10989] [ 8] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow9XlaDevice22GetDeviceContextLockedEv+0x43)[0x7ffe4ca7d433]
+[node001:10989] [ 9] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow9XlaDevice16UseGpuDeviceInfoEv+0x3c)[0x7ffe4ca7e2ac]
+[node001:10989] [10] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow19XlaGpuDeviceFactory13CreateDevicesERKNS_14SessionOptionsERKSsPSt6vectorISt10unique_ptrINS_6DeviceESt14default_deleteIS8_EESaISB_EE+0x58d)[0x7ffe4ca6b31d]
+[node001:10989] [11] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN10tensorflow13DeviceFactory10AddDevicesERKNS_14SessionOptionsERKSsPSt6vectorISt10unique_ptrINS_6DeviceESt14default_deleteIS8_EESaISB_EE+0x101)[0x7ffe46ce9f91]
+[node001:10989] [12] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow20DirectSessionFactory10NewSessionERKNS_14SessionOptionsEPPNS_7SessionE+0x90)[0x7ffe4bfe62a0]
+[node001:10989] [13] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN10tensorflow10NewSessionERKNS_14SessionOptionsEPPNS_7SessionE+0x99)[0x7ffe46d51789]
+[node001:10989] [14] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(TF_NewSession+0x25)[0x7ffe49a31bb5]
+[node001:10989] [15] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow16TF_NewSessionRefEP8TF_GraphPK17TF_SessionOptionsP9TF_Status+0x12)[0x7ffe49825402]
+[node001:10989] [16] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(+0x209ba75)[0x7ffe497c2a75]
+[node001:10989] [17] python3(PyCFunction_Call+0x4f)[0x4ea10f]
+[node001:10989] [18] python3(PyEval_EvalFrameEx+0x614)[0x536d94]
+[node001:10989] [19] python3[0x53fc97]
+[node001:10989] [20] python3(PyEval_EvalFrameEx+0x50bf)[0x53b83f]
+[node001:10989] [21] python3(PyEval_EvalCodeEx+0x87a)[0x54124a]
+[node001:10989] [22] python3[0x4ec3f7]
+[node001:10989] [23] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10989] [24] python3[0x4fbfce]
+[node001:10989] [25] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10989] [26] python3[0x574c19]
+[node001:10989] [27] python3[0x57f58c]
+[node001:10989] [28] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10989] [29] python3(PyEval_EvalFrameEx+0x4ed6)[0x53b656]
+[node001:10989] *** End of error message ***
+I0410 19:24:27.952903 140737354036992 monitored_session.py:222] Graph was finalized.
+2020-04-10 19:24:27.958991: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2495415000 Hz
+2020-04-10 19:24:27.959166: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x6fc0c20 executing computations on platform Host. Devices:
+2020-04-10 19:24:27.959177: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): <undefined>, <undefined>
+2020-04-10 19:24:27.975531: F tensorflow/stream_executor/lib/statusor.cc:34] Attempting to fetch value instead of handling error Internal: no supported devices found for platform CUDA
+Fatal Python error: Aborted
+
+Thread 0x00007fff47fff700 (most recent call first):
+  File "/usr/lib/python3.5/threading.py", line 293 in wait
+  File "/usr/lib/python3.5/queue.py", line 164 in get
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/summary/writer/event_file_writer.py", line 159 in run
+  File "/usr/lib/python3.5/threading.py", line 914 in _bootstrap_inner
+  File "/usr/lib/python3.5/threading.py", line 882 in _bootstrap
+
+Current thread 0x00007ffff7fe7700 (most recent call first):
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/client/session.py", line 676 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/client/session.py", line 1551 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/session_manager.py", line 184 in _restore_checkpoint
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/session_manager.py", line 281 in prepare_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 571 in create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 805 in create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 1127 in _create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 1122 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 648 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 934 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 508 in MonitoredTrainingSession
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1403 in _train_with_estimator_spec
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1158 in _train_model_default
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1124 in _train_model
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 358 in train
+  File "train.py", line 249 in train
+  File "train.py", line 389 in main
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 251 in _run_main
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 300 in run
+  File "train.py", line 401 in <module>
+[node001:10986] *** Process received signal ***
+[node001:10986] Signal: Aborted (6)
+[node001:10986] Signal code:  (-6)
+[node001:10986] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7ffff7bcb390]
+[node001:10986] [ 1] /lib/x86_64-linux-gnu/libpthread.so.0(raise+0x29)[0x7ffff7bcb269]
+[node001:10986] [ 2] /lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7ffff7bcb390]
+[node001:10986] [ 3] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0x38)[0x7ffff7825428]
+[node001:10986] [ 4] /lib/x86_64-linux-gnu/libc.so.6(abort+0x16a)[0x7ffff782702a]
+[node001:10986] [ 5] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(+0x77c4ed4)[0x7ffe4eeebed4]
+[node001:10986] [ 6] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN15stream_executor4port17internal_statusor6Helper5CrashERKN10tensorflow6StatusE+0x4e)[0x7ffe4705601e]
+[node001:10986] [ 7] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZNK10tensorflow9XlaDevice6clientEv+0x41)[0x7ffe4ca7af11]
+[node001:10986] [ 8] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow9XlaDevice22GetDeviceContextLockedEv+0x43)[0x7ffe4ca7d433]
+[node001:10986] [ 9] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow9XlaDevice16UseGpuDeviceInfoEv+0x3c)[0x7ffe4ca7e2ac]
+[node001:10986] [10] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow19XlaGpuDeviceFactory13CreateDevicesERKNS_14SessionOptionsERKSsPSt6vectorISt10unique_ptrINS_6DeviceESt14default_deleteIS8_EESaISB_EE+0x58d)[0x7ffe4ca6b31d]
+[node001:10986] [11] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN10tensorflow13DeviceFactory10AddDevicesERKNS_14SessionOptionsERKSsPSt6vectorISt10unique_ptrINS_6DeviceESt14default_deleteIS8_EESaISB_EE+0x101)[0x7ffe46ce9f91]
+[node001:10986] [12] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow20DirectSessionFactory10NewSessionERKNS_14SessionOptionsEPPNS_7SessionE+0x90)[0x7ffe4bfe62a0]
+[node001:10986] [13] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN10tensorflow10NewSessionERKNS_14SessionOptionsEPPNS_7SessionE+0x99)[0x7ffe46d51789]
+[node001:10986] [14] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(TF_NewSession+0x25)[0x7ffe49a31bb5]
+[node001:10986] [15] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow16TF_NewSessionRefEP8TF_GraphPK17TF_SessionOptionsP9TF_Status+0x12)[0x7ffe49825402]
+[node001:10986] [16] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(+0x209ba75)[0x7ffe497c2a75]
+[node001:10986] [17] python3(PyCFunction_Call+0x4f)[0x4ea10f]
+[node001:10986] [18] python3(PyEval_EvalFrameEx+0x614)[0x536d94]
+[node001:10986] [19] python3[0x53fc97]
+[node001:10986] [20] python3(PyEval_EvalFrameEx+0x50bf)[0x53b83f]
+[node001:10986] [21] python3(PyEval_EvalCodeEx+0x87a)[0x54124a]
+[node001:10986] [22] python3[0x4ec3f7]
+[node001:10986] [23] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10986] [24] python3[0x4fbfce]
+[node001:10986] [25] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10986] [26] python3[0x574c19]
+[node001:10986] [27] python3[0x57f58c]
+[node001:10986] [28] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10986] [29] python3(PyEval_EvalFrameEx+0x4ed6)[0x53b656]
+[node001:10986] *** End of error message ***
+I0410 19:24:27.993044 140737354036992 monitored_session.py:222] Graph was finalized.
+2020-04-10 19:24:27.998667: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2495415000 Hz
+2020-04-10 19:24:27.998795: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x6eb7cd0 executing computations on platform Host. Devices:
+2020-04-10 19:24:27.998805: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): <undefined>, <undefined>
+2020-04-10 19:24:28.010413: F tensorflow/stream_executor/lib/statusor.cc:34] Attempting to fetch value instead of handling error Internal: no supported devices found for platform CUDA
+Fatal Python error: Aborted
+
+Thread 0x00007fff17fff700 (most recent call first):
+  File "/usr/lib/python3.5/threading.py", line 293 in wait
+  File "/usr/lib/python3.5/queue.py", line 164 in get
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/summary/writer/event_file_writer.py", line 159 in run
+  File "/usr/lib/python3.5/threading.py", line 914 in _bootstrap_inner
+  File "/usr/lib/python3.5/threading.py", line 882 in _bootstrap
+
+Current thread 0x00007ffff7fe7700 (most recent call first):
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/client/session.py", line 676 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/client/session.py", line 1551 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/session_manager.py", line 184 in _restore_checkpoint
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/session_manager.py", line 281 in prepare_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 571 in create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 805 in create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 1127 in _create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 1122 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 648 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 934 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 508 in MonitoredTrainingSession
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1403 in _train_with_estimator_spec
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1158 in _train_model_default
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1124 in _train_model
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 358 in train
+  File "train.py", line 249 in train
+  File "train.py", line 389 in main
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 251 in _run_main
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 300 in run
+  File "train.py", line 401 in <module>
+[node001:10988] *** Process received signal ***
+[node001:10988] Signal: Aborted (6)
+[node001:10988] Signal code:  (-6)
+[node001:10988] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7ffff7bcb390]
+[node001:10988] [ 1] /lib/x86_64-linux-gnu/libpthread.so.0(raise+0x29)[0x7ffff7bcb269]
+[node001:10988] [ 2] /lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7ffff7bcb390]
+[node001:10988] [ 3] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0x38)[0x7ffff7825428]
+[node001:10988] [ 4] /lib/x86_64-linux-gnu/libc.so.6(abort+0x16a)[0x7ffff782702a]
+[node001:10988] [ 5] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(+0x77c4ed4)[0x7ffe4eeebed4]
+[node001:10988] [ 6] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN15stream_executor4port17internal_statusor6Helper5CrashERKN10tensorflow6StatusE+0x4e)[0x7ffe4705601e]
+[node001:10988] [ 7] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZNK10tensorflow9XlaDevice6clientEv+0x41)[0x7ffe4ca7af11]
+[node001:10988] [ 8] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow9XlaDevice22GetDeviceContextLockedEv+0x43)[0x7ffe4ca7d433]
+[node001:10988] [ 9] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow9XlaDevice16UseGpuDeviceInfoEv+0x3c)[0x7ffe4ca7e2ac]
+[node001:10988] [10] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow19XlaGpuDeviceFactory13CreateDevicesERKNS_14SessionOptionsERKSsPSt6vectorISt10unique_ptrINS_6DeviceESt14default_deleteIS8_EESaISB_EE+0x58d)[0x7ffe4ca6b31d]
+[node001:10988] [11] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN10tensorflow13DeviceFactory10AddDevicesERKNS_14SessionOptionsERKSsPSt6vectorISt10unique_ptrINS_6DeviceESt14default_deleteIS8_EESaISB_EE+0x101)[0x7ffe46ce9f91]
+[node001:10988] [12] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow20DirectSessionFactory10NewSessionERKNS_14SessionOptionsEPPNS_7SessionE+0x90)[0x7ffe4bfe62a0]
+[node001:10988] [13] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN10tensorflow10NewSessionERKNS_14SessionOptionsEPPNS_7SessionE+0x99)[0x7ffe46d51789]
+[node001:10988] [14] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(TF_NewSession+0x25)[0x7ffe49a31bb5]
+[node001:10988] [15] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow16TF_NewSessionRefEP8TF_GraphPK17TF_SessionOptionsP9TF_Status+0x12)[0x7ffe49825402]
+[node001:10988] [16] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(+0x209ba75)[0x7ffe497c2a75]
+[node001:10988] [17] python3(PyCFunction_Call+0x4f)[0x4ea10f]
+[node001:10988] [18] python3(PyEval_EvalFrameEx+0x614)[0x536d94]
+[node001:10988] [19] python3[0x53fc97]
+[node001:10988] [20] python3(PyEval_EvalFrameEx+0x50bf)[0x53b83f]
+[node001:10988] [21] python3(PyEval_EvalCodeEx+0x87a)[0x54124a]
+[node001:10988] [22] python3[0x4ec3f7]
+[node001:10988] [23] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10988] [24] python3[0x4fbfce]
+[node001:10988] [25] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10988] [26] python3[0x574c19]
+[node001:10988] [27] python3[0x57f58c]
+[node001:10988] [28] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10988] [29] python3(PyEval_EvalFrameEx+0x4ed6)[0x53b656]
+[node001:10988] *** End of error message ***
+I0410 19:24:28.125419 140737354036992 monitored_session.py:222] Graph was finalized.
+2020-04-10 19:24:28.136153: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2495415000 Hz
+2020-04-10 19:24:28.136295: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x6e8e060 executing computations on platform Host. Devices:
+2020-04-10 19:24:28.136361: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): <undefined>, <undefined>
+I0410 19:24:28.150569 140737354036992 monitored_session.py:222] Graph was finalized.
+2020-04-10 19:24:28.157511: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2495415000 Hz
+2020-04-10 19:24:28.157681: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x7026750 executing computations on platform Host. Devices:
+2020-04-10 19:24:28.157700: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): <undefined>, <undefined>
+2020-04-10 19:24:28.229044: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-04-10 19:24:28.229108: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      2 
+2020-04-10 19:24:28.229115: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 2:   N 
+2020-04-10 19:24:28.229255: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 22757 MB memory) -> physical GPU (device: 2, name: Tesla V100-PCIE-32GB, pci bus id: 0000:e2:00.0, compute capability: 7.0)
+W0410 19:24:28.231765 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/training/saver.py:1266: checkpoint_exists (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file APIs to check for files with this prefix.
+I0410 19:24:28.245677 140737354036992 saver.py:1270] Restoring parameters from /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir/model.ckpt-9383
+2020-04-10 19:24:28.280177: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x6f36440 executing computations on platform CUDA. Devices:
+2020-04-10 19:24:28.280208: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): Tesla V100-PCIE-32GB, Compute Capability 7.0
+2020-04-10 19:24:28.280402: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: Tesla V100-PCIE-32GB major: 7 minor: 0 memoryClockRate(GHz): 1.38
+pciBusID: 0000:21:00.0
+totalMemory: 31.75GiB freeMemory: 29.60GiB
+2020-04-10 19:24:28.280415: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 0
+I0410 19:24:28.288717 140737354036992 monitored_session.py:222] Graph was finalized.
+2020-04-10 19:24:28.294806: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2495415000 Hz
+2020-04-10 19:24:28.294949: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x706d3a0 executing computations on platform Host. Devices:
+2020-04-10 19:24:28.294959: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): <undefined>, <undefined>
+2020-04-10 19:24:28.305837: I tensorflow/compiler/xla/service/service.cc:161] XLA service 0x713e210 executing computations on platform CUDA. Devices:
+2020-04-10 19:24:28.305867: I tensorflow/compiler/xla/service/service.cc:168]   StreamExecutor device (0): Tesla V100-PCIE-32GB, Compute Capability 7.0
+2020-04-10 19:24:28.306032: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: Tesla V100-PCIE-32GB major: 7 minor: 0 memoryClockRate(GHz): 1.38
+pciBusID: 0000:81:00.0
+totalMemory: 31.75GiB freeMemory: 29.60GiB
+2020-04-10 19:24:28.306046: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 1
+2020-04-10 19:24:28.322502: F tensorflow/stream_executor/lib/statusor.cc:34] Attempting to fetch value instead of handling error Internal: no supported devices found for platform CUDA
+Fatal Python error: Aborted
+
+Thread 0x00007fff47ffe700 (most recent call first):
+  File "/usr/lib/python3.5/threading.py", line 293 in wait
+  File "/usr/lib/python3.5/queue.py", line 164 in get
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/summary/writer/event_file_writer.py", line 159 in run
+  File "/usr/lib/python3.5/threading.py", line 914 in _bootstrap_inner
+  File "/usr/lib/python3.5/threading.py", line 882 in _bootstrap
+
+Current thread 0x00007ffff7fe7700 (most recent call first):
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/client/session.py", line 676 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/client/session.py", line 1551 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/session_manager.py", line 184 in _restore_checkpoint
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/session_manager.py", line 281 in prepare_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 571 in create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 805 in create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 1127 in _create_session
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 1122 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 648 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 934 in __init__
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow/python/training/monitored_session.py", line 508 in MonitoredTrainingSession
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1403 in _train_with_estimator_spec
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1158 in _train_model_default
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 1124 in _train_model
+  File "/usr/local/lib/python3.5/dist-packages/tensorflow_estimator/python/estimator/estimator.py", line 358 in train
+  File "train.py", line 249 in train
+  File "train.py", line 389 in main
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 251 in _run_main
+  File "/usr/local/lib/python3.5/dist-packages/absl/app.py", line 300 in run
+  File "train.py", line 401 in <module>
+[node001:10990] *** Process received signal ***
+[node001:10990] Signal: Aborted (6)
+[node001:10990] Signal code:  (-6)
+[node001:10990] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7ffff7bcb390]
+[node001:10990] [ 1] /lib/x86_64-linux-gnu/libpthread.so.0(raise+0x29)[0x7ffff7bcb269]
+[node001:10990] [ 2] /lib/x86_64-linux-gnu/libpthread.so.0(+0x11390)[0x7ffff7bcb390]
+[node001:10990] [ 3] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0x38)[0x7ffff7825428]
+[node001:10990] [ 4] /lib/x86_64-linux-gnu/libc.so.6(abort+0x16a)[0x7ffff782702a]
+[node001:10990] [ 5] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(+0x77c4ed4)[0x7ffe4eeebed4]
+[node001:10990] [ 6] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN15stream_executor4port17internal_statusor6Helper5CrashERKN10tensorflow6StatusE+0x4e)[0x7ffe4705601e]
+[node001:10990] [ 7] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZNK10tensorflow9XlaDevice6clientEv+0x41)[0x7ffe4ca7af11]
+[node001:10990] [ 8] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow9XlaDevice22GetDeviceContextLockedEv+0x43)[0x7ffe4ca7d433]
+[node001:10990] [ 9] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow9XlaDevice16UseGpuDeviceInfoEv+0x3c)[0x7ffe4ca7e2ac]
+[node001:10990] [10] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow19XlaGpuDeviceFactory13CreateDevicesERKNS_14SessionOptionsERKSsPSt6vectorISt10unique_ptrINS_6DeviceESt14default_deleteIS8_EESaISB_EE+0x58d)[0x7ffe4ca6b31d]
+[node001:10990] [11] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN10tensorflow13DeviceFactory10AddDevicesERKNS_14SessionOptionsERKSsPSt6vectorISt10unique_ptrINS_6DeviceESt14default_deleteIS8_EESaISB_EE+0x101)[0x7ffe46ce9f91]
+[node001:10990] [12] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow20DirectSessionFactory10NewSessionERKNS_14SessionOptionsEPPNS_7SessionE+0x90)[0x7ffe4bfe62a0]
+[node001:10990] [13] /usr/local/lib/python3.5/dist-packages/tensorflow/python/../libtensorflow_framework.so(_ZN10tensorflow10NewSessionERKNS_14SessionOptionsEPPNS_7SessionE+0x99)[0x7ffe46d51789]
+[node001:10990] [14] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(TF_NewSession+0x25)[0x7ffe49a31bb5]
+[node001:10990] [15] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(_ZN10tensorflow16TF_NewSessionRefEP8TF_GraphPK17TF_SessionOptionsP9TF_Status+0x12)[0x7ffe49825402]
+[node001:10990] [16] /usr/local/lib/python3.5/dist-packages/tensorflow/python/_pywrap_tensorflow_internal.so(+0x209ba75)[0x7ffe497c2a75]
+[node001:10990] [17] python3(PyCFunction_Call+0x4f)[0x4ea10f]
+[node001:10990] [18] python3(PyEval_EvalFrameEx+0x614)[0x536d94]
+[node001:10990] [19] python3[0x53fc97]
+[node001:10990] [20] python3(PyEval_EvalFrameEx+0x50bf)[0x53b83f]
+[node001:10990] [21] python3(PyEval_EvalCodeEx+0x87a)[0x54124a]
+[node001:10990] [22] python3[0x4ec3f7]
+[node001:10990] [23] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10990] [24] python3[0x4fbfce]
+[node001:10990] [25] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10990] [26] python3[0x574c19]
+[node001:10990] [27] python3[0x57f58c]
+[node001:10990] [28] python3(PyObject_Call+0x47)[0x5c20e7]
+[node001:10990] [29] python3(PyEval_EvalFrameEx+0x4ed6)[0x53b656]
+[node001:10990] *** End of error message ***
+2020-04-10 19:24:28.374767: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:28.376787: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+W0410 19:24:28.603991 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/training/saver.py:1070: get_checkpoint_mtimes (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file utilities to get mtimes.
+2020-04-10 19:24:28.668766: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:28.670492: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+I0410 19:24:28.744412 140737354036992 session_manager.py:491] Running local_init_op.
+2020-04-10 19:24:28.772855: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:28.773089: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+I0410 19:24:28.788732 140737354036992 session_manager.py:493] Done running local_init_op.
+2020-04-10 19:24:28.838049: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-04-10 19:24:28.838109: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0 
+2020-04-10 19:24:28.838115: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N 
+2020-04-10 19:24:28.838242: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 22757 MB memory) -> physical GPU (device: 0, name: Tesla V100-PCIE-32GB, pci bus id: 0000:21:00.0, compute capability: 7.0)
+2020-04-10 19:24:28.838283: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:28.839997: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+W0410 19:24:28.840298 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/training/saver.py:1266: checkpoint_exists (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file APIs to check for files with this prefix.
+I0410 19:24:28.841707 140737354036992 saver.py:1270] Restoring parameters from /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir/model.ckpt-9383
+2020-04-10 19:24:28.842506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-04-10 19:24:28.842535: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      1 
+2020-04-10 19:24:28.842541: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 1:   N 
+2020-04-10 19:24:28.842658: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 22757 MB memory) -> physical GPU (device: 1, name: Tesla V100-PCIE-32GB, pci bus id: 0000:81:00.0, compute capability: 7.0)
+W0410 19:24:28.844978 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/training/saver.py:1266: checkpoint_exists (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file APIs to check for files with this prefix.
+I0410 19:24:28.856431 140737354036992 saver.py:1270] Restoring parameters from /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir/model.ckpt-9383
+2020-04-10 19:24:28.974668: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:28.977594: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+2020-04-10 19:24:28.985129: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:28.987270: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+2020-04-10 19:24:29.000834: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:29.002876: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+W0410 19:24:29.226073 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/training/saver.py:1070: get_checkpoint_mtimes (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file utilities to get mtimes.
+W0410 19:24:29.241687 140737354036992 deprecation.py:323] From /usr/local/lib/python3.5/dist-packages/tensorflow/python/training/saver.py:1070: get_checkpoint_mtimes (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file utilities to get mtimes.
+2020-04-10 19:24:29.283058: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:29.284752: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+2020-04-10 19:24:29.298616: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:29.300212: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+I0410 19:24:29.355727 140737354036992 session_manager.py:491] Running local_init_op.
+I0410 19:24:29.371296 140737354036992 session_manager.py:491] Running local_init_op.
+2020-04-10 19:24:29.384468: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:29.384698: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+I0410 19:24:29.397704 140737354036992 session_manager.py:493] Done running local_init_op.
+2020-04-10 19:24:29.401104: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:29.401340: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+I0410 19:24:29.414686 140737354036992 session_manager.py:493] Done running local_init_op.
+2020-04-10 19:24:29.448336: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:29.450048: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+2020-04-10 19:24:29.463468: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:29.465040: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+2020-04-10 19:24:29.549995: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:29.551148: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+2020-04-10 19:24:29.600876: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:29.603719: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+[node001:10976] 6 more processes have sent help message help-mpi-btl-base.txt / btl:no-nics
+[node001:10976] Set MCA parameter "orte_base_help_aggregate" to 0 to see all help / error messages
+I0410 19:24:30.755822 140737354036992 basic_session_run_hooks.py:594] Saving checkpoints for 9383 into /opt/reinforcement/minigo/results/node001-2020-04-10-19-21/work_dir/model.ckpt.
+2020-04-10 19:24:30.801331: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:30.802358: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+2020-04-10 19:24:31.168499: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1988] Running auto_mixed_precision graph optimizer
+2020-04-10 19:24:31.171134: I tensorflow/core/grappler/optimizers/auto_mixed_precision.cc:1248] No whitelist ops found, nothing to do
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpiexec noticed that process rank 4 with PID 0 on node node001 exited on signal 6 (Aborted).
+--------------------------------------------------------------------------

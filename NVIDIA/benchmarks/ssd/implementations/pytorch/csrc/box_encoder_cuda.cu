@@ -362,7 +362,8 @@ std::vector<at::Tensor> box_encoder(const int N_img,
 
 
   auto num_bbox_total = bbox_offsets[bbox_offsets.numel()-1].item<int>();
-  AT_ASSERTM(num_bbox_total <= 2048, "total num bboxes must be <= 2048");
+  //AT_ASSERTM(num_bbox_total <= 2048, "total num bboxes must be <= 2048");
+  AT_ASSERTM(num_bbox_total <= 4096, "total num bboxes must be <= 2048");
 
   AT_ASSERTM(bbox_input.size(0) == labels_input.size(0), "bbox and labels must have same leading dimension");
 

@@ -1,0 +1,62 @@
+Beginning trial 1 of 1
+Gathering sys log on node001
+:::MLL 1586394283.055 submission_benchmark: {"value": "ssd", "metadata": {"file": "mlperf_log_utils.py", "lineno": 176}}
+:::MLL 1586394283.055 submission_org: {"value": "NVIDIA", "metadata": {"file": "mlperf_log_utils.py", "lineno": 181}}
+WARNING: Log validation: Key "submission_division" is not in known ssd keys.
+:::MLL 1586394283.056 submission_division: {"value": "closed", "metadata": {"file": "mlperf_log_utils.py", "lineno": 185}}
+:::MLL 1586394283.057 submission_status: {"value": "onprem", "metadata": {"file": "mlperf_log_utils.py", "lineno": 189}}
+:::MLL 1586394283.058 submission_platform: {"value": "1xPowerEdge R7525", "metadata": {"file": "mlperf_log_utils.py", "lineno": 193}}
+:::MLL 1586394283.059 submission_entry: {"value": "{'hardware': 'PowerEdge R7525', 'framework': 'PyTorch NVIDIA Release 19.05', 'power': 'N/A', 'notes': 'N/A', 'interconnect': ' ', 'os': '\\\\S / ', 'libraries': \"{'container_base': 'Ubuntu-16.04', 'openmpi_version': '3.1.3', 'mofed_version': '4.0-0', 'cuda_version': '10.1.163', 'cuda_driver_version': '418.67', 'nccl_version': '2.4.6', 'cudnn_version': '7.6.0.64', 'cublas_version': '10.2.0.163', 'trt_version': '5.1.5.0', 'dali_version': '0.9.1'}\", 'compilers': 'gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 20160609', 'nodes': \"{'num_nodes': '1', 'cpu': '2x AMD EPYC 7502 32-Core Processor', 'num_cores': '64', 'num_vcpus': '64', 'accelerator': 'Tesla V100-PCIE-32GB', 'num_accelerators': '3', 'sys_mem_size': '251 GB', 'sys_storage_type': 'NVMe SSD', 'sys_storage_size': '1x 931.5G', 'cpu_accel_interconnect': 'QPI', 'network_card': '', 'num_network_cards': '0', 'notes': ''}\"}", "metadata": {"file": "mlperf_log_utils.py", "lineno": 197}}
+:::MLL 1586394283.059 submission_poc_name: {"value": "Paulius Micikevicius", "metadata": {"file": "mlperf_log_utils.py", "lineno": 201}}
+:::MLL 1586394283.060 submission_poc_email: {"value": "pauliusm@nvidia.com", "metadata": {"file": "mlperf_log_utils.py", "lineno": 205}}
+Clearing caches
+:::MLL 1586394286.375 cache_clear: {"value": true, "metadata": {"file": "<string>", "lineno": 1}}
+Launching on node node001
++ pids+=($!)
++ set +x
+++ eval echo
++++ echo
++ docker exec -e DGXSYSTEM=DGX1 -e 'MULTI_NODE= --master_port=4777' -e SLURM_JOB_ID=200408200210599102495 -e SLURM_NTASKS_PER_NODE= cont_200408200210599102495 ./run_and_time.sh
+Run vars: id 200408200210599102495 gpus 3 mparams  --master_port=4777
+STARTING TIMING RUN AT 2020-04-09 01:04:46 AM
+running benchmark
++ NUMEPOCHS=80
++ echo 'running benchmark'
++ export DATASET_DIR=/data/coco2017
++ DATASET_DIR=/data/coco2017
++ export TORCH_MODEL_ZOO=/data/torchvision
++ TORCH_MODEL_ZOO=/data/torchvision
++ python -m bind_launch --nsockets_per_node 2 --ncores_per_socket 32 --nproc_per_node 3 --master_port=4777 --no_hyperthreads --no_membind train.py --use-fp16 --nhwc --pad-input --jit --delay-allreduce --opt-loss --epochs 80 --warmup-factor 0 --no-save --threshold=0.23 --data /data/coco2017 --evaluation 120000 160000 180000 200000 220000 240000 260000 280000 --batch-size 160 --eval-batch-size 160 --warmup 650 --lr 2.92e-3 --wd 1.6e-4 --use-nvjpeg --use-roi-decode
+<64-95> is invalid
+libnuma: Warning: cpu argument 64-95 is out of range
+
+usage: numactl [--all | -a] [--interleave= | -i <nodes>] [--preferred= | -p <node>]
+               [--physcpubind= | -C <cpus>] [--cpunodebind= | -N <nodes>]
+               [--membind= | -m <nodes>] [--localalloc | -l] command args ...
+       numactl [--show | -s]
+       numactl [--hardware | -H]
+       numactl [--length | -l <length>] [--offset | -o <offset>] [--shmmode | -M <shmmode>]
+               [--strict | -t]
+               [--shmid | -I <id>] --shm | -S <shmkeyfile>
+               [--shmid | -I <id>] --file | -f <tmpfsfile>
+               [--huge | -u] [--touch | -T] 
+               memory policy | --dump | -d | --dump-nodes | -D
+
+memory policy is --interleave | -i, --preferred | -p, --membind | -m, --localalloc | -l
+<nodes> is a comma delimited list of node numbers or A-B ranges or all.
+Instead of a number a node can also be:
+  netdev:DEV the node connected to network device DEV
+  file:PATH  the node the block device of path is connected to
+  ip:HOST    the node of the network device host routes through
+  block:PATH the node of block device path
+  pci:[seg:]bus:dev[:func] The node of a PCI device
+<cpus> is a comma delimited list of cpu numbers or A-B ranges or all
+all ranges can be inverted with !
+all numbers and ranges can be made cpuset-relative with +
+the old --cpubind argument is deprecated.
+use --cpunodebind or --physcpubind instead
+<length> can have g (GB), m (MB) or k (KB) suffixes
+:::MLL 1586394288.998 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 833}}
+:::MLL 1586394288.998 init_start: {"value": null, "metadata": {"file": "train.py", "lineno": 833}}
+BN group: 1
+BN group: 1

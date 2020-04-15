@@ -10,7 +10,7 @@ WALLTIME=6:00:00
 
 ## System config params
 DGXNGPU=8
-DGXSOCKETCORES=20
+DGXSOCKETCORES=32
 DGXNSOCKET=2
-DGXHT=2         # HT is on is 2, HT off is 1
+DGXHT=1         # HT is on is 2, HT off is 1
 DGXIBDEVICES=''

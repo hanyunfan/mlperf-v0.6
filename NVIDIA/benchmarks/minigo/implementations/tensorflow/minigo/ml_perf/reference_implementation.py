@@ -307,9 +307,6 @@ async def selfplay_sub(state, output_dir, holdout_dir, flagfile, worker_id):
 
   lines = await run(
     new_env,
-    'numactl',
-    '--physcpubind={}'.format(cpus),
-    '--membind={}'.format(membind),
     'bazel-bin/cc/selfplay',
     '--flagfile={}.flags'.format(os.path.join(FLAGS.flags_dir, flagfile)),
     '--model={}'.format(state.best_model_path),
@@ -496,7 +493,6 @@ async def train(state, tf_records):
     await run(
       new_env,
       'mpiexec', '--allow-run-as-root',
-      '--map-by', 'ppr:{}:socket,pe=2'.format(str(FLAGS.num_gpus_train//FLAGS.num_socket)),
       '-np', str(FLAGS.num_gpus_train),
       'python3', 'train.py', *tf_records,
       '--flagfile={}'.format(os.path.join(FLAGS.flags_dir, 'train.flags')),
@@ -611,10 +607,6 @@ async def evaluate_model(eval_model_path, target_model_path, sgf_dir, seed, flag
 
   lines = await run(
     new_env,
-    './w.sh',
-    'numactl',
-    '--physcpubind={}'.format(cpus),
-    '--membind={}'.format(membind),
     'bazel-bin/cc/eval',
     '--flagfile={}.flags'.format(os.path.join(FLAGS.flags_dir, flagfile)),
     '--model={}'.format(eval_model_path),
