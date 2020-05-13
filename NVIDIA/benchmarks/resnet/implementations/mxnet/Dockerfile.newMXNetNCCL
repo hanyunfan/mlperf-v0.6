@@ -39,6 +39,9 @@ RUN pip install pyyaml==3.12
 
 WORKDIR /opt/mxnet
 
+RUN sed -i 's/-gencode arch=compute_75.*//' config.mk && \
+    cat config.mk
+
 # Rebuild MXNet
 RUN make -j$(nproc) && \
     mv lib/libmxnet.so /usr/local/lib && \

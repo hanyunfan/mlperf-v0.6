@@ -10,6 +10,8 @@
 #SBATCH --threads-per-core=2	# HT is on
 #SBATCH --cores-per-socket=20	# 20 cores on each socket 
 
+docker stop $(docker ps -aq)
+
 DATESTAMP=${DATESTAMP:-`date +'%y%m%d%H%M%S%N'`}
 
 ## Data, container and volumes
@@ -18,7 +20,7 @@ BENCHMARK_NAME="SSD"
 CONT=${CONT:-"mlperf-nvidia:$BENCHMARK"}
 DATADIR=${DATADIR:-"/mnt/data/database"} # there should be ./coco2017 and ./torchvision dirs in here
 LOGDIR=${LOGDIR:-"/home/frank/mlperf-v0.6/results/$BENCHMARK/`hostname`"}
-NEXP=${NEXP:-3} # Default number of times to run the benchmark
+NEXP=${NEXP:-5} # Default number of times to run the benchmark
 SYSLOGGING=1
 SYS_LOG_GET="'import mlperf_compliance; from mlperf_log_utils import mlperf_submission_log; mlperf_submission_log(mlperf_compliance.constants.$BENCHMARK_NAME)'"
 
